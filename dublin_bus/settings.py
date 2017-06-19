@@ -25,7 +25,7 @@ SECRET_KEY = '&_bttgqm_!@cyx67gq6#=i-jf-7#cj5_r(u6ixnsl5!1jari1^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://csi6220-3-vm2.ucd.ie/', '137.43.49.40']
 
 
 # Application definition
@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dublin_bus_db',
         'USER': 'postgres',
-        'PASSWORD': '',
+        'PASSWORD': 'git-rekt',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
