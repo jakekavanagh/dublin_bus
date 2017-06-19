@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 class Question(models.Model):
@@ -6,6 +7,9 @@ class Question(models.Model):
     pub_date = models.DateTimeField('date published')
     is_student = models.BooleanField(default=False)
     has_leap = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        return reverse('index:detail', kwargs={'questions_text': self.question_text})
 
     def __str__(self):
         return self.question_text

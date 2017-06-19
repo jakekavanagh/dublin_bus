@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Question
 
+from django.views.generic.edit import CreateView, UpdateView
+
+
 
 def index(request):
     all_questions = Question.objects.all()
