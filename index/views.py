@@ -18,4 +18,8 @@ def detail(request, question_text):
 def student(request, question_text):
     question = get_object_or_404(Question, question_text=question_text)
     selected = request.POST["student"]
-    return render(request, "detail/detail.html", {"question": question})
+    context = {
+        "question": question,
+        "selected": selected
+    }
+    return render(request, "detail/detail.html", context)

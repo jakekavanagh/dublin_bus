@@ -1,17 +1,25 @@
-<h1>it worked</h1>
-<ul>
-    <li>One</li>
-    {% for question in all_questions %}
-    <li><a href="{% url 'index:detail' question.question_text %}">hello {{ question.question_text }}</a></li>
-    {% endfor %}
+<head>
+    {% load staticfiles %}
 
-    <form action = "{% url 'index:student' question.question_text %}" method = "post">
-        {% csrf_token %}
-        <input type = "radio" id = "student" name = "student" value = "student"/>
-        <label for =  "student">
-            True
-        </label>
-        <br/>
-        <input type="submit" value="Student">
-    </form>
-</ul>
+<link rel="stylesheet" type="text/css" href="{% static 'index/style.css' %}" />
+</head>
+<body>
+    <h1>it worked</h1>
+    <ul>
+
+
+        <form action = "{% url 'index:student' question.question_text %}" method = "post">
+
+            {% csrf_token %}
+            {% for question in all_questions %}
+        <li><a href="{% url 'index:detail' question.question_text %}">hello {{ question.question_text }}</a></li>
+        {% endfor %}
+            <input type = "radio" id = "student" name = "student" value = "student"/>
+            <label for =  "student">
+                Student
+            </label>
+            <br/>
+            <input type="submit" value="Student">
+        </form>
+    </ul>
+</body>
