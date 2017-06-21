@@ -27,3 +27,12 @@ for key in events['events']['event']:
     # print("country_name: ", key['country_name'], ", country_abbr: ", key['country_abbr'])
     # print("all_day: ", key['all_day'])
     print("\n\n\n")
+
+def store(json_data):
+    try:
+        conn = pymysql.connect(host='dublinbikes.clbms7pd8xjt.us-west-2.rds.amazonaws.com', user='goodchat',
+                               password='goodchat', db='DublinBikes')
+        connect(conn, json_data)
+        conn.close()
+    except:
+        pass
