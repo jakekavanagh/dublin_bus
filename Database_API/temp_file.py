@@ -7,17 +7,18 @@ import sys
 import traceback
 import datetime
 
-NAME="Dublin"
-# STATIONS="https://api.jcdecaux.com/vls/v1/stations"
-APIKEY='8JMkqSc6pBNpTgR3'
+NAME = "Dublin"
+STATIONS = 'events/search'
+APIKEY = '8JMkqSc6pBNpTgR3'
+
+
 def main():
     store(request())
+
+
 def request():
     try:
         r = requests.get(STATIONS, params={"apiKey": APIKEY, "contract": NAME})
-        with open('/home/ubuntu/Dublin-Bike-Weather-Application/Main/backup_data.txt', 'a') as file: #storing data in backup text file
-            file.write(r.text)
-            file.close()
         return json.loads(r.text)
     except:
         print("this is the error", traceback.format_exc())
