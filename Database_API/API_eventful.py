@@ -12,10 +12,12 @@ events = api.call('events/search', l='Dublin')  # q='', t=''
 
 # for i in events['events']['event']:
 #     print(i)
-
+for i in events['events']['event']:
+    print(i['created'])
+    print('\n')
 # More returned information available, check Data Document
-for key in events['events']['event']:
-    print("title: ", key['title'])
+# for key in events['events']['event']:
+#     print("title: ", key['title'])
     # print("Created: ", key['created'])
     # print("start_time: ", key['start_time'], ", stop_time: ", key['stop_time'])
     # print("venue_display: ", key['venue_display'])
@@ -26,13 +28,13 @@ for key in events['events']['event']:
     # print("city_name: ", key['city_name'], ", postal_code: ", key['postal_code'])
     # print("country_name: ", key['country_name'], ", country_abbr: ", key['country_abbr'])
     # print("all_day: ", key['all_day'])
-    print("\n\n\n")
+    # print("\n\n\n")
 
-def store(json_data):
-    try:
-        conn = pymysql.connect(host='dublinbikes.clbms7pd8xjt.us-west-2.rds.amazonaws.com', user='goodchat',
-                               password='goodchat', db='DublinBikes')
-        connect(conn, json_data)
-        conn.close()
-    except:
-        pass
+# def store(json_data):
+#     try:
+#         conn = pymysql.connect(host='dublinbikes.clbms7pd8xjt.us-west-2.rds.amazonaws.com', user='goodchat',
+#                                password='goodchat', db='DublinBikes')
+#         connect(conn, json_data)
+#         conn.close()
+#     except:
+#         pass
