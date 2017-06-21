@@ -15,6 +15,24 @@ class Question(models.Model):
         return self.question_text
 
 
+class EventApi(models.Model):
+    title = models.CharField(max_length=200)
+    created = models.BigIntegerField(unique=True)
+    start_time = models.BigIntegerField()
+    venue_display = models.IntegerField()
+    venue_name = models.CharField(max_length=200)
+    venue_address = models.CharField(max_length=200)
+    longitude = models.FloatField()
+    latitude = models.FloatField()
+    region_name = models.CharField(max_length=200)
+    city_name = models.CharField(max_length=200)
+    country_name = models.CharField(max_length=200)
+    all_day = models.IntegerField()
+
+    def __str__(self):
+        return self.title
+
+
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)

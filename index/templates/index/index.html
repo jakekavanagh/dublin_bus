@@ -7,10 +7,10 @@
 {% block main %}
     <h1>it worked</h1>
     <ul>
-        <form action = "{% url 'index:student' question.question_text %}" method = "post">
+        <form action = "{% url 'index:student' event.title %}" method = "post">
             {% csrf_token %}
-            {% for question in all_questions %}
-        <li><a href="{% url 'index:detail' question.question_text %}">{{ question.question_text }}</a></li>
+            {% for event in all_events %}
+        <li><a href="{% url 'index:detail' event.title %}">{{ event.title }}</a></li>
         {% endfor %}
             <input type = "radio" id = "student" name = "student" value = "student"/>
                 <label for =  "student">

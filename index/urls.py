@@ -9,9 +9,9 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
 
     # redirect to results
-    url(r'^(?P<question_text>\w+)/$', views.detail, name='detail'),
+    url(r'^(?P<title>.*)/$', views.detail, name='detail'),
 
     # redirect to results and mark as student
-    url(r'^(?P<question_text>)/student$', views.student, name='student'),
+    url(r'^(?P<title>.*)/student$', views.student, name='student'),
 
 ]
