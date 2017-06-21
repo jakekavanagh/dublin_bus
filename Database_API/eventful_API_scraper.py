@@ -36,8 +36,8 @@ while True:
                          key['region_name'], key['city_name'],  key['country_name'], key['all_day'],))
         except psycopg2.IntegrityError:
             print("already in DB!")
-        except:
-            print("Unexpected error:", sys.exc_info()[0])
+        # except:
+        #     print("Unexpected error:", sys.exc_info()[0])
 
         conn.commit()
 
