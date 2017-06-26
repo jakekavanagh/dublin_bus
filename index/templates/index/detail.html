@@ -5,10 +5,12 @@
     <title>Title</title>
 </head>
 <body>
+{% import datetime $}
+{% import time %}
 <h2>Event name: {{ event.title }}</h2>
 <h2>Time created (unix time stamp for now):{{ event.created }}</h2>
-<h2>Event starts(unix time stamp for now):{{ event.start_time }}</h2>
-<h2>Venue:{{ event.venue_name }}</h2>
+<h2>Event starts(unix time stamp for now):{{ datetime.datetime.fromtimestamp(event.start_time).strftime('%m-%d %H:%M') }}</h2>
+<h2>Venue:{{ datetime.datetime.fromtimestamp(event.venue_name).strftime('%m-%d %H:%M') }}</h2>
 
 
 </body>
