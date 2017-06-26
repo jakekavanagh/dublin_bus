@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+import datetime
 
 
 class Question(models.Model):
@@ -19,6 +20,7 @@ class EventApi(models.Model):
     title = models.CharField(max_length=200)
     created = models.BigIntegerField(unique=True)
     start_time = models.BigIntegerField()
+    start_time_readable = datetime.datetime.fromtimestamp(start_time).strftime('%m-%d %H:%M')
     venue_display = models.IntegerField()
     venue_name = models.CharField(max_length=200)
     venue_address = models.CharField(max_length=200)
