@@ -5,9 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-<h2>{{ question.question_text }}</h2>
-<h2>{{ question.pub_date }}</h2>
-<h2>{{ question.is_student }}</h2>
+{% import datetime %}
+{% import time %}
+<h2>Event name: {{ event.title }}</h2>
+<h2>Time created (unix time stamp for now):{{ event.created }}</h2>
+<h2>Event starts(unix time stamp for now):{{ event.start_time_readable }}</h2>
+<h2>Venue:{{ datetime.datetime.fromtimestamp(event.venue_name).strftime('%m-%d %H:%M') }}</h2>
 
 
 </body>
