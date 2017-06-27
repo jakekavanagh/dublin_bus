@@ -20,7 +20,7 @@ class EventApi(models.Model):
     title = models.CharField(max_length=200)
     created = models.BigIntegerField(unique=True)
     start_time = models.BigIntegerField()
-    # start_time_readable = models.DateTimeField(default=datetime.datetime.fromtimestamp(start_time).strftime('%m-%d %H:%M'))
+    start_time_readable = models.DateTimeField(default=datetime.datetime.fromtimestamp(start_time).strftime('%m-%d %H:%M'))
     venue_display = models.IntegerField()
     venue_name = models.CharField(max_length=200)
     venue_address = models.CharField(max_length=200)
