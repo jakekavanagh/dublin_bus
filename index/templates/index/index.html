@@ -5,19 +5,41 @@
 {% endblock %}
 
 {% block main %}
-    <h1>it worked</h1>
+<div id="main">
+
+    <h1>Dublin Bus Dynamic Travel</h1>
+
+</div>
+
+<div id="welcome_message">
+
+
+    <p>
+        Welcome to the Dublin Bus Dynamic Travel App
+
+    </p>
+</div>
+
+
+<div id="center">
     <ul>
         <form action = "{% url 'index:student' event.title %}" method = "post">
             {% csrf_token %}
             {% for event in all_events %}
-        <li><a href="{% url 'index:detail' event.title %}">{{ event.title }}</a></li>
-        {% endfor %}
+            <li><a href="{% url 'index:detail' event.title %}">{{ event.title }}</a></li>
+            {% endfor %}
             <input type = "radio" id = "student" name = "student" value = "student"/>
-                <label for =  "student">
-                    Student
-                </label>
-                <br/>
+            <label for =  "student">
+                Student
+            </label>
+            <br/>
             <input type="submit" value="Student">
         </form>
     </ul>
+    <button class="button button2" onclick="window.location.href='user_page.html';"
+    >Find my Bus! :)  </button>
+
+
+</div>
+
 {% endblock %}
