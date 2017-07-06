@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> setMarker </title>
+<meta charset="utf-8">
+    <style>
+        #map-canvas {
+            width: 1300px;
+            height: 600px;
+        }
+    </style>
+    <script>
+
+    window.onload = function() {
+        var xmlhttp = new XMLHttpRequest();
+        var xmlhttp1 = new XMLHttpRequest();
+        var xmlhttp2 = new XMLHttpRequest();
+        var url = 'Cindydf_1journey.json';
+        var url2 = '145_2012stop_info.json';
+
+        // Change bus route here
+        var urlBus = 'https://data.dublinked.ie/cgi-bin/rtpi/routeinformation?routeid=145&operator=bac';
+        var jsonolddata;
+        var jsondata;
+        var stopdata;
+        var busStop;
+        var map;
+//  ____________________________________________________________________
+//      GPS Data
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                jsondata = JSON.parse(xmlhttp.responseText);
+//                console.log('JsonData')
+//                console.log(jsondata)
+                addGPSmarker();
+            }
+        };
+//
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+//
+//        // Bus Stop Data
+         xmlhttp1.onreadystatechange = function() {
+            if (xmlhttp1.readyState == 4 && xmlhttp1.status == 200) {
+                var temp = JSON.parse(xmlhttp1.responseText);
+                stopdata = temp['results'];
+//                console.log('stopdata');
+//                console.log(stopdata)
+                addBusMarker();
+            }
+        };
+        xmlhttp1.open("GET", urlBus, true);
+        xmlhttp1.send();
+
+        // old Bus Stop Data
+        xmlhttp2.onreadystatechange = function() {
+            if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
+                jsonolddata = JSON.parse(xmlhttp2.responseText);
+//                console.log('jsonolddata')
+//                console.log(jsonolddata)
+                addoldstopMarker();
+            }
+        };
+
+        xmlhttp2.open("GET", url2, true);
+        xmlhttp2.send();
+
+
+// ________________________________________________________________________
+        //Google map customize stuff
+        function initMap() {
+            var location = new google.maps.LatLng(53.318375, -6.230936);
+
+            var mapOptions = {
+                zoom: 13,
+                center: location,
+                streetViewControl: false,
+                scaleControl: true,
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: google.maps.ControlPosition.TOP_CENTER,
+                    style: google.maps.ZoomControlStyle.LARGE
+                },
+                draggableCursor:'crosshair'
+            };
+            map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
+
+        }
+// ______________________________________________________________________________
+
+        //GPS marker
+        function addGPSmarker() {
+//            console.log('Inside AddGPSMarker')
+            console.log(jsondata)
+            for( i=0; i<jsondata.length; i++){
+//                console.log('in loop')
+                iLAT = parseFloat(jsondata[i]['LAT'])
+                iLON = parseFloat(jsondata[i]['LON'])
+                var marker = new google.maps.Marker({
+                    position: {lat: iLAT, lng: iLON},
+                    map: map,
+                    label: i + ' / '+jsondata[i]['AtStop'] + '  StopID:' + jsondata[i]['StopID'] + ' Delay:' + jsondata[i]['Delay']
+                });
+
+            }
+//            console.log('end');
+
+        };
+
+//        bus stop marker
+        function addBusMarker() {
+
+            for(j=0; j<stopdata[0]['stops'].length; j++) {
+//                console.log('in AddBusMarker')
+                var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(stopdata[0]['stops'][j]['latitude'], stopdata[0]['stops'][j]['longitude']),
+                map: map,
+                icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+                // show on marker 'order / at Stop'
+                label: stopdata[0]['stops'][j]['stopid'] + ''
+                });
+            }
+
+        };
+//
+        function addoldstopMarker() {
+//
+            console.log('In oldstopmarker')
+            console.log(jsonolddata)
+            for(k=0; k<jsonolddata.length; k++) {
+//                console.log('here')
+                var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(jsonolddata[k]['stop_lat'], jsonolddata[k]['stop_lon']),
+                map: map,
+                icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+//                // show on marker 'order / at Stop'
+                label: jsonolddata[k]['stop_id']
+//                label: 'Hey'
+                });
+            }//
+        };
+        //call function map and marker
+        initMap();
+
+    }
+    </script>
+
+
+</head>
+
+
+<body>
+
+    <div id='map-canvas'></div>
+    <input id='btn' type="button" value="click"/>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAwTLZdUsAHp_XNUj8E8Ul_gsZicgve_o" type="text/javascript"></script>
+
+
+</body>
+</html>
