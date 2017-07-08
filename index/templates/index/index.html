@@ -5,41 +5,358 @@
 {% endblock %}
 
 {% block main %}
-<div id="main">
 
-    <h1>Dublin Bus Dynamic Travel</h1>
+<script>
+    /*
+     var user_name;
+     var expires = new Date();
+     var length = document.cookie.length -1;
+     var message = document.cookie.substring(5, length)
+     document.write("<h5><center> Welcome Back, " + message + "!</center></h5>")
+     function cookierun(){
+     user_name = document.getElementById("name").value;
+     expires.setFullYear(expires.getFullYear()+1);
+     document.cookie = escape("name") + "=" + escape(user_name) + "; expires = " + expires.toUTCString();
+     window.alert(document.cookie);
+     }
+     */
+    $(function() {
+        var APPID = "4cd167bc85dff937818ea9a5eb6fa550";
+        var temp;
+        var loc;
+        var icon;
+        var wind;
+        var direction;
+        var city_id = "2964574"
 
+        function updateByZip(city_id) {
+            var url = "http://api.openweathermap.org/data/2.5/weather?q=DublinIE&APPID=4cd167bc85dff937818ea9a5eb6fa550";
+            sendRequest(url);
+        }
+        //function to update weather variables
+        function sendRequest(url) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var data = JSON.parse(xmlhttp.responseText);
+                    var weather = {};
+                    weather.icon = data.weather[0].icon;
+                    weather.wind = speedo(data.wind.speed);
+                    weather.temp = kelvin2c(data.main.temp);
+                    weather.direction = degdir(data.wind.deg);
+                    weather.loc = "Dublin City";
+                    update(weather);
+                }
+            };
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+        }
+        //function to convert raw temperature data
+        function kelvin2c(k) {
+            return Math.round(k - 273.15);
+        }
+        //function to convert raw wind speed from mph to kph
+        function speedo(k) {
+            return Math.round(k * 1.609);
+        }
+        //function to define the wind direction (degrees to common directional terms)
+        function degdir(degrees) {
+            var range = 360 / 16;
+            var low = 360 - range / 2 % 360;
+            var high = low + range;
+            var angles = ["North", "NNE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+            for (i in angles) {
+                if (degrees >= low && degrees < high) return angles[i];
+                low = (low + range) % 360;
+                high = (high + range) % 360;
+            }
+        }
+        //function to update weather variables
+        function update(weather) {
+            wind.innerHTML = weather.wind;
+            direction.innerHTML = weather.direction;
+            loc.innerHTML = weather.loc;
+            icon.src = "http://openweathermap.org/img/w/" + weather.icon + ".png";
+            temp.innerHTML = weather.temp;
+        }
+        var td = new Date().getDay();
+        td = (td == 0) ? 7 : td;
+        $('select[id=day]').find('option').eq(td).prop('selected', true).end().change();
+        window.onload = function() {
+            temp = document.getElementById("temperature");
+            loc = document.getElementById("location");
+            icon = document.getElementById("icon");
+            wind = document.getElementById("wind");
+            direction = document.getElementById("direction");
+            updateByZip(2964574);
+        }
+        var data = [{
+            "Timestamp": "2012-11-07 09:26:50",
+            "LineID": "145",
+            "Direction": 0,
+            "JourneyPatternID": "null",
+            "TimeFrame": "2012-11-07",
+            "VehicleJourneyID": 6745,
+            "Operator": "D1",
+            "Congestion": 0,
+            "Lon": -6.292033,
+            "Lat": 53.346668,
+            "Delay": 0,
+            "BlockID": 145107,
+            "VehicleID": 38029,
+            "StopID": "4320",
+            "AtStop": 1,
+            "Route_number": "145"
+        }];
+        $.each(data, function(i, option) {
+            $('#RouteNumbers').append($('<option/>').attr("value", option.LineID).text(option.Route_number));
+        });
+    });
+
+    function greeting() {
+        document.getElementById('resultspage').style.display = "block";
+        document.getElementById('homepage').style.display = "none";
+        $("#stopselected, #weather, #alerts, #busestimates").hide().each(function(i) {
+            $(this).delay(i * 500).fadeIn(500);
+        });
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: -34.397,
+                lng: 150.644
+            },
+            zoom: 17
+        });
+        infoWindow = new google.maps.InfoWindow;
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                infoWindow.setPosition(pos);
+                infoWindow.setContent('Found you! :)');
+                infoWindow.open(map);
+                map.setCenter(pos);
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+
+    function greeting2() {
+        document.getElementById('locationpage').style.display = "block";
+        document.getElementById('homepage').style.display = "none";
+    }	</script>
+
+<div id="resultspage" style="display:none;">
+    <div class="sidebar">
+
+        <div id="stopselected">
+            <div id="Origin">
+                <h3>Origin Stop</h3>
+                <div id="selected_origin">
+                    <h4>Stepaside</h4>
+                </div>
+            </div>
+            <div id="Destination">
+                <h3>Destination Stop</h3>
+                <div id="selected_destination">
+                    <h4>UCD</h4>
+                </div>
+            </div>
+        </div>
+        <div id="busestimates">
+            <h3>Your Predictions:</h3>
+            <div id="estimatezone">
+                <h4>Bus arriving: 12mins</h4>
+                <h4>Bus arriving: 34mins</h4>
+                <h4>Bus arriving: 49mins</h4>
+                <h4>Bus arriving: 56mins</h4>
+                <h4>Bus arriving: 68mins</h4>
+            </div>
+        </div>
+        <div id="weather">
+            <div class="left">
+                <div class="location">
+                    <span id="location">Unknown</span>
+                </div>
+                <div class="temperature">
+                    <span id="temperature">0</span>&deg;
+                </div>
+            </div>
+            <div class="right">
+                <div class="top"><img id="icon" src="imgs/codes/200.png" width="75px"></div>
+                <div class="bottom">
+                    <div class="wind">
+                        <span id="wind">0</span> kph <span id="direction">N</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Alerts">
+            <h3>Your Alerts</h3><br>
+            <h4>(No Alerts to Show)</h4>
+        </div>
+    </div>
+    <div id="map">
+        <h2></h2>
+    </div>
 </div>
-
-<div id="welcome_message">
-
-
-    <p>
-        Welcome to the Dublin Bus Dynamic Travel App
-
-    </p>
-</div>
-
-
-<div id="center">
-    <ul>
-        <form action = "{% url 'index:student' event.title %}" method = "post">
-            {% csrf_token %}
-            {% for event in all_events %}
-            <li><a href="{% url 'index:detail' event.title %}">{{ event.title }}</a></li>
-            {% endfor %}
-            <input type = "radio" id = "student" name = "student" value = "student"/>
-            <label for =  "student">
-                Student
-            </label>
-            <br/>
-            <input type="submit" value="Student">
+<div id="homepage">
+    <div id="main">
+        <h1>Dublin Bus Dynamic Travel</h1>
+    </div>
+    <div id="welcome_message">
+        <p>Welcome to the Dublin Bus Dynamic Travel App</p>
+    </div>
+    <div id="center">
+        <!--
+        Name = <input type="text" id="name"/>
+        <input type="button" value="Enter" id="cookierun()"/>
+        -->
+        <form>
+            <div class="form-group">
+                <label>Origin Stop</label> <select class="form-control" id="origin">
+                <option selected value="0">
+                    Where are you leaving from?
+                </option>
+                <option value="1">
+                    UCD Campus
+                </option>
+            </select>
+            </div>
+            <div class="form-group">
+                <label>Destination Stop</label> <select class="form-control" id="destination">
+                <option selected value="0">
+                    Where are you going?
+                </option>
+                <option value="1">
+                    Stepaside Village
+                </option>
+            </select>
+            </div>
+            <div class="form-group">
+                <label>Route Number</label> <select class="form-control" id="RouteNumbers" name="RouteNumbers">
+                <option selected value="">
+                    Select Route
+                </option>
+            </select>
+            </div>
+            <div class="form-group">
+                <label>Time</label> <select class="form-control" id="time">
+                <option selected value="0">
+                    What time are you planning for?
+                </option>
+                <option value="1">
+                    Right now!
+                </option>
+                <option value="2">
+                    06.00
+                </option>
+                <option value="3">
+                    07.00
+                </option>
+                <option value="4">
+                    08.00
+                </option>
+                <option value="5">
+                    09.00
+                </option>
+                <option value="6">
+                    10.00
+                </option>
+                <option value="7">
+                    11.00
+                </option>
+                <option value="8">
+                    12.00
+                </option>
+                <option value="9">
+                    13.00
+                </option>
+                <option value="10">
+                    14.00
+                </option>
+                <option value="11">
+                    15.00
+                </option>
+                <option value="12">
+                    16.00
+                </option>
+                <option value="13">
+                    17.00
+                </option>
+                <option value="14">
+                    18.00
+                </option>
+                <option value="15">
+                    19.00
+                </option>
+                <option value="16">
+                    20.00
+                </option>
+                <option value="17">
+                    21.00
+                </option>
+                <option value="18">
+                    22.00
+                </option>
+                <option value="19">
+                    23.00
+                </option>
+                <option value="20">
+                    00.00
+                </option>
+                <option value="17">
+                    01.00
+                </option>
+            </select>
+            </div>
+            <div class="form-group">
+                <label>Day</label> <select class="form-control" id="day">
+                <option selected value="">
+                </option>
+                <option value="Monday">
+                    Monday
+                </option>
+                <option value="Tuesday">
+                    Tuesday
+                </option>
+                <option value="Wednesday">
+                    Wednesday
+                </option>
+                <option value="Thursday">
+                    Thursday
+                </option>
+                <option value="Friday">
+                    Friday
+                </option>
+                <option value="Saturday">
+                    Saturday
+                </option>
+                <option value="Sunday">
+                    Sunday
+                </option>
+            </select>
+            </div><button class="btn btn-danger" onclick="greeting()" type="button" >Submit</button>
+            <button class="btn btn-info" onclick="greeting2()" type="button">Not sure? Find Your Closest Bus Stops!</button>
+            <p id="demo"></p>
         </form>
-    </ul>
-    <button class="button button2" onclick="window.location.href='user_page.html';"
-    >Find my Bus! :)  </button>
-
-
+    </div>
 </div>
+<div id="locationpage" style="display:none;">
+    <h1>piss</h1>
+</div>
+
 
 {% endblock %}
