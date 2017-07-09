@@ -7,12 +7,17 @@ from django.views.generic.edit import CreateView, UpdateView
 
 
 def index(request):
+    df = ([[41.409092, 10.0, 33.0, 227.0,0.0, 13.0, 0.0, 2.0,16.0]])
     all_questions = Question.objects.all()
     all_events = EventApi.objects.all()
+    x = IndexConfig.y
+    val = x.predict(df)
+    y = "hi"
+    print(type(val))
     context = {
         'all_questions': all_questions,
         'all_events': all_events,
-        'x': IndexConfig.y,
+        'val': y,
                }
     return render(request, 'index/index.html', context)
 

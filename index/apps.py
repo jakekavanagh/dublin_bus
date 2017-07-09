@@ -1,13 +1,15 @@
 from django.apps import AppConfig
 from time import sleep
+from sklearn.externals import joblib
+import os
 
 
 class Call:
     x = "hi"
     def x(self):
-        sleep(15)
+        yz = joblib.load('./index/compress.pkl')
         print("only want to see this once")
-        return "hi"
+        return yz
 
 
 class IndexConfig(AppConfig):
