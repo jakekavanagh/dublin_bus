@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Question, EventApi
+from .apps import IndexConfig
 
 from django.views.generic.edit import CreateView, UpdateView
 
@@ -11,6 +12,7 @@ def index(request):
     context = {
         'all_questions': all_questions,
         'all_events': all_events,
+        'x': IndexConfig.y,
                }
     return render(request, 'index/index.html', context)
 
