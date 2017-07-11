@@ -1,17 +1,21 @@
 from django.apps import AppConfig
-from time import sleep
 from sklearn.externals import joblib
-import os
+import json
 
 
-class Call:
-    x = "hi"
-    def x(self):
-        yz = joblib.load('./index/compress.pkl')
-        print("only want to see this once")
-        return yz
+# class Call:
+def x():
+    yz = joblib.load('./index/compress.pkl')
+    return yz
+
+def dicty():
+    with open('./index/static/index/bus00010001.json') as data_file:
+        dicty = json.load(data_file)
+    return dicty
+
 
 
 class IndexConfig(AppConfig):
     name = 'index'
-    y = Call().x()
+    y = x()
+    dicty = dicty()

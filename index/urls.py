@@ -8,10 +8,12 @@ urlpatterns = [
     # hompage
     url(r'^$', views.index, name='index'),
 
+    url(r'^detail/$', views.detail, name='detail'),
+
     # redirect to results
-    url(r'^(?P<title>.*)/$', views.detail, name='detail'),
+    # url(r'^(?P<title>.*)/$', views.detail, name='detail'),
 
     # redirect to results and mark as student
-    url(r'^(?P<title>.*)/student$', views.student, name='student'),
+    # url(r'^(?P<title>.*)/student$', views.student, name='student'),
 
 ]

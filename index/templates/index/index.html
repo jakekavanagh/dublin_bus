@@ -1,11 +1,8 @@
 {% extends 'index/base.html' %}
-
 {% block title %}
-    <title>Dublin Bus</title>
+<title>DJANGO Bus</title>
 {% endblock %}
-
 {% block main %}
-
 <script>
     /*
      var user_name;
@@ -28,7 +25,6 @@
         var wind;
         var direction;
         var city_id = "2964574"
-
         function updateByZip(city_id) {
             var url = "http://api.openweathermap.org/data/2.5/weather?q=DublinIE&APPID=4cd167bc85dff937818ea9a5eb6fa550";
             sendRequest(url);
@@ -112,7 +108,6 @@
             $('#RouteNumbers').append($('<option/>').attr("value", option.LineID).text(option.Route_number));
         });
     });
-
     function greeting() {
         document.getElementById('resultspage').style.display = "block";
         document.getElementById('homepage').style.display = "none";
@@ -146,21 +141,17 @@
             handleLocationError(false, infoWindow, map.getCenter());
         }
     }
-
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
     }
-
     function greeting2() {
         document.getElementById('locationpage').style.display = "block";
         document.getElementById('homepage').style.display = "none";
-    }	</script>
-
+    }   </script>
 <div id="resultspage" style="display:none;">
     <div class="sidebar">
-
         <div id="stopselected">
             <div id="Origin">
                 <h3>Origin Stop</h3>
@@ -217,138 +208,97 @@
         <h1>Dublin Bus Dynamic Travel</h1>
     </div>
     <div id="welcome_message">
-        <p>Welcome to the Dublin Bus Dynamic Travel App {{ val }}</p>
+        <p>Welcome to the Dublin Bus Dynamic Travel App {{ x }}</p>
     </div>
     <div id="center">
         <!--
         Name = <input type="text" id="name"/>
         <input type="button" value="Enter" id="cookierun()"/>
         -->
-        <form>
+        <form action='detail/' method="post">
+            {% csrf_token %}
             <div class="form-group">
-                <label>Origin Stop</label> <select class="form-control" id="origin">
+                <label for="origin">Origin Stop</label> <select name = "orig" class="form-control" id="origin">
                 <option selected value="0">
                     Where are you leaving from?
                 </option>
-                <option value="1">
-                    UCD Campus
+                {% for i in stops %}
+                <option value={{ i }}>
+                    {{ i }}
                 </option>
+                {% endfor %}
             </select>
             </div>
             <div class="form-group">
-                <label>Destination Stop</label> <select class="form-control" id="destination">
+                <label for ="destination">Destination Stop</label> <select name="dest" class="form-control" id="destination">
                 <option selected value="0">
                     Where are you going?
                 </option>
-                <option value="1">
-                    Stepaside Village
+                <option value=271.0>
+                    271
                 </option>
             </select>
             </div>
             <div class="form-group">
-                <label>Route Number</label> <select class="form-control" id="RouteNumbers" name="RouteNumbers">
-                <option selected value="">
+                <label for ="RouteNumbers">Route Number</label> <select name="route" class="form-control" id="RouteNumbers">
+                <option selected value="0">
                     Select Route
                 </option>
+                <option selected value="1.0">
+                    1
+                </option>
             </select>
             </div>
             <div class="form-group">
-                <label>Time</label> <select class="form-control" id="time">
+                <label for="time">Time</label> <select name="time" class="form-control" id="time">
                 <option selected value="0">
                     What time are you planning for?
                 </option>
-                <option value="1">
+                <option value="100">
                     Right now!
                 </option>
-                <option value="2">
-                    06.00
+                {% for i in arr %}
+                <option value={{ i }}>
+                    {{ i }}.00
                 </option>
-                <option value="3">
-                    07.00
-                </option>
-                <option value="4">
-                    08.00
-                </option>
-                <option value="5">
-                    09.00
-                </option>
-                <option value="6">
-                    10.00
-                </option>
-                <option value="7">
-                    11.00
-                </option>
-                <option value="8">
-                    12.00
-                </option>
-                <option value="9">
-                    13.00
-                </option>
-                <option value="10">
-                    14.00
-                </option>
-                <option value="11">
-                    15.00
-                </option>
-                <option value="12">
-                    16.00
-                </option>
-                <option value="13">
-                    17.00
-                </option>
-                <option value="14">
-                    18.00
-                </option>
-                <option value="15">
-                    19.00
-                </option>
-                <option value="16">
-                    20.00
-                </option>
-                <option value="17">
-                    21.00
-                </option>
-                <option value="18">
-                    22.00
-                </option>
-                <option value="19">
-                    23.00
-                </option>
-                <option value="20">
+                {% endfor %}
+                <option value="0">
                     00.00
                 </option>
-                <option value="17">
+                <option value="1">
                     01.00
                 </option>
             </select>
             </div>
             <div class="form-group">
-                <label>Day</label> <select class="form-control" id="day">
+                <label for ="day">Day</label> <select name = "day" class="form-control" id="day">
                 <option selected value="">
                 </option>
-                <option value="Monday">
+                <option value="Monday1">
                     Monday
                 </option>
-                <option value="Tuesday">
+                <option value="Tuesday2">
                     Tuesday
                 </option>
-                <option value="Wednesday">
+                <option value="Wednesday3">
                     Wednesday
                 </option>
-                <option value="Thursday">
+                <option value="Thursday4">
                     Thursday
                 </option>
-                <option value="Friday">
+                <option value="Friday5">
                     Friday
                 </option>
-                <option value="Saturday">
+                <option value="Saturday6">
                     Saturday
                 </option>
-                <option value="Sunday">
+                <option value="Sunday7">
                     Sunday
                 </option>
             </select>
-            </div><button class="btn btn-danger" onclick="greeting()" type="button" >Submit</button>
+            </div>
+            <input type="submit" value="OK">
+            <!--<button class="btn btn-danger" onclick="greeting()" type="button" >Submit</button>-->
             <button class="btn btn-info" onclick="greeting2()" type="button">Not sure? Find Your Closest Bus Stops!</button>
             <p id="demo"></p>
         </form>
@@ -357,6 +307,4 @@
 <div id="locationpage" style="display:none;">
     <h1>piss</h1>
 </div>
-
-
 {% endblock %}
