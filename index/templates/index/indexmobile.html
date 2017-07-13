@@ -2,9 +2,7 @@
 
 {% load staticfiles %}
 
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/mobilehomepage.css' %}">
-{% endblock %}
+
 
 {% block title %}
 <title>DJANGO Bus</title>
@@ -15,7 +13,7 @@
         
                 $(document).ready(function(){
   if($(window).width() > 1200) {
-window.location = "/index.html";
+window.location = "index/";
 }
 });
         
@@ -391,5 +389,8 @@ function greeting2(){
 				<p id="demo"></p>
 			</form>
 		</div>
+	</div>
+	<div id="locationpage" style="display:none;">
+		<h1>piss</h1>
 	</div>
 {% endblock %}
