@@ -83,6 +83,17 @@ def detail(request):
     return render(request, "index/detail.html", context)
 
 def find(request):
-    return render(request, "index/find.html")
+    return render(request, "index/findlocation.html")
 
+
+def indexmobile(request):
+    dicty = IndexConfig.dicty
+    arr = []
+    for i in range(0, 24):
+        arr += [str(i)]
+    context = {
+        'arr': arr,
+        'stops': sorted(dicty['index']),
+    }
+    return render(request, 'index/indexmobile.html', context)
 
