@@ -1,11 +1,21 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Question, EventApi
 from .apps import IndexConfig
 import json
 import pandas as pd
+import requests
+import datetime
 
-from django.views.generic.edit import CreateView, UpdateView
 
+def weather(day, time):
+    data = requests.get("http://api.wunderground.com/api/37d281e3f1931e1e/hourly10day/q/Ireland/Dublin.json").json()
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday',
+            'Wednesday', 'Friday', 'Saturday']
+
+    change = time - int((datetime.datetime.now()).strftime("%H"))
+    diff = (days[days.index((datetime.datetime.now()).strftime("%A")):].index(day)*24-1)+ change
+
+    return data['hourly_forecast'][diff]['temp']['metric'], data['hourly_forecast'][diff]['wspd']['metric'], \
+        data['hourly_forecast'][diff]['wspd']['icon_url']
 
 
 def index(request):
@@ -31,13 +41,15 @@ def detail(request):
     stops = dicty['index'][start:stop]
     arrival = dicty['index'][:start]
     columns = ['Avg', 'Temp', 'Wind_Speed', 'StopID', 'AtStop', 'Summary', 'Rain', 'Day', 'Hour']
+    temp, wspd, url = weather(day_word, time)
+    print(temp, wspd)
     df = pd.DataFrame(columns=columns)
     for i in range(len(stops)):
-        df.loc[i] = [dicty[day_word][str(time)][str(stops[i])], 10.0, 33.0, stops[i], 0, 13, 1, day_num, time]
+        df.loc[i] = [dicty[day_word][str(time)][str(stops[i])], temp, wspd, stops[i], 0, 13, 1, day_num, time]
 
     df2 = pd.DataFrame(columns=columns)
     for i in range(len(arrival)):
-        df2.loc[i] = [dicty[day_word][str(time)][str(stops[i])], 10.0, 33.0, stops[i], 0, 13, 1, day_num, time]
+        df2.loc[i] = [dicty[day_word][str(time)][str(stops[i])], temp, wspd, stops[i], 0, 13, 1, day_num, time]
 
     x = IndexConfig.y
     val = x.predict(df)
@@ -69,15 +81,7 @@ def detail(request):
     }
     return render(request, "index/detail.html", context)
 
+def find(request):
+    return render(request, "index/find.html")
 
 
-
-
-def student(request, question_text):
-    question = get_object_or_404(Question, question_text=question_text)
-    selected = request.POST["orig"]
-    context = {
-        "question": question,
-        "selected": selected
-    }
-    return render(request, "detail/detail.html", context)

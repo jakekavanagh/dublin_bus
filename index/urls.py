@@ -10,6 +10,8 @@ urlpatterns = [
 
     url(r'^detail/$', views.detail, name='detail'),
 
+    url(r'^find/$', views.find, name='find'),
+
     # redirect to results
     # url(r'^(?P<title>.*)/$', views.detail, name='detail'),
 
