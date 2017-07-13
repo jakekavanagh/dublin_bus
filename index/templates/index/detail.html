@@ -186,12 +186,12 @@
                                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                                     var data = JSON.parse(xmlhttp.responseText);
                                     var weather = {};
-                                    weather.icon = data.weather[0].icon;
-                                    weather.wind = speedo(data.wind.speed);
-                                    weather.temp = kelvin2c(data.main.temp);
+                                    weather.icon = {{ url }};
+                                    weather.wind = {{ wspd }};
+                                    weather.temp = {{ temp }};
                                     weather.direction = degdir(data.wind.deg);
                                     weather.loc = "Dublin City";
-                                    update(weather);
+                                   // update(weather);
                                 }
                             };
                             xmlhttp.open("GET", url, true);
@@ -233,12 +233,12 @@
                         $('select[id=day]').find('option').eq( td ).prop('selected', true)
                             .end().change();
                         window.onload = function() {
-                            temp = document.getElementById("temperature");
+                            temp = {{ temp }};
                             loc = document.getElementById("location");
                             icon = document.getElementById("icon");
                             wind = document.getElementById("wind");
                             direction = document.getElementById("direction");
-                            updateByZip(2964574);
+                            //updateByZip(2964574);
 
                         }
 

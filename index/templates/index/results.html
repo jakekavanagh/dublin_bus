@@ -145,8 +145,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 	           var data = JSON.parse(xmlhttp.responseText);
 	           var weather = {};
-	           weather.icon = data.weather[0].icon;
-	           weather.wind = speedo(data.wind.speed);
+	           weather.icon = {{ url }};
+	           weather.wind = {{ wspd }};
 	           weather.temp = kelvin2c(data.main.temp);
 	           weather.direction = degdir(data.wind.deg);
 	           weather.loc = "Dublin City";

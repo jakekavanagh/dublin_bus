@@ -15,7 +15,7 @@ def weather(day, time):
     diff = (days[days.index((datetime.datetime.now()).strftime("%A")):].index(day)*24-1)+ change
 
     return data['hourly_forecast'][diff]['temp']['metric'], data['hourly_forecast'][diff]['wspd']['metric'], \
-        data['hourly_forecast'][diff]['wspd']['icon_url']
+        data['hourly_forecast'][diff]['icon_url']
 
 
 def index(request):
@@ -25,7 +25,7 @@ def index(request):
         arr += [str(i)]
     context = {
         'arr': arr,
-        'stops': dicty['index'],
+        'stops': sorted(dicty['index']),
                }
     return render(request, 'index/index.html', context)
 
@@ -42,7 +42,6 @@ def detail(request):
     arrival = dicty['index'][:start]
     columns = ['Avg', 'Temp', 'Wind_Speed', 'StopID', 'AtStop', 'Summary', 'Rain', 'Day', 'Hour']
     temp, wspd, url = weather(day_word, time)
-    print(temp, wspd)
     df = pd.DataFrame(columns=columns)
     for i in range(len(stops)):
         df.loc[i] = [dicty[day_word][str(time)][str(stops[i])], temp, wspd, stops[i], 0, 13, 1, day_num, time]
@@ -57,7 +56,6 @@ def detail(request):
 
     val2 = x.predict(df2)
     arrival_total = sum(val2)/60
-    print(arrival_total)
 
     with open('./index/static/index/karl.json') as data_file:
         karl_dict = json.load(data_file)
@@ -65,7 +63,7 @@ def detail(request):
     origin_lon = karl_dict[str(origin)]["Lon"]
     destination_lat = karl_dict[str(destination)]["Lat"]
     destination_lon = karl_dict[str(destination)]["Lon"]
-
+    print(url)
     context = {
         'origin': origin,
         'destination': destination,
@@ -78,6 +76,9 @@ def detail(request):
         'origin_lon': origin_lon,
         'destination_lat': destination_lat,
         'destination_lon': destination_lon,
+        'temp': temp,
+        'wspd': wspd,
+        'url': url,
     }
     return render(request, "index/detail.html", context)
 
