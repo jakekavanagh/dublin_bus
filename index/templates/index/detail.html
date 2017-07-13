@@ -14,7 +14,11 @@
 
 <script>
 
-                    $(document).ready(function(){
+
+
+
+
+    $(document).ready(function(){
                         if($(window).width() <= 1200) {
                             window.location = "/indexmobile.html";
                         }
@@ -64,8 +68,8 @@
 
 
                         map = new google.maps.Map(document.getElementById('map'), {
-                            center: {lat: -34.397, lng: 150.644},
-                            zoom: 16
+                            center: {lat: 53.3498, lng: -6.2603},
+                            zoom: 8
                         });
                         function addGPSmarker() {
                             for(var i in karldata){
@@ -78,13 +82,9 @@
                             }
                         };
 
-
-
-
-
-
                         infoWindow = new google.maps.InfoWindow;
 
+                       /*
                         // Try HTML5 geolocation.
                         if (navigator.geolocation) {
                             navigator.geolocation.getCurrentPosition(function(position) {
@@ -104,7 +104,7 @@
                             // Browser doesn't support Geolocation
                             handleLocationError(false, infoWindow, map.getCenter());
                         }
-
+        */
 
 
 
@@ -118,6 +118,54 @@
 
 
                         }
+
+                        var Center = new google.maps.LatLng(18.210885, -67.140884);
+                        var directionsDisplay;
+                        var directionsService = new google.maps.DirectionsService();
+                        var map;
+
+                        function initialize() {
+                            directionsDisplay = new google.maps.DirectionsRenderer();
+                            var properties = {
+                                center: Center,
+                                zoom: 20,
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                            };
+
+                            map = new google.maps.Map(document.getElementById("map"), properties);
+                            directionsDisplay.setMap(map);
+
+                            var marker = new google.maps.Marker({
+                                position: Center,
+                                animation: google.maps.Animation.BOUNCE,
+                            });
+
+                            marker.setMap(map);
+                            Route();
+                        }
+
+                        function Route() {
+
+                            var start = new google.maps.LatLng("{{ origin_lat }}", "{{ origin_lon }}");
+                            var end = new google.maps.LatLng("{{destination_lat }}", "{{ destination_lon }}");
+                            var request = {
+                                origin: start,
+                                destination: end,
+                                travelMode: google.maps.TravelMode.TRANSIT
+                            };
+                            directionsService.route(request, function(result, status) {
+                                if (status == google.maps.DirectionsStatus.OK) {
+                                    directionsDisplay.setDirections(result);
+                                } else {
+                                    alert("couldn't get directions:" + status);
+                                }
+                            });
+                        }
+
+                        google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
 
 
                         var APPID = "4cd167bc85dff937818ea9a5eb6fa550";
@@ -200,10 +248,6 @@
                     });
 
 
-
-
-
-
 					/*
 					 var mapOptions = {
 					 center: new google.maps.LatLng(44.5403, -78.5463),
@@ -262,7 +306,7 @@
             <h3>Your {{ route }} at Stop {{ origin }}:</h3>
             <div id="estimatezone">
                 <h4>{{day }} {{ time }}</h4>
-                <h4>Bus arriving in {{ arrival }}</h4>
+                <h4>Bus arriving in {{ arrival }} minutes </h4>
                 <h4>Bus will take {{ pred }} minutes to get to stop {{ destination }}</h4>
                 <!--<h4>Bus arriving: 34mins</h4>-->
                 <!--<h4>Bus arriving: 49mins</h4>-->
@@ -288,7 +332,7 @@
         </div>
         <div id="Alerts">
             <h3>Your Alerts</h3><br>
-            <h3>{{ origin_lat }} {{ origin_lon }} {{destination_lat }} {{ destination_lon }}</h3>
+
             <h4>(No Alerts to Show)</h4>
         </div>
     </div>

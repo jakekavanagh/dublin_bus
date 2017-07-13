@@ -4,6 +4,15 @@
 {% endblock %}
 {% block main %}
 <script>
+
+    $(document).ready(function(){
+        if($(window).width() <= 1200) {
+            window.location = "/indexmobile.html";
+        }
+    });
+
+    $(window).resize(function(){location.reload();});
+
     /*
      var user_name;
      var expires = new Date();
@@ -150,59 +159,7 @@
         document.getElementById('locationpage').style.display = "block";
         document.getElementById('homepage').style.display = "none";
     }   </script>
-<div id="resultspage" style="display:none;">
-    <div class="sidebar">
-        <div id="stopselected">
-            <div id="Origin">
-                <h3>Origin Stop</h3>
-                <div id="selected_origin">
-                    <h4>Stepaside</h4>
-                </div>
-            </div>
-            <div id="Destination">
-                <h3>Destination Stop</h3>
-                <div id="selected_destination">
-                    <h4>UCD</h4>
-                </div>
-            </div>
-        </div>
-        <div id="busestimates">
-            <h3>Your Predictions:</h3>
-            <div id="estimatezone">
-                <h4>Bus arriving: 12mins</h4>
-                <h4>Bus arriving: 34mins</h4>
-                <h4>Bus arriving: 49mins</h4>
-                <h4>Bus arriving: 56mins</h4>
-                <h4>Bus arriving: 68mins</h4>
-            </div>
-        </div>
-        <div id="weather">
-            <div class="left">
-                <div class="location">
-                    <span id="location">Unknown</span>
-                </div>
-                <div class="temperature">
-                    <span id="temperature">0</span>&deg;
-                </div>
-            </div>
-            <div class="right">
-                <div class="top"><img id="icon" src="imgs/codes/200.png" width="75px"></div>
-                <div class="bottom">
-                    <div class="wind">
-                        <span id="wind">0</span> kph <span id="direction">N</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="Alerts">
-            <h3>Your Alerts</h3><br>
-            <h4>(No Alerts to Show)</h4>
-        </div>
-    </div>
-    <div id="map">
-        <h2></h2>
-    </div>
-</div>
+
 <div id="homepage">
     <div id="main">
         <h1>Dublin Bus Dynamic Travel</h1>
@@ -234,9 +191,11 @@
                 <option selected value="0">
                     Where are you going?
                 </option>
-                <option value=271.0>
-                    271
+                {% for i in stops %}
+                <option value={{ i }}>
+                    {{ i }}
                 </option>
+                {% endfor %}
             </select>
             </div>
             <div class="form-group">
@@ -299,12 +258,14 @@
             </div>
             <input type="submit" value="OK">
             <!--<button class="btn btn-danger" onclick="greeting()" type="button" >Submit</button>-->
-            <button class="btn btn-info" onclick="greeting2()" type="button">Not sure? Find Your Closest Bus Stops!</button>
+
+        </form>
+        <form action ="find/">
+            <button class="btn btn-info" type="submit">Not sure? Find Your Closest Bus Stops!</button>
             <p id="demo"></p>
         </form>
     </div>
 </div>
-<div id="locationpage" style="display:none;">
-    <h1>piss</h1>
-</div>
+
+
 {% endblock %}
