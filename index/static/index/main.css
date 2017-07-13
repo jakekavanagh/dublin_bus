@@ -4,12 +4,15 @@ html,body
     height: 100%;
     margin: 0px;
     padding: 0px;
-
-
     background-image: url("https://preview.ibb.co/k5iFXk/149799775014462.jpg");
     background-size: 100%;
     background-blend-mode: darken 100%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+#center:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 
 }
 
@@ -177,14 +180,24 @@ b, strong {
 }
 
 #okay_we_found {
-    margin-bottom: 10%;
-    margin-left: 10%;
-    margin-right: 10%;
-    padding-left: 3%;
-    padding-right: 3%;
-    text-align: center;
+     margin-bottom: 10%;
+     margin-left: 10%;
+     margin-right: 10%;
+     padding-left: 3%;
+     padding-right: 3%;
+     text-align: center;
 
+ }
+
+
+#headingcolours {
+    color: #03A9F4;
 }
+
+#arrivalcolour {
+    color: #00C853;
+}
+
 
 #stopselected {
 
@@ -197,6 +210,12 @@ b, strong {
     text-align: center;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     overflow: hidden;
+
+}
+
+#stopselected:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+
 }
 
 
@@ -226,6 +245,12 @@ b, strong {
     overflow: hidden;
 }
 
+#busestimates:hover{
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+
+}
+
+
 #selected_destination {
 
     background-color: #efefef;
@@ -253,19 +278,6 @@ b, strong {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     overflow: hidden;
 
-
-}
-
-#weather {
-    background-color: #e2e2e2;
-    margin-bottom: 10%;
-    margin-left: 10%;
-    margin-right: 10%;
-    padding-left: 3%;
-    padding-right: 3%;
-    padding-bottom: 1%;
-    text-align: center;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
 }
 
@@ -316,8 +328,16 @@ b, strong {
 
 }
 
-#Origin {
+#Alerts:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
 
+#weather:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+#dublin {
+    margin-top: 3%;
 
 }
 
