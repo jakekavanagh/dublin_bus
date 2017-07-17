@@ -91,6 +91,7 @@ def detail(request):
 
 
 def find(request):
+<<<<<<< HEAD
     with open('./index/static/index/karl.json') as data_file:
         karl_dict = json.load(data_file)
     current = request.POST["current"]
@@ -100,5 +101,19 @@ def find(request):
         'json': karl_dict,
     }
     return render(request, "index/findlocation.html", context)
+=======
+    return render(request, "index/findlocation.html")
+>>>>>>> dc985644e5823449c98a0c95a4818f8f3cca6be6
 
+
+def indexmobile(request):
+    dicty = IndexConfig.dicty
+    arr = []
+    for i in range(0, 24):
+        arr += [str(i)]
+    context = {
+        'arr': arr,
+        'stops': sorted(dicty['index']),
+    }
+    return render(request, 'index/indexmobile.html', context)
 

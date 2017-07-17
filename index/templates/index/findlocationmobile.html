@@ -212,6 +212,27 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 			</div>
 				
 		</div>
+
+		<div id="weather">
+			<div class="left">
+				<div class="location">
+					<span id="location">Dublin</span>
+				</div>
+				<div class="temperature">
+					<span id="temperature">{{ temp }}</span>&deg;
+				</div>
+			</div>
+			<div class="right">
+				<div class="top"><img id="icon" src="{{ url }}" width="75px"></div>
+				<div class="bottom">
+					<div class="wind">
+						<span id="wind">{{ wspd }}</span> kph <span id="direction">N</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 		<div id="map">
 		</div>
 	</div>

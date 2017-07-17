@@ -1,13 +1,17 @@
 {% extends 'index/base.html' %}
+
+
 {% block title %}
 <title>DJANGO Bus</title>
 {% endblock %}
+
+
 {% block main %}
 <script>
 
     $(document).ready(function(){
         if($(window).width() <= 1200) {
-            window.location = "/indexmobile.html";
+            window.location = "/indexmobile/";
         }
     });
 
@@ -27,74 +31,11 @@
      }
      */
     $(function() {
-        var APPID = "4cd167bc85dff937818ea9a5eb6fa550";
-        var temp;
-        var loc;
-        var icon;
-        var wind;
-        var direction;
-        var city_id = "2964574"
-        function updateByZip(city_id) {
-            var url = "http://api.openweathermap.org/data/2.5/weather?q=DublinIE&APPID=4cd167bc85dff937818ea9a5eb6fa550";
-            sendRequest(url);
-        }
-        //function to update weather variables
-        function sendRequest(url) {
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    var data = JSON.parse(xmlhttp.responseText);
-                    var weather = {};
-                    weather.icon = data.weather[0].icon;
-                    weather.wind = speedo(data.wind.speed);
-                    weather.temp = kelvin2c(data.main.temp);
-                    weather.direction = degdir(data.wind.deg);
-                    weather.loc = "Dublin City";
-                    update(weather);
-                }
-            };
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
-        }
-        //function to convert raw temperature data
-        function kelvin2c(k) {
-            return Math.round(k - 273.15);
-        }
-        //function to convert raw wind speed from mph to kph
-        function speedo(k) {
-            return Math.round(k * 1.609);
-        }
-        //function to define the wind direction (degrees to common directional terms)
-        function degdir(degrees) {
-            var range = 360 / 16;
-            var low = 360 - range / 2 % 360;
-            var high = low + range;
-            var angles = ["North", "NNE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
-            for (i in angles) {
-                if (degrees >= low && degrees < high) return angles[i];
-                low = (low + range) % 360;
-                high = (high + range) % 360;
-            }
-        }
-        //function to update weather variables
-        function update(weather) {
-            wind.innerHTML = weather.wind;
-            direction.innerHTML = weather.direction;
-            loc.innerHTML = weather.loc;
-            icon.src = "http://openweathermap.org/img/w/" + weather.icon + ".png";
-            temp.innerHTML = weather.temp;
-        }
+
         var td = new Date().getDay();
         td = (td == 0) ? 7 : td;
         $('select[id=day]').find('option').eq(td).prop('selected', true).end().change();
-        window.onload = function() {
-            temp = document.getElementById("temperature");
-            loc = document.getElementById("location");
-            icon = document.getElementById("icon");
-            wind = document.getElementById("wind");
-            direction = document.getElementById("direction");
-            updateByZip(2964574);
-        }
+
         var data = [{
             "Timestamp": "2012-11-07 09:26:50",
             "LineID": "145",
@@ -117,166 +58,115 @@
             $('#RouteNumbers').append($('<option/>').attr("value", option.LineID).text(option.Route_number));
         });
     });
-    function greeting() {
-        document.getElementById('resultspage').style.display = "block";
-        document.getElementById('homepage').style.display = "none";
-        $("#stopselected, #weather, #alerts, #busestimates").hide().each(function(i) {
-            $(this).delay(i * 500).fadeIn(500);
-        });
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-                lat: -34.397,
-                lng: 150.644
-            },
-            zoom: 17
-        });
-        infoWindow = new google.maps.InfoWindow;
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-                infoWindow.setPosition(pos);
-                infoWindow.setContent('Found you! :)');
-                infoWindow.open(map);
-                map.setCenter(pos);
-            }, function() {
-                handleLocationError(true, infoWindow, map.getCenter());
-            });
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-        }
-    }
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-    }
-    function greeting2() {
-        document.getElementById('locationpage').style.display = "block";
-        document.getElementById('homepage').style.display = "none";
-    }
 
-function loc(){
-if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-                return pos;
-                }
-</script>
+     </script>
 
 <div id="homepage">
-    <div id="main">
-        <h1>Dublin Bus Dynamic Travel</h1>
-    </div>
-    <div id="welcome_message">
-        <p>Welcome to the Dublin Bus Dynamic Travel App {{ x }}</p>
-    </div>
-    <div id="center">
-        <!--
-        Name = <input type="text" id="name"/>
-        <input type="button" value="Enter" id="cookierun()"/>
-        -->
-        <form action='detail/' method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="origin">Origin Stop</label> <select name = "orig" class="form-control" id="origin">
-                <option selected value="0">
-                    Where are you leaving from?
-                </option>
-                {% for i in stops %}
-                <option value={{ i }}>
-                    {{ i }}
-                </option>
-                {% endfor %}
-            </select>
-            </div>
-            <div class="form-group">
-                <label for ="destination">Destination Stop</label> <select name="dest" class="form-control" id="destination">
-                <option selected value="0">
-                    Where are you going?
-                </option>
-                {% for i in stops %}
-                <option value={{ i }}>
-                    {{ i }}
-                </option>
-                {% endfor %}
-            </select>
-            </div>
-            <div class="form-group">
-                <label for ="RouteNumbers">Route Number</label> <select name="route" class="form-control" id="RouteNumbers">
-                <option selected value="0">
-                    Select Route
-                </option>
-                <option selected value="1.0">
-                    1
-                </option>
-            </select>
-            </div>
-            <div class="form-group">
-                <label for="time">Time</label> <select name="time" class="form-control" id="time">
-                <option selected value="0">
-                    What time are you planning for?
-                </option>
-                <option value="100">
-                    Right now!
-                </option>
-                {% for i in arr %}
-                <option value={{ i }}>
-                    {{ i }}.00
-                </option>
-                {% endfor %}
-                <option value="0">
-                    00.00
-                </option>
-                <option value="1">
-                    01.00
-                </option>
-            </select>
-            </div>
-            <div class="form-group">
-                <label for ="day">Day</label> <select name = "day" class="form-control" id="day">
-                <option selected value="">
-                </option>
-                <option value="Monday1">
-                    Monday
-                </option>
-                <option value="Tuesday2">
-                    Tuesday
-                </option>
-                <option value="Wednesday3">
-                    Wednesday
-                </option>
-                <option value="Thursday4">
-                    Thursday
-                </option>
-                <option value="Friday5">
-                    Friday
-                </option>
-                <option value="Saturday6">
-                    Saturday
-                </option>
-                <option value="Sunday7">
-                    Sunday
-                </option>
-            </select>
-            </div>
-            <input type="submit" value="OK">
-            <!--<button class="btn btn-danger" onclick="greeting()" type="button" >Submit</button>-->
+     <div id="main">
+          <h1>Dublin Bus Dynamic Travel</h1>
+     </div>
+     <!--<div id="welcome_message">
+         <p>Welcome to the Dublin Bus Dynamic Travel App {{ x }}</p>
+     </div> -->
+     <div id="center">
+          <!--
+          Name = <input type="text" id="name"/>
+          <input type="button" value="Enter" id="cookierun()"/>
+          -->
+          <form action='detail/' method="post">
+               {% csrf_token %}
+               <div class="form-group">
+                    <label for="origin">Origin Stop</label> <select name = "orig" class="form-control" id="origin">
+                    <option selected value="0">
+                         Where are you leaving from?
+                    </option>
+                    {% for i in stops %}
+                    <option value={{ i }}>
+                         {{ i }}
+                    </option>
+                    {% endfor %}
+               </select>
+               </div>
+               <div class="form-group">
+                    <label for ="destination">Destination Stop</label> <select name="dest" class="form-control" id="destination">
+                    <option selected value="0">
+                         Where are you going?
+                    </option>
+                    {% for i in stops %}
+                    <option value={{ i }}>
+                         {{ i }}
+                    </option>
+                    {% endfor %}
+               </select>
+               </div>
+               <div class="form-group">
+                    <label for ="RouteNumbers">Route Number</label> <select name="route" class="form-control" id="RouteNumbers">
+                    <option selected value="0">
+                         Select Route
+                    </option>
+                    <option selected value="1.0">
+                         1
+                    </option>
+               </select>
+               </div>
+               <div class="form-group">
+                    <label for="time">Time</label> <select name="time" class="form-control" id="time">
+                    <option selected value="0">
+                         What time are you planning for?
+                    </option>
+                    <option value="100">
+                         Right now!
+                    </option>
+                    {% for i in arr %}
+                    <option value={{ i }}>
+                         {{ i }}.00
+                    </option>
+                    {% endfor %}
+                    <option value="0">
+                         00.00
+                    </option>
+                    <option value="1">
+                         01.00
+                    </option>
+               </select>
+               </div>
+               <div class="form-group">
+                    <label for ="day">Day</label> <select name = "day" class="form-control" id="day">
+                    <option selected value="">
+                    </option>
+                    <option value="Monday1">
+                         Monday
+                    </option>
+                    <option value="Tuesday2">
+                         Tuesday
+                    </option>
+                    <option value="Wednesday3">
+                         Wednesday
+                    </option>
+                    <option value="Thursday4">
+                         Thursday
+                    </option>
+                    <option value="Friday5">
+                         Friday
+                    </option>
+                    <option value="Saturday6">
+                         Saturday
+                    </option>
+                    <option value="Sunday7">
+                         Sunday
+                    </option>
+               </select>
+               </div>
+               <input type="submit" value="OK">
+               <!--<button class="btn btn-danger" onclick="greeting()" type="button" >Submit</button>-->
 
-        </form>
-        <form action ="find/" method="post">
-            {% csrf_token %}
-            <button class="btn btn-info" name = "current" type="submit" value=loc()>Not sure? Find Your Closest Bus Stops!</button>
-            <p id="demo"></p>
-        </form>
-    </div>
+          </form>
+          <br>
+          <form action ="find/">
+               <button class="btn btn-info" type="submit">Not sure? Find Your Closest Bus Stops!</button>
+               <p id="demo"></p>
+          </form>
+     </div>
 </div>
 
 

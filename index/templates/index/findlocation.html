@@ -109,89 +109,11 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	                             'Error: The Geolocation service failed.' :
 	                             'Error: Your browser doesn\'t support geolocation.');
 	       infoWindow.open(map);
-	          
-	   
-	   
 	     }
-
-          
-	var APPID = "4cd167bc85dff937818ea9a5eb6fa550";
-	var temp;
-	var loc;
-	var icon;
-	var wind;
-	var direction;
-	var city_id = "2964574"
-	function updateByZip(city_id) {
-	   var url = "http://api.openweathermap.org/data/2.5/weather?q=DublinIE&APPID=4cd167bc85dff937818ea9a5eb6fa550";
-	   sendRequest(url);
-	}
-	//function to update weather variables
-	function sendRequest(url) {
-	   var xmlhttp = new XMLHttpRequest();
-	   xmlhttp.onreadystatechange = function() {
-	       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-	           var data = JSON.parse(xmlhttp.responseText);
-	           var weather = {};
-	           weather.icon = data.weather[0].icon;
-	           weather.wind = speedo(data.wind.speed);
-	           weather.temp = kelvin2c(data.main.temp);
-	           weather.direction = degdir(data.wind.deg);
-	           weather.loc = "Dublin City";
-	           update(weather);
-	       }
-	   };
-	   xmlhttp.open("GET", url, true);
-	   xmlhttp.send();
-	}
-	//function to convert raw temperature data
-	function kelvin2c(k) {
-	   return Math.round(k - 273.15);
-	}
-	//function to convert raw wind speed from mph to kph
-	function speedo(k) {
-	   return Math.round(k * 1.609);
-	}
-	//function to define the wind direction (degrees to common directional terms)
-	function degdir(degrees) {
-	   var range = 360 / 16;
-	   var low = 360 - range / 2 % 360;
-	   var high = low + range;
-	   var angles = ["North", "NNE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
-	   for (i in angles) {
-	       if (degrees >= low && degrees < high) return angles[i];
-	       low = (low + range) % 360;
-	       high = (high + range) % 360;
-	   }
-	}
-	//function to update weather variables
-	function update(weather) {
-	   wind.innerHTML = weather.wind;
-	   direction.innerHTML = weather.direction;
-	   loc.innerHTML = weather.loc;
-	   icon.src = "http://openweathermap.org/img/w/" + weather.icon + ".png";
-	   temp.innerHTML = weather.temp;
-	   
-	  
-	}
-	        
-	           var td = new Date().getDay();
+           var td = new Date().getDay();
 	           td = (td == 0) ? 7 : td;
 	           $('select[id=day]').find('option').eq( td ).prop('selected', true)
 	           .end().change();
-	           window.onload = function() {
-	       temp = document.getElementById("temperature");
-	       loc = document.getElementById("location");
-	       icon = document.getElementById("icon");
-	       wind = document.getElementById("wind");
-	       direction = document.getElementById("direction");
-	       updateByZip(2964574);
-	               
-	           }
-  
-
-
-
 });   
         
          
@@ -225,27 +147,28 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                   </div>
                 </div>
 			</div>
-				
-		
+
+
 			<div id="weather">
 				<div class="left">
 					<div class="location">
-						<span id="location">Unknown</span>
+						<span id="location">Dublin</span>
 					</div>
 					<div class="temperature">
-						<span id="temperature">0</span>&deg;
+						<span id="temperature">{{ temp }}</span>&deg;
 					</div>
 				</div>
 				<div class="right">
-					<div class="top"><img id="icon" src="imgs/codes/200.png" width="75px"></div>
+					<div class="top"><img id="icon" src="{{ url }}" width="75px"></div>
 					<div class="bottom">
 						<div class="wind">
-							<span id="wind">0</span> kph <span id="direction">N</span>
+							<span id="wind">{{ wspd }}</span> kph <span id="direction">N</span>
 						</div>
 					</div>
 				</div>
 			</div>
-            </div>
+		</div>
+
 
 		</div>
 		<div id="map">
