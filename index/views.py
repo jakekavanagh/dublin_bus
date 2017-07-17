@@ -110,7 +110,7 @@ def indexmobile(request):
         arr += [str(i)]
     context = {
         'arr': arr,
-        'stops': sorted(dicty['index']),
+        'stops': sorted(dicty['0']['index']+dicty['1']['index']),
     }
-    return render(request, 'index/indexmobile.html', context)
+    return render(request, "index/indexmobile.html", context)
 
