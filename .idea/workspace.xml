@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="56fc86af-76a6-4018-ac99-0d7a379f1b51" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index/calculations/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index/calculations/direct.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index/calculations/location.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index/calculations/neighbour.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index/calculations/summary.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index/calculations/weather.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index/compress.pkl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index/updated.pkl" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database_API/specific_weather.py" afterPath="$PROJECT_DIR$/Database_API/specific_weather.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index/apps.py" afterPath="$PROJECT_DIR$/index/apps.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index/templates/index/base.html" afterPath="$PROJECT_DIR$/index/templates/index/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index/templates/index/detail.html" afterPath="$PROJECT_DIR$/index/templates/index/detail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index/templates/index/findlocation.html" afterPath="$PROJECT_DIR$/index/templates/index/findlocation.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index/templates/index/index.html" afterPath="$PROJECT_DIR$/index/templates/index/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index/views.py" afterPath="$PROJECT_DIR$/index/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -62,11 +48,21 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="56" column="32" lean-forward="true" selection-start-line="56" selection-start-column="32" selection-end-line="56" selection-end-column="32" />
+            <state relative-caret-position="444">
+              <caret line="114" column="47" lean-forward="false" selection-start-line="114" selection-start-column="46" selection-end-line="114" selection-end-column="47" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index/templates/index/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="154">
+              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -117,13 +113,13 @@
         <option value="$PROJECT_DIR$/index/templates/index/findlocation.html" />
         <option value="$PROJECT_DIR$/index/templates/index/base.html" />
         <option value="$PROJECT_DIR$/index/location.py" />
-        <option value="$PROJECT_DIR$/index/templates/index/index.html" />
         <option value="$PROJECT_DIR$/index/apps.py" />
         <option value="$PROJECT_DIR$/index/calculations/direct.py" />
         <option value="$PROJECT_DIR$/index/calculations/weather.py" />
         <option value="$PROJECT_DIR$/Database_API/specific_weather.py" />
         <option value="$PROJECT_DIR$/index/templates/index/detail.html" />
         <option value="$PROJECT_DIR$/index/calculations/summary.py" />
+        <option value="$PROJECT_DIR$/index/templates/index/index.html" />
         <option value="$PROJECT_DIR$/index/views.py" />
       </list>
     </option>
@@ -820,14 +816,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index/templates/index/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5522">
-          <caret line="251" column="25" lean-forward="false" selection-start-line="251" selection-start-column="25" selection-end-line="251" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index/templates/index/find.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -892,10 +880,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index/templates/index/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="56" column="32" lean-forward="true" selection-start-line="56" selection-start-column="32" selection-end-line="56" selection-end-column="32" />
+        <state relative-caret-position="444">
+          <caret line="114" column="47" lean-forward="false" selection-start-line="114" selection-start-column="46" selection-end-line="114" selection-end-column="47" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
