@@ -14,10 +14,6 @@
 
 <script>
 
-
-
-
-
     $(document).ready(function(){
                         if($(window).width() <= 1200) {
                             window.location = "/indexmobile.html";
@@ -55,17 +51,12 @@
                         xmlhttp.onreadystatechange = function() {
                             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                                 karldata = JSON.parse(xmlhttp.responseText);
-//                console.log("Hey")
-//                console.log(karldata)
                                 addGPSmarker();
                             }
                         };
 
-
-//
                         xmlhttp.open("GET", url, true);
                         xmlhttp.send();
-
 
                         map = new google.maps.Map(document.getElementById('map'), {
                             center: {lat: 53.3498, lng: -6.2603},
@@ -114,12 +105,9 @@
                                 'Error: The Geolocation service failed.' :
                                 'Error: Your browser doesn\'t support geolocation.');
                             infoWindow.open(map);
-
-
-
                         }
 
-                        var Center = new google.maps.LatLng(18.210885, -67.140884);
+                        var Center = new google.maps.LatLng(53.3498, -6.2603);
                         var directionsDisplay;
                         var directionsService = new google.maps.DirectionsService();
                         var map;
@@ -135,12 +123,7 @@
                             map = new google.maps.Map(document.getElementById("map"), properties);
                             directionsDisplay.setMap(map);
 
-                            var marker = new google.maps.Marker({
-                                position: Center,
-                                animation: google.maps.Animation.BOUNCE,
-                            });
 
-                            marker.setMap(map);
                             Route();
                         }
 
@@ -165,175 +148,64 @@
                         google.maps.event.addDomListener(window, 'load', initialize);
 
 
-
-
-
-                        var APPID = "4cd167bc85dff937818ea9a5eb6fa550";
-                        var temp;
-                        var loc;
-                        var icon;
-                        var wind;
-                        var direction;
-                        var city_id = "2964574"
-                        function updateByZip(city_id) {
-                            var url = "http://api.openweathermap.org/data/2.5/weather?q=DublinIE&APPID=4cd167bc85dff937818ea9a5eb6fa550";
-                            sendRequest(url);
-                        }
-                        //function to update weather variables
-                        function sendRequest(url) {
-                            var xmlhttp = new XMLHttpRequest();
-                            xmlhttp.onreadystatechange = function() {
-                                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                                    var data = JSON.parse(xmlhttp.responseText);
-                                    var weather = {};
-                                    weather.icon = {{ url }};
-                                    weather.wind = {{ wspd }};
-                                    weather.temp = {{ temp }};
-                                    weather.direction = degdir(data.wind.deg);
-                                    weather.loc = "Dublin City";
-                                   // update(weather);
-                                }
-                            };
-                            xmlhttp.open("GET", url, true);
-                            xmlhttp.send();
-                        }
-                        //function to convert raw temperature data
-                        function kelvin2c(k) {
-                            return Math.round(k - 273.15);
-                        }
-                        //function to convert raw wind speed from mph to kph
-                        function speedo(k) {
-                            return Math.round(k * 1.609);
-                        }
-                        //function to define the wind direction (degrees to common directional terms)
-                        function degdir(degrees) {
-                            var range = 360 / 16;
-                            var low = 360 - range / 2 % 360;
-                            var high = low + range;
-                            var angles = ["North", "NNE", "ENE", "East", "ESE", "SE", "SSE", "South", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
-                            for (i in angles) {
-                                if (degrees >= low && degrees < high) return angles[i];
-                                low = (low + range) % 360;
-                                high = (high + range) % 360;
-                            }
-                        }
-                        //function to update weather variables
-                        function update(weather) {
-                            wind.innerHTML = weather.wind;
-                            direction.innerHTML = weather.direction;
-                            loc.innerHTML = weather.loc;
-                            icon.src = "http://openweathermap.org/img/w/" + weather.icon + ".png";
-                            temp.innerHTML = weather.temp;
-
-
-                        }
-
                         var td = new Date().getDay();
                         td = (td == 0) ? 7 : td;
                         $('select[id=day]').find('option').eq( td ).prop('selected', true)
                             .end().change();
-                        window.onload = function() {
-                            temp = {{ temp }};
-                            loc = document.getElementById("location");
-                            icon = document.getElementById("icon");
-                            wind = document.getElementById("wind");
-                            direction = document.getElementById("direction");
-                            //updateByZip(2964574);
-
-                        }
-
 
 
 
                     });
 
+				</script>
 
-					/*
-					 var mapOptions = {
-					 center: new google.maps.LatLng(44.5403, -78.5463),
-					 zoom: 5,
-					 mapTypeId: google.maps.MapTypeId.ROADMAP
-					 };
-
-					 var infoWindow = new google.maps.InfoWindow();
-					 var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-
-					 $.getJSON('karl.json', function(data) {
-
-
-
-					 $.each(data, function(i, value) {
-
-					 var myLatlng = new google.maps.LatLng(value.Lat, value.Lon);
-
-					 var marker = new google.maps.Marker({
-					 position: myLatlng,
-					 map: map,
-					 title: "text "+value.lon
-					 });
-
-					 });
-					 });
-
-
-					 }
-					 */
-
-
-				</script> <!--
-    <video playsinline autoplay muted loop poster="polina.jpg" id="bgvid">
-    <source src="Dublin%20Bus.mp4" type="video/mp4">
-</video>
-    -->
 <div id="resultspage">
     <div class="sidebar">
 
         <div id="stopselected">
             <div id="Origin">
-                <h3>Origin Stop</h3>
+                <h3 id="headingcolours">Origin Stop</h3>
                 <div id="selected_origin">
                     <h4>{{ origin }}</h4>
                 </div>
             </div>
             <div id="Destination">
-                <h3>Destination Stop</h3>
+                <h3 id="headingcolours">Destination Stop</h3>
                 <div id="selected_destination">
                     <h4>{{ destination }}</h4>
                 </div>
             </div>
         </div>
         <div id="busestimates">
-            <h3>Your {{ route }} at Stop {{ origin }}:</h3>
+            <h3 id="headingcolours">Bus {{ route }} at Stop {{ origin }}:</h3>
             <div id="estimatezone">
-                <h4>{{day }} {{ time }}</h4>
-                <h4>Bus arriving in {{ arrival }} minutes </h4>
-                <h4>Bus will take {{ pred }} minutes to get to stop {{ destination }}</h4>
-                <!--<h4>Bus arriving: 34mins</h4>-->
-                <!--<h4>Bus arriving: 49mins</h4>-->
+                <h5>It's {{day }} at {{ time }}:00</h5>
+                <h4>Expect your bus in <h3 id="arrivalcolour"> {{ arrival }}</h3> minutes </h4>
+                <h4>Your journey to stop {{ destination }} will take <h3 id="arrivalcolour"> {{ pred }} </h3> minutes</h4>
             </div>
         </div>
         <div id="weather">
             <div class="left">
-                <div class="location">
-                    <span id="location">Unknown</span>
+                <div class="dublin">
+                    <h3 id="headingcolours">Dublin</h3>
                 </div>
                 <div class="temperature">
-                    <span id="temperature">0</span>&deg;
+                    <h4>{{ temp }} &deg;C</h4>
                 </div>
             </div>
             <div class="right">
-                <div class="top"><img id="icon" src="imgs/codes/200.png" width="75px"></div>
+                <div class="top"><img id="icon" src="{{ url }}" width="75px"></div>
                 <div class="bottom">
                     <div class="wind">
-                        <span id="wind">0</span> kph <span id="direction">N</span>
+                        <h4>Wind speed is {{ wspd }} kph</h4>
                     </div>
                 </div>
             </div>
         </div>
         <div id="Alerts">
-            <h3>Your Alerts</h3><br>
+            <h3 id="headingcolours">Your Alerts</h3><br>
 
-            <h4>(No Alerts to Show)</h4>
+            <h5>(No Alerts to Show!)</h5>
         </div>
     </div>
     <div id="map">

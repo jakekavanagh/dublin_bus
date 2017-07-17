@@ -5,11 +5,11 @@ import json
 
 # class Call:
 def x():
-    yz = joblib.load('./index/compress.pkl')
+    yz = joblib.load('./index/bus 1 complete.pkl')
     return yz
 
 def dicty():
-    with open('./index/static/index/bus00010001.json') as data_file:
+    with open('./index/static/index/Bus_1.json') as data_file:
         dicty = json.load(data_file)
     return dicty
 

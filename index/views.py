@@ -1,21 +1,10 @@
-from django.shortcuts import render, get_object_or_404
-from .apps import IndexConfig
 import json
 import pandas as pd
-import requests
-import datetime
-
-
-def weather(day, time):
-    data = requests.get("http://api.wunderground.com/api/37d281e3f1931e1e/hourly10day/q/Ireland/Dublin.json").json()
-    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday',
-            'Wednesday', 'Friday', 'Saturday']
-
-    change = time - int((datetime.datetime.now()).strftime("%H"))
-    diff = (days[days.index((datetime.datetime.now()).strftime("%A")):].index(day)*24-1)+ change
-
-    return data['hourly_forecast'][diff]['temp']['metric'], data['hourly_forecast'][diff]['wspd']['metric'], \
-        data['hourly_forecast'][diff]['icon_url']
+from django.shortcuts import render
+from .apps import IndexConfig
+from .calculations.summary import summary_weather, raining
+from .calculations.weather import weather
+from .calculations.direct import direct
 
 
 def index(request):
@@ -25,45 +14,63 @@ def index(request):
         arr += [str(i)]
     context = {
         'arr': arr,
-        'stops': sorted(dicty['index']),
+        'stops': sorted(dicty['0']['index']+dicty['1']['index']),
                }
     return render(request, 'index/index.html', context)
 
 
 def detail(request):
+    """import the json for the route as a dict"""
     dicty = IndexConfig.dicty
+
+    """parse the post data to get the variables entered by the user"""
     origin, destination, route, time, day = int(float(request.POST["orig"])), int(float(request.POST['dest'])),\
         int(float(request.POST['route'])),int(float(request.POST['time'])), request.POST['day']
+
+    """now we establish the direction the user is going in"""
+    direction = direct(origin, destination, dicty)
+
+    """split the day into the word and number"""
     day_word = day[:-1]
     day_num = int(day[-1])
-    start = dicty['index'].index(origin)
-    stop = dicty['index'].index(destination)
-    stops = dicty['index'][start:stop]
-    arrival = dicty['index'][:start]
-    columns = ['Avg', 'Temp', 'Wind_Speed', 'StopID', 'AtStop', 'Summary', 'Rain', 'Day', 'Hour']
-    temp, wspd, url = weather(day_word, time)
+
+    """get the range of stops between the origin and destination stop"""
+    start = dicty[str(direction)]['index'].index(origin)
+    stop = dicty[str(direction)]['index'].index(destination)
+    stops = dicty[str(direction)]['index'][start:stop]
+    arrival = dicty[str(direction)]['index'][:start]
+
+    """calling this function for the day entered by the user will return all the appropriate weather data"""
+    temp, wspd, url, pop, condition = weather(day_word, time)
+
+    """now we convert the summary data from string to a represented number"""
+    summary = summary_weather(condition)
+
+    """and we bin the rain from a percentage chance to a 0 or 1"""
+    rain = raining(pop)
+
+    """we create a dataframe for all the stops between the origin and destination, and a seperate dataframe for
+    all the stops between the start of the route and the origin stop to train the model on"""
+    columns = ['Avg', 'Temp', 'Wind_Speed', 'StopID', 'AtStop', 'Summary', 'Day', 'Hour', 'Rain', 'Direction']
     df = pd.DataFrame(columns=columns)
     for i in range(len(stops)):
-        df.loc[i] = [dicty[day_word][str(time)][str(stops[i])], temp, wspd, stops[i], 0, 13, 1, day_num, time]
-
+        df.loc[i] = [dicty[str(direction)][str(day_num)][str(time)][str(stops[i])], temp, wspd, stops[i], 0, summary, day_num, time, rain, direction]
     df2 = pd.DataFrame(columns=columns)
     for i in range(len(arrival)):
-        df2.loc[i] = [dicty[day_word][str(time)][str(stops[i])], temp, wspd, stops[i], 0, 13, 1, day_num, time]
-
+        df2.loc[i] = [dicty[str(direction)][str(day_num)][str(time)][str(stops[i])], temp, wspd, stops[i], 0, summary, day_num, time, rain, direction]
     x = IndexConfig.y
+    """val1 is the prediction of origin to destination and val2 is the prediction from terminal to origin"""
     val = x.predict(df)
     total = sum(val)/60
-
     val2 = x.predict(df2)
     arrival_total = sum(val2)/60
 
+    """we now can get the latitude and longitude from a seperate json file for the stops entered to mark on the map"""
     with open('./index/static/index/karl.json') as data_file:
         karl_dict = json.load(data_file)
-    origin_lat = karl_dict[str(origin)]["Lat"]
-    origin_lon = karl_dict[str(origin)]["Lon"]
-    destination_lat = karl_dict[str(destination)]["Lat"]
-    destination_lon = karl_dict[str(destination)]["Lon"]
-    print(url)
+    origin_lat, origin_lon = karl_dict[str(origin)]["Lat"], karl_dict[str(origin)]["Lon"]
+    destination_lat, destination_lon = karl_dict[str(destination)]["Lat"], karl_dict[str(destination)]["Lon"]
+
     context = {
         'origin': origin,
         'destination': destination,
@@ -82,7 +89,16 @@ def detail(request):
     }
     return render(request, "index/detail.html", context)
 
+
 def find(request):
-    return render(request, "index/find.html")
+    with open('./index/static/index/karl.json') as data_file:
+        karl_dict = json.load(data_file)
+    current = request.POST["current"]
+    print(current)
+    # find_closest_neighbours(current, karl_dict)
+    context = {
+        'json': karl_dict,
+    }
+    return render(request, "index/findlocation.html", context)
 
 

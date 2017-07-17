@@ -1,17 +1,16 @@
 {% extends 'index/base.html' %}
 
-{% load staticfiles %}
-
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/findlocation.css' %}">
-{% endblock %}
 
 {% block title %}
 <title>DJANGO Bus</title>
 {% endblock %}
 
+{% block styles %}
+{% endblock %}
+
+
+
 {% block main %}
-<body>
 	<script>
         
         $(document).ready(function(){
@@ -44,7 +43,7 @@ window.location = "/indexmobile.html";
 $(function() {
     
               var xmlhttp = new XMLHttpRequest();
-            var url = 'static/index/karl.json';
+            var url = {{ json }};
      var karldata;
         var map;
     
@@ -254,5 +253,5 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	</div>
 	
 	</div>
-	{% endblock %}
+{% endblock %}
 
