@@ -12,6 +12,9 @@ urlpatterns = [
 
     url(r'^find/$', views.find, name='find'),
 
+    url(r'^indexmobile/$', views.indexmobile, name='indexmobile'),
+
+
     # redirect to results
     # url(r'^(?P<title>.*)/$', views.detail, name='detail'),
 
