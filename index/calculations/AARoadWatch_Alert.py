@@ -2,7 +2,7 @@ import requests
 from requests_oauthlib import OAuth1
 import re
 from datetime import datetime, timedelta
-
+import json
 
 def connection_twitter():
     twitter_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?&screen_name=aaroadwatch&count=50'
@@ -21,7 +21,7 @@ def connection_twitter():
 
 def twitter_parser(results):
     returned = []
-    time_range = datetime.now() - timedelta(minutes=100)
+    time_range = datetime.now() - timedelta(minutes=120)
     print("Time check", time_range)
     for i in results:
         tweety = (re.sub(r"http\S+", "", i['text']).replace("/", " ").replace("'", "").lower().replace(".", "")).split(" ")
@@ -35,7 +35,7 @@ def twitter_parser(results):
             query = ' '.join(locator(tweety))
             # print(query)
             if query is not False:
-                returned.append([i['text'], timestamp, google_locator(query)])
+                returned.append([i['text'], date, google_locator(query)])
             else:
                 print("Couldnt find", query)
     return returned
@@ -86,3 +86,5 @@ def google_locator(add):
 
 
 # print(connection_twitter())
+# json_data_string = json.dumps(connection_twitter())
+# print(json_data_string)
