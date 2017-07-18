@@ -5,6 +5,7 @@ from .apps import IndexConfig
 from .calculations.summary import summary_weather, raining
 from .calculations.weather import weather
 from .calculations.direct import direct
+from .calculations.location import nearest
 
 
 def index(request):
@@ -94,13 +95,15 @@ def find(request):
     with open('./index/static/index/karl.json') as data_file:
         karl_dict = json.load(data_file)
     current = request.POST["current"]
-    print(current)
-    # find_closest_neighbours(current, karl_dict)
+    lat, lng = current.split(',')
+    locations = nearest(lat, lng, karl_dict)
+    print(locations)
     context = {
-        'json': karl_dict,
+        'nearest_stop': locations[0],
+        'nearest_lat': locations[1],
+        'nearest_long': locations[2],
     }
     return render(request, "index/findlocation.html", context)
-    return render(request, "index/findlocation.html")
 
 
 def indexmobile(request):

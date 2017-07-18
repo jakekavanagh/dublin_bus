@@ -31,7 +31,10 @@
      }
      */
     $(function() {
+          navigator.geolocation.getCurrentPosition(function(position) {
+                document.getElementById('setvalue').value = [position.coords.latitude, position.coords.longitude];
 
+                                });
         var td = new Date().getDay();
         td = (td == 0) ? 7 : td;
         $('select[id=day]').find('option').eq(td).prop('selected', true).end().change();
@@ -58,6 +61,7 @@
             $('#RouteNumbers').append($('<option/>').attr("value", option.LineID).text(option.Route_number));
         });
     });
+
 
      </script>
 
@@ -162,8 +166,9 @@
 
           </form>
           <br>
-          <form action ="find/">
-               <button class="btn btn-info" type="submit">Not sure? Find Your Closest Bus Stops!</button>
+          <form action ="find/"  method ="post">
+               {% csrf_token %}
+               <button class="btn btn-info" id = "setvalue" name = "current" value = "" type="submit">Not sure? Find Your Closest Bus Stops!</button>
                <p id="demo"></p>
           </form>
      </div>
