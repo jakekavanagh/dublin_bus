@@ -14,7 +14,7 @@ from .calculations.AARoadWatch_Alert import connection_twitter
 def index(request):
     dicty = IndexConfig.dicty
     arr = []
-    for i in range(0, 24):
+    for i in range(6, 23):
         arr += [str(i)]
     context = {
         'arr': arr,
