@@ -6,7 +6,7 @@ from .calculations.summary import summary_weather, raining
 from .calculations.weather import weather
 from .calculations.direct import direct
 from .calculations.location import nearest
-from .calculations.AARoadWatch_Alert import connection_twitter
+
 
 
 
