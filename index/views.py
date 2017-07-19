@@ -6,6 +6,7 @@ from .calculations.summary import summary_weather, raining
 from .calculations.weather import weather
 from .calculations.direct import direct
 from .calculations.location import nearest
+from .calculations.AARoadWatch_Alert import connection_twitter
 
 
 def index(request):
@@ -16,7 +17,10 @@ def index(request):
     context = {
         'arr': arr,
         'stops': sorted(dicty['0']['index']+dicty['1']['index']),
-               }
+        'stop_0': dicty['0']['index'],
+        'stop_1': dicty['1']['index'],
+
+    }
     return render(request, 'index/index.html', context)
 
 
@@ -56,21 +60,26 @@ def detail(request):
     df = pd.DataFrame(columns=columns)
     for i in range(len(stops)):
         df.loc[i] = [dicty[str(direction)][str(day_num)][str(time)][str(stops[i])], temp, wspd, stops[i], 0, summary, day_num, time, rain, direction]
-    df2 = pd.DataFrame(columns=columns)
-    for i in range(len(arrival)):
-        df2.loc[i] = [dicty[str(direction)][str(day_num)][str(time)][str(stops[i])], temp, wspd, stops[i], 0, summary, day_num, time, rain, direction]
     x = IndexConfig.y
-    """val1 is the prediction of origin to destination and val2 is the prediction from terminal to origin"""
     val = x.predict(df)
     total = sum(val)/60
-    val2 = x.predict(df2)
-    arrival_total = sum(val2)/60
+
+    df2 = pd.DataFrame(columns=columns)
+    if origin == dicty[str(direction)]['index'][0]:
+        arrival_total = 0
+    else:
+        for i in range(len(arrival)):
+            df2.loc[i] = [dicty[str(direction)][str(day_num)][str(time)][str(stops[i])], temp, wspd, stops[i], 0, summary, day_num, time, rain, direction]
+        val2 = x.predict(df2)
+        arrival_total = sum(val2)/60
 
     """we now can get the latitude and longitude from a seperate json file for the stops entered to mark on the map"""
     with open('./index/static/index/karl.json') as data_file:
         karl_dict = json.load(data_file)
     origin_lat, origin_lon = karl_dict[str(origin)]["Lat"], karl_dict[str(origin)]["Lon"]
     destination_lat, destination_lon = karl_dict[str(destination)]["Lat"], karl_dict[str(destination)]["Lon"]
+    twitter_results = connection_twitter()
+    json_data_string = json.dumps(twitter_results)
 
     context = {
         'origin': origin,
@@ -87,6 +96,7 @@ def detail(request):
         'temp': temp,
         'wspd': wspd,
         'url': url,
+        'tweet': json_data_string,
     }
     return render(request, "index/detail.html", context)
 
@@ -99,9 +109,9 @@ def find(request):
     locations = nearest(lat, lng, karl_dict)
     print(locations)
     context = {
-        'nearest_stop': locations[0],
-        'nearest_lat': locations[1],
-        'nearest_long': locations[2],
+        'nearest_stop': locations[0][0],
+        'nearest_lat': locations[0][1],
+        'nearest_long': locations[0][2],
     }
     return render(request, "index/findlocation.html", context)
 
