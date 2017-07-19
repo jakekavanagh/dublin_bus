@@ -109,6 +109,7 @@ def find(request):
     with open('./index/static/index/karl.json') as data_file:
         karl_dict = json.load(data_file)
     current = request.POST["current"]
+    print(current)
     lat, lng = current.split(',')
     locations = nearest(lat, lng, karl_dict)
     print(locations)
