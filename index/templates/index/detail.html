@@ -15,141 +15,186 @@
 <script>
 
     $(document).ready(function(){
-                        if($(window).width() <= 1200) {
-                            window.location = "/indexmobile.html";
-                        }
+            if($(window).width() <= 1200) {
+                window.location = "/indexmobile.html";
+            }
+        });
+
+        $(window).resize(function(){location.reload();});
+
+        /*
+         var user_name;
+         var expires = new Date();
+         var length = document.cookie.length -1;
+         var message = document.cookie.substring(5, length)
+         document.write("<h5><center> Welcome Back, " + message + "!</center></h5>")
+
+
+         function cookierun(){
+
+         user_name = document.getElementById("name").value;
+         expires.setFullYear(expires.getFullYear()+1);
+         document.cookie = escape("name") + "=" + escape(user_name) + "; expires = " + expires.toUTCString();
+         window.alert(document.cookie);
+
+         }
+         */
+
+
+        $(function() {
+            var xmlhttp = new XMLHttpRequest();
+            var url = 'karl.json';
+            var karldata;
+            var map;
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    karldata = JSON.parse(xmlhttp.responseText);
+                    addGPSmarker();
+                }
+            };
+
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 53.3498, lng: -6.2603},
+                zoom: 8
+            });
+
+
+
+            function addGPSmarker() {
+                for(var i in karldata){
+
+                    var marker = new google.maps.Marker({
+                        position: {lat: karldata[i]['Lat'], lng: karldata[i]['Lon']},
+                        map: map,
+                        label: i
                     });
+                }
+            };
 
-                    $(window).resize(function(){location.reload();});
+            infoWindow = new google.maps.InfoWindow;
+/*
+           function geolocation {
+               // Try HTML5 geolocation.
+               if (navigator.geolocation) {
+                   navigator.geolocation.getCurrentPosition(function (position) {
+                       var pos = {
+                           lat: position.coords.latitude,
+                           lng: position.coords.longitude
+                       };
 
-					/*
-					 var user_name;
-					 var expires = new Date();
-					 var length = document.cookie.length -1;
-					 var message = document.cookie.substring(5, length)
-					 document.write("<h5><center> Welcome Back, " + message + "!</center></h5>")
-
-
-					 function cookierun(){
-
-					 user_name = document.getElementById("name").value;
-					 expires.setFullYear(expires.getFullYear()+1);
-					 document.cookie = escape("name") + "=" + escape(user_name) + "; expires = " + expires.toUTCString();
-					 window.alert(document.cookie);
-
-					 }
-					 */
-
-
-                    $(function() {
-
-                        var xmlhttp = new XMLHttpRequest();
-                        var url = 'karl.json';
-                        var karldata;
-                        var map;
-
-                        xmlhttp.onreadystatechange = function() {
-                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                                karldata = JSON.parse(xmlhttp.responseText);
-                                addGPSmarker();
-                            }
+                       infoWindow.setPosition(pos);
+                       infoWindow.setContent('You are here');
+                       infoWindow.open(map);
+                       map.setCenter(pos);
+                   }, function () {
+                       handleLocationError(true, infoWindow, map.getCenter());
+                   });
+               } else {
+                   // Browser doesn't support Geolocation
+                   handleLocationError(false, infoWindow, map.getCenter());
+               }
+           }
+ */
+            function showCurrentLocation() {
+                var location_image = "../static/images/location_icon.png";
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
                         };
-
-                        xmlhttp.open("GET", url, true);
-                        xmlhttp.send();
-
-                        map = new google.maps.Map(document.getElementById('map'), {
-                            center: {lat: 53.3498, lng: -6.2603},
-                            zoom: 8
+                        var currentMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(pos),
+                            animation: google.maps.Animation.DROP,
+                            icon: location_image
                         });
-                        function addGPSmarker() {
-                            for(var i in karldata){
-
-                                var marker = new google.maps.Marker({
-                                    position: {lat: karldata[i]['Lat'], lng: karldata[i]['Lon']},
-                                    map: map,
-                                    label: i
-                                });
-                            }
-                        };
-
-                        infoWindow = new google.maps.InfoWindow;
-
-                       /*
-                        // Try HTML5 geolocation.
-                        if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(function(position) {
-                                var pos = {
-                                    lat: position.coords.latitude,
-                                    lng: position.coords.longitude
-                                };
-
-                                infoWindow.setPosition(pos);
-                                infoWindow.setContent('You are here');
-                                infoWindow.open(map);
-                                map.setCenter(pos);
-                            }, function() {
-                                handleLocationError(true, infoWindow, map.getCenter());
-                            });
-                        } else {
-                            // Browser doesn't support Geolocation
-                            handleLocationError(false, infoWindow, map.getCenter());
-                        }
-        */
-
-                        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-                            infoWindow.setPosition(pos);
-                            infoWindow.setContent(browserHasGeolocation ?
-                                'Error: The Geolocation service failed.' :
-                                'Error: Your browser doesn\'t support geolocation.');
-                            infoWindow.open(map);
-                        }
-
-                        var Center = new google.maps.LatLng(53.3498, -6.2603);
-                        var directionsDisplay;
-                        var directionsService = new google.maps.DirectionsService();
-                        var map;
-
-                        function initialize() {
-                            directionsDisplay = new google.maps.DirectionsRenderer();
-                            var properties = {
-                                center: Center,
-                                zoom: 20,
-                                mapTypeId: google.maps.MapTypeId.ROADMAP
-                            };
-
-                            map = new google.maps.Map(document.getElementById("map"), properties);
-                            directionsDisplay.setMap(map);
-
-
-                            Route();
-                        }
-
-                        function Route() {
-
-                            var start = new google.maps.LatLng("{{ origin_lat }}", "{{ origin_lon }}");
-                            var end = new google.maps.LatLng("{{destination_lat }}", "{{ destination_lon }}");
-                            var request = {
-                                origin: start,
-                                destination: end,
-                                travelMode: google.maps.TravelMode.TRANSIT
-                            };
-                            directionsService.route(request, function(result, status) {
-                                if (status == google.maps.DirectionsStatus.OK) {
-                                    directionsDisplay.setDirections(result);
-                                } else {
-                                    alert("couldn't get directions:" + status);
-                                }
-                            });
-                        }
-
-                        google.maps.event.addDomListener(window, 'load', initialize);
-                        var td = new Date().getDay();
-                        td = (td == 0) ? 7 : td;
-                        $('select[id=day]').find('option').eq( td ).prop('selected', true)
-                            .end().change();
-
+                        map.setCenter(pos);
+                        currentMarker.setMap(map);
                     });
+                }
+              };
+
+
+            function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                infoWindow.setPosition(pos);
+                infoWindow.setContent(browserHasGeolocation ?
+                    'Error: The Geolocation service failed.' :
+                    'Error: Your browser doesn\'t support geolocation.');
+                infoWindow.open(map);
+            }
+
+            var Center = new google.maps.LatLng(53.3498, -6.2603);
+            var directionsDisplay;
+            var directionsService = new google.maps.DirectionsService();
+            var map;
+
+            function initialize() {
+                directionsDisplay = new google.maps.DirectionsRenderer();
+                var properties = {
+                    center: Center,
+                    zoom: 20,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+                map = new google.maps.Map(document.getElementById("map"), properties);
+                directionsDisplay.setMap(map);
+
+                addTwitterAlert()
+                Route();
+                showCurrentLocation();
+            }
+
+            function Route() {
+
+                var start = new google.maps.LatLng("{{ origin_lat }}", "{{ origin_lon }}");
+                var end = new google.maps.LatLng("{{destination_lat }}", "{{ destination_lon }}");
+                var request = {
+                    origin: start,
+                    destination: end,
+                    travelMode: google.maps.TravelMode.TRANSIT
+                };
+                directionsService.route(request, function(result, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(result);
+                    } else {
+                        alert("couldn't get directions:" + status);
+                    }
+                });
+            }
+
+            function addTwitterAlert(){
+                var tweet = "{{ tweet| safe | escapejs }}";
+                var tweet = JSON.parse(tweet);
+                var delay_image = "../static/images/delay_icon.png";
+                var infowindow = new google.maps.InfoWindow();
+                for(var i in tweet){
+                    var marker = new google.maps.Marker({
+                        position: {lat: tweet[i][2][0], lng: tweet[i][2][1]},
+                        map: map,
+//                        label: tweet[i][0],
+                        icon: delay_image
+                    });
+
+                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                        return function () {
+                        infowindow.setContent(tweet[i][0]);
+                        infowindow.open(map, marker);
+                        }
+                    })(marker, i));
+                }
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+            var td = new Date().getDay();
+            td = (td == 0) ? 7 : td;
+            $('select[id=day]').find('option').eq( td ).prop('selected', true)
+                .end().change();
+
+        });
 
 				</script>
 
@@ -198,7 +243,6 @@
         </div>
         <div id="Alerts">
             <h3 id="headingcolours">Your Alerts</h3><br>
-
             <h5>(No Alerts to Show!)</h5>
         </div>
     </div>

@@ -9,6 +9,8 @@ from .calculations.location import nearest
 from .calculations.AARoadWatch_Alert import connection_twitter
 
 
+
+
 def index(request):
     dicty = IndexConfig.dicty
     arr = []
@@ -80,6 +82,8 @@ def detail(request):
     destination_lat, destination_lon = karl_dict[str(destination)]["Lat"], karl_dict[str(destination)]["Lon"]
     twitter_results = connection_twitter()
     json_data_string = json.dumps(twitter_results)
+
+
 
     context = {
         'origin': origin,
