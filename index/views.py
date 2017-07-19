@@ -74,8 +74,7 @@ def detail(request):
     origin_lat, origin_lon = karl_dict[str(origin)]["Lat"], karl_dict[str(origin)]["Lon"]
     destination_lat, destination_lon = karl_dict[str(destination)]["Lat"], karl_dict[str(destination)]["Lon"]
 
-    twitter_results = connection_twitter()
-    json_data_string = json.dumps(twitter_results)
+
 
     context = {
         'origin': origin,
@@ -92,7 +91,6 @@ def detail(request):
         'temp': temp,
         'wspd': wspd,
         'url': url,
-        'tweet': json_data_string,
     }
     return render(request, "index/detail.html", context)
 
