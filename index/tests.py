@@ -3,6 +3,8 @@ from django.test.utils import setup_test_environment
 from django.test import Client
 from django.urls import reverse
 import json
+import math
+
 
 
 class appsTest(TestCase):
@@ -138,3 +140,68 @@ class moblieTest(TestCase):
         response=self.client.get(reverse('index:indexmobile'))
         self.assertEqual(response.status_code,200)
 
+
+class distanceTest(TestCase):
+
+ def get_distance(self,lat, long, lat_2, long_2):
+   r = 6378137  # Earth’s mean radius in meter
+   at=lat_2 - lat
+   on=long_2 - long
+   d_lat = at* math.pi / 180
+   d_long = on* math.pi / 180
+   a = math.sin(d_lat / 2) * math.sin(d_lat / 2) + math.cos(lat* math.pi / 180) * math.cos(lat_2* math.pi / 180) * math.sin(d_long / 2) \
+                                                      * math.sin(d_long / 2)
+   c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+   d = r * c
+   return d  # returns the distance in meter
+
+ def test_location_distance_(self):
+    distance=self.get_distance(53.347012, -6.284541, 53.346756, -6.283194)
+    self.assertEqual(distance,93.94074067021972)
+
+class radTest(TestCase):
+ def rad(self,x):
+  return x * math.pi / 180
+ def test_rad(self):
+  round=self.rad(500)
+  self.assertEqual(round,8.726646259971647)
+
+
+class summaryTest(TestCase):
+ def summary_weather(self,condition):
+  """convert the summary data code to its corresponding numeric representation"""
+  if condition == "Clear":
+   return 1
+  elif condition == "Fog":
+   return 2
+  elif condition == "Light Drizzle":
+   return 3
+  elif condition == "Chance of Rain":
+   return 4
+  elif condition == "Light Rain Showers":
+   return 5
+  elif condition == "Light Small Hail Showers":
+   return 6
+  elif condition == "Light Snow Showers":
+   return 7
+  elif condition == "Mostly Cloudy":
+   return 8
+  elif condition == "Overcast":
+   return 9
+  elif condition == "Partly Cloudy":
+   return 10
+  elif condition == "Patches of Fog":
+   return 11
+  elif condition == "Rain":
+   return 12
+  elif condition == "Scattered Clouds":
+   return 13
+  elif condition == "Shallow Fog":
+   return 14
+  elif condition == "Thunderstorm":
+   return 15
+  else:
+   return -1
+
+ def test_summary(self):
+  self.assertEqual(self.summary_weather("Rain"),12)
