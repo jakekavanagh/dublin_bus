@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 
 
 def connection_twitter():
-    """Establish connection to the Twitter API querying AA_roadwatch user timeline for the first 50 tweets"""
-    twitter_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?&screen_name=aaroadwatch&count=50'
+    """Establish connection to the Twitter API querying AA_roadwatch user timeline for the first __ tweets"""
+    twitter_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?&screen_name=aaroadwatch&count=100'
 
     # Credentials for Twitter
     consumer_key = "IN2I9yFJ1tehBl9321VJYWO8d"
@@ -23,23 +23,27 @@ def connection_twitter():
 
 def twitter_parser(results):
     """Iterates through the returned results. Find the the tweets that's created within 2 hours.
-    calls the locator function for a set of coordinates. Returns a array with the tweet, a date and the coreesponding
+    calls the locator function for a set of coordinates. Returns a array with the tweet, a date and the corresponding
     coordinates"""
     returned = []
     # Calculate the time of 2 hours before the current time
-    time_range = datetime.now() - timedelta(minutes=120)
-    print("Time check", time_range)
+    time_range = datetime.now() - timedelta(minutes=180)
+    # print("Time check", time_range)
     for i in results:
         # Manipulating the tweet into individual words while striping non useful information
         tweety = (re.sub(r"http\S+", "", i['text']).replace("/", " ").replace("'", "").lower().replace(".", "")).split(" ")
         date = str(i['created_at'].split("+")[0].rstrip(" ") + " " + i['created_at'].split("+")[1].lstrip("0").lstrip(" "))
         timestamp = datetime.strptime(date, "%a %b %d %H:%M:%S %Y")
-        if timestamp > time_range and 'DUBLIN' in i['text'] and 'cleared' not in i['text']:
+        # if timestamp > time_range and 'DUBLIN' in i['text'] and 'cleared' not in i['text']:
+        if timestamp > time_range and 'DUBLIN' in i['text']:
+            # print("_________________________________________")
+            # print(tweety)
             query = ' '.join(locator(tweety))
+            # print(query)
             if query is not False:
                 returned.append([i['text'], date, google_locator(query)])
             else:
-                print("Couldnt find", query)
+                print("Couldn't find", query)
     return returned
 
 
@@ -57,7 +61,11 @@ def locator(tweet):
     regex_search = list(set([l for l in tweet for m in (re.compile('([mjn]\d+)').search(l),) if m]))
     if "m50" in regex_search and len(regex_search) != 1:
         regex_search.remove('m50')
-        add.append(str("m50" + " " + regex_search[0]) + " " + tweet[tweet.index(regex_search[0]) + 1])
+        x = tweet.index(regex_search[0])+1
+        # print("regex_search[0]) + 1", x)
+        # print("len(tweet) - 1", len(tweet) - 1)
+        if tweet.index(regex_search[0]) != len(tweet) - 1:
+            add.append(str("m50" + " " + regex_search[0]) + " " + tweet[tweet.index(regex_search[0]) + 1])
         return add
     else:
         for match in keywords:
@@ -90,3 +98,5 @@ def google_locator(add):
         return location['lat'], location['lng']
     except:
         return False
+
+# print(connection_twitter())
