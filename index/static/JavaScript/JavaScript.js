@@ -104,7 +104,7 @@ function Route(directionsService, directionsDisplay, start, end, mode) {
     directionsService.route(requests, function(response, status) {
         if (status == "OK") {
             directionsDisplay.setDirections(response);
-            console.log("does it work?", response)
+
             var duration = response.routes[0].legs[0].duration.text;
             var distance = response.routes[0].legs[0].distance.text;
 
@@ -135,7 +135,7 @@ function walkingRoute() {
 
 
     // Generate and displays the walking route to the origin stop
-    console.log("Running route in walkingRoute")
+    // console.log("Running route in walkingRoute")
     Route(directionsServiceWalking, directionsDisplayWalking, userPosition, origin, "WALKING");
 
     directionsDisplayWalking.setMap(map);
