@@ -3,19 +3,6 @@ from django.core.urlresolvers import reverse
 import datetime
 
 
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
-    is_student = models.BooleanField(default=False)
-    has_leap = models.BooleanField(default=False)
-
-    def get_absolute_url(self):
-        return reverse('index:detail', kwargs={'questions_text': self.question_text})
-
-    def __str__(self):
-        return self.question_text
-
-
 class EventApi(models.Model):
     title = models.CharField(max_length=200)
     created = models.BigIntegerField(unique=True)
@@ -33,11 +20,6 @@ class EventApi(models.Model):
     def __str__(self):
         return self.title
 
+##make a table that stores all the timetable info
 
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.choice_text
+## make a table that stores all the average info
