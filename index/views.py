@@ -7,8 +7,7 @@ from .calculations.weather import weather
 from .calculations.direct import direct
 from .calculations.location import nearest
 from .calculations.AARoadWatch_Alert import connection_twitter
-
-
+# from .calculations.events import event_parser
 
 
 def index(request):
@@ -32,7 +31,7 @@ def detail(request):
 
     """parse the post data to get the variables entered by the user"""
     origin, destination, route, time, day = int(float(request.POST["orig"])), int(float(request.POST['dest'])),\
-        int(float(request.POST['route'])),int(float(request.POST['time'])), request.POST['day']
+        int(float(request.POST['route'])), int(float(request.POST['time'])), request.POST['day']
 
     """now we establish the direction the user is going in"""
     direction = direct(origin, destination, dicty)
@@ -76,14 +75,16 @@ def detail(request):
         arrival_total = sum(val2)/60
 
     """we now can get the latitude and longitude from a seperate json file for the stops entered to mark on the map"""
-    with open('./index/static/index/karl.json') as data_file:
+    with open('./index/static/index/BusStop_Locations.json') as data_file:
         karl_dict = json.load(data_file)
     origin_lat, origin_lon = karl_dict[str(origin)]["Lat"], karl_dict[str(origin)]["Lon"]
     destination_lat, destination_lon = karl_dict[str(destination)]["Lat"], karl_dict[str(destination)]["Lon"]
+
     twitter_results = connection_twitter()
-    json_data_string = json.dumps(twitter_results)
+    twitter_json_data_string = json.dumps(twitter_results)
 
-
+    # event_results = event_parser(day)
+    # event_json_data_string = json.dumps(event_results)
 
     context = {
         'origin': origin,
@@ -100,13 +101,14 @@ def detail(request):
         'temp': temp,
         'wspd': wspd,
         'url': url,
-        'tweet': json_data_string,
+        # 'events': event_json_data_string,
+        'tweet': twitter_json_data_string,
     }
     return render(request, "index/detail.html", context)
 
 
 def find(request):
-    with open('./index/static/index/karl.json') as data_file:
+    with open('./index/static/index/BusStop_Locations.json') as data_file:
         karl_dict = json.load(data_file)
     current = request.POST["current"]
     print(current)
