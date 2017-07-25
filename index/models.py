@@ -20,6 +20,17 @@ class EventApi(models.Model):
     def __str__(self):
         return self.title
 
-##make a table that stores all the timetable info
 
-## make a table that stores all the average info
+# make a table that stores all the timetable info
+
+# make a table that stores all the average info
+
+
+class Averages(models.Model):
+    route = models.IntegerField()
+    direction = models.IntegerField()
+    stop = models.IntegerField()
+    day = models.IntegerField()
+    hour = models.IntegerField()
+    average = models.FloatField()
+    at_stop = models.FloatField()
