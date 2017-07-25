@@ -29,7 +29,6 @@
      */
     $(function() {
           navigator.geolocation.getCurrentPosition(function(position) {
-                {maximumAge:600000, timeout:5000, enableHighAccuracy: false}
                 document.getElementById('setvalue').value = [position.coords.latitude, position.coords.longitude];
                                 });
         var td = new Date().getDay();
