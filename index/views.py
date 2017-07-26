@@ -7,6 +7,7 @@ from .calculations.weather import weather
 from .calculations.direct import direct
 from .calculations.location import nearest
 from .calculations.AARoadWatch_Alert import connection_twitter
+import time
 # from .calculations.events import event_parser
 
 
@@ -112,6 +113,7 @@ def find(request):
         karl_dict = json.load(data_file)
     current = request.POST["current"]
     print(current)
+    temp, wspd, url, pop, condition = weather(time.strftime("%A"), time.strftime("%H"))
     lat, lng = current.split(',')
     locations = nearest(lat, lng, karl_dict)
     print(locations)
@@ -119,8 +121,11 @@ def find(request):
         'nearest_stop': locations[0][0],
         'nearest_lat': locations[0][1],
         'nearest_long': locations[0][2],
+        'temp': temp,
+        'wspd': wspd,
+        'url': url,
     }
-    return render(request, "index/findlocation.html", context)
+    return render(request, "index/find.html", context)
 
 
 def indexmobile(request):

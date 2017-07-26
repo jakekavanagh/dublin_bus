@@ -1,10 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'index/base.html' %}
 
+
+{% block title %}
+<title>DJANGO Bus</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+
+
+{% block main %}
+<script src="../static/JavaScript/JavaScript.js"></script>
+
+<body class="find">
+<div id="resultspage">
+    <div class="sidebar">
+
+
+        <div id="busestimates">
+            <h3>Nearby Stops:</h3>
+            <div id="estimatezone">
+
+                <div id="close1">
+                    <h4>768: 145 | 47 | 39A </h4>
+                    <h1>Closest stop is {{ nearest_stop }} with a latitude of {{ nearest_lat }} and longitude of {{ nearest_long }}</h1>
+                </div>
+
+                <div id="estimatezone2">
+
+                    <h4>2039</h4>
+                </div>
+
+                <div id="estimatezone2">
+
+                    <h4>2007</h4>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="weather">
+            <div class="left">
+                <div class="location">
+                    <span id="location">Dublin</span>
+                </div>
+                <div class="temperature">
+                    <span id="temperature">{{ temp }}</span>&deg;
+                </div>
+            </div>
+            <div class="right">
+                <div class="top"><img id="icon" src="{{ url }}" width="75px"></div>
+                <div class="bottom">
+                    <div class="wind">
+                        <span id="wind">{{ wspd }}</span> kph <span id="direction">N</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div id="map">
+</div>
 </body>
-</html>
+
+{% endblock %}
+

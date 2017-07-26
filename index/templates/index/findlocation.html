@@ -14,9 +14,9 @@
 	<script>
         
         $(document).ready(function(){
-  if($(window).width() <= 1200) {
-window.location = "/indexmobile.html";
-}
+  <!--if($(window).width() <= 1200) {-->
+<!--window.location = "/indexmobile.html";-->
+<!--}-->
 });
         
         $(window).resize(function(){location.reload();});
@@ -40,82 +40,81 @@ window.location = "/indexmobile.html";
         */
 	       
 	      
-$(function() {
-    
-              var xmlhttp = new XMLHttpRequest();
-            var url = {{ json }};
-     var karldata;
-        var map;
-    
-     xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                karldata = JSON.parse(xmlhttp.responseText);
-//                console.log("Hey")
-//                console.log(karldata)
-                addGPSmarker();
-            }
-        };
-    
-    
-//
-        xmlhttp.open("GET", url, true);
-        xmlhttp.send();
-    
-    
-    	    map = new google.maps.Map(document.getElementById('map'), {
-	         center: {lat: -34.397, lng: 150.644},
-	         zoom: 17
-	       });
-    function addGPSmarker() {
-            for(var i in karldata){
+<!--$(function() {-->
+    <!---->
+              <!--var xmlhttp = new XMLHttpRequest();-->
+     		<!--var karldata;-->
+        	<!--var map;-->
+    <!---->
+     <!--xmlhttp.onreadystatechange = function() {-->
+            <!--if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {-->
+                <!--karldata = JSON.parse(xmlhttp.responseText);-->
+<!--//                console.log("Hey")-->
+<!--//                console.log(karldata)-->
+                <!--addGPSmarker();-->
+            <!--}-->
+        <!--};-->
+    <!---->
+    <!---->
+<!--//-->
+        <!--xmlhttp.open("GET", url, true);-->
+        <!--xmlhttp.send();-->
+    <!---->
+    <!---->
+    	    <!--map = new google.maps.Map(document.getElementById('map'), {-->
+	         <!--center: {lat: -34.397, lng: 150.644},-->
+	         <!--zoom: 17-->
+	       <!--});-->
+    <!--function addGPSmarker() {-->
+            <!--for(var i in karldata){-->
 
-                var marker = new google.maps.Marker({
-                    position: {lat: karldata[i]['Lat'], lng: karldata[i]['Lon']},
-                    map: map,
-                    label: i
-                });
-            }
-        };
-    
-    
-    
-    
-	       infoWindow = new google.maps.InfoWindow;
+                <!--var marker = new google.maps.Marker({-->
+                    <!--position: {lat: karldata[i]['Lat'], lng: karldata[i]['Lon']},-->
+                    <!--map: map,-->
+                    <!--label: i-->
+                <!--});-->
+            <!--}-->
+        <!--};-->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+	       <!--infoWindow = new google.maps.InfoWindow;-->
 
-	       // Try HTML5 geolocation.
-	       if (navigator.geolocation) {
-	         navigator.geolocation.getCurrentPosition(function(position) {
-	           var pos = {
-	             lat: position.coords.latitude,
-	             lng: position.coords.longitude
-	           };
+	       <!--// Try HTML5 geolocation.-->
+	       <!--if (navigator.geolocation) {-->
+	         <!--navigator.geolocation.getCurrentPosition(function(position) {-->
+	           <!--var pos = {-->
+	             <!--lat: position.coords.latitude,-->
+	             <!--lng: position.coords.longitude-->
+	           <!--};-->
 
-	           infoWindow.setPosition(pos);
-	           infoWindow.setContent('Found you! :)');
-	           infoWindow.open(map);
-	           map.setCenter(pos);
-	         }, function() {
-	           handleLocationError(true, infoWindow, map.getCenter());
-	         });
-	       } else {
-	         // Browser doesn't support Geolocation
-	         handleLocationError(false, infoWindow, map.getCenter());
-	       }
+	           <!--infoWindow.setPosition(pos);-->
+	           <!--infoWindow.setContent('Found you! :)');-->
+	           <!--infoWindow.open(map);-->
+	           <!--map.setCenter(pos);-->
+	         <!--}, function() {-->
+	           <!--handleLocationError(true, infoWindow, map.getCenter());-->
+	         <!--});-->
+	       <!--} else {-->
+	         <!--// Browser doesn't support Geolocation-->
+	         <!--handleLocationError(false, infoWindow, map.getCenter());-->
+	       <!--}-->
 
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-	       infoWindow.setPosition(pos);
-	       infoWindow.setContent(browserHasGeolocation ?
-	                             'Error: The Geolocation service failed.' :
-	                             'Error: Your browser doesn\'t support geolocation.');
-	       infoWindow.open(map);
-	     }
-           var td = new Date().getDay();
-	           td = (td == 0) ? 7 : td;
-	           $('select[id=day]').find('option').eq( td ).prop('selected', true)
-	           .end().change();
-});   
-        
+<!--function handleLocationError(browserHasGeolocation, infoWindow, pos) {-->
+	       <!--infoWindow.setPosition(pos);-->
+	       <!--infoWindow.setContent(browserHasGeolocation ?-->
+	                             <!--'Error: The Geolocation service failed.' :-->
+	                             <!--'Error: Your browser doesn\'t support geolocation.');-->
+	       <!--infoWindow.open(map);-->
+	     <!--}-->
+           <!--var td = new Date().getDay();-->
+	           <!--td = (td == 0) ? 7 : td;-->
+	           <!--$('select[id=day]').find('option').eq( td ).prop('selected', true)-->
+	           <!--.end().change();-->
+<!--});   -->
+        <!---->
          
         
    

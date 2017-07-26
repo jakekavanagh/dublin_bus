@@ -8,7 +8,7 @@ def weather(day, time):
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday',
             'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-    change = time - int((datetime.datetime.now()).strftime("%H"))
+    change = int(time) - int((datetime.datetime.now()).strftime("%H"))
     diff = (days[days.index((datetime.datetime.now()).strftime("%A")):].index(day)*24-1)+ change
 
     return data['hourly_forecast'][diff]['temp']['metric'], data['hourly_forecast'][diff]['wspd']['metric'], \

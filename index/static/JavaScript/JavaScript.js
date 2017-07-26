@@ -15,8 +15,10 @@ $(function() {
     if($('body').is('.detail')){
         initializeMapDetail();
         addTwitterAlert();
-
     }
+    if($('body').is('.find')){
+        initializeMapFind();
+        }
 });
 
 // ___________________________________________ Functions _________________________________________________
@@ -88,6 +90,20 @@ function initializeMapDetail() {
          Route(directionsServiceTransit, directionsDisplayTransit, origin, destination,
              document.getElementById('mode_select').value);
     });
+}
+
+function initializeMapFind() {
+    var directionsDisplayTransit = new google.maps.DirectionsRenderer();
+
+//    origin = new google.maps.LatLng(origin_lat, origin_lon);
+//    destination = new google.maps.LatLng(destination_lat, destination_lon);
+    var properties = {
+       center: {lat: 53.3498, lng: -6.2603},
+       zoom: 12,
+    };
+    map = new google.maps.Map(document.getElementById("map"), properties);
+    directionsDisplayTransit.setMap(map);
+
 }
 
 
