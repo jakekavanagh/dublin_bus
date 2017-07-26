@@ -94,15 +94,56 @@ function initializeMapDetail() {
 
 function initializeMapFind() {
     var directionsDisplayTransit = new google.maps.DirectionsRenderer();
+//    user = new google.maps.LatLng(my_lat, my_long);
 
 //    origin = new google.maps.LatLng(origin_lat, origin_lon);
 //    destination = new google.maps.LatLng(destination_lat, destination_lon);
     var properties = {
-       center: {lat: 53.3498, lng: -6.2603},
-       zoom: 12,
+       center: {lat: my_lat, lng: my_long},
+       zoom: 16,
     };
     map = new google.maps.Map(document.getElementById("map"), properties);
     directionsDisplayTransit.setMap(map);
+
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(lat_1, long_1),
+        animation: google.maps.Animation.BOUNCE,
+        map: map,
+        title: stop_1,
+        icon: {
+            url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
+            scaledSize: new google.maps.Size(40, 50),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(20, 50)
+            }
+      });
+     var marker2 = new google.maps.Marker({
+        position: new google.maps.LatLng(lat_2, long_2),
+        animation: google.maps.Animation.BOUNCE,
+        map: map,
+        title: stop_2,
+        icon: {
+            url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
+            scaledSize: new google.maps.Size(40, 50),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(20, 50)
+            }
+     });
+     var marker3 = new google.maps.Marker({
+        position: new google.maps.LatLng(lat_3, long_3),
+        animation: google.maps.Animation.BOUNCE,
+        map: map,
+        title: stop_3,
+        icon: {
+            url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
+            scaledSize: new google.maps.Size(40, 50),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(20, 50)
+            }
+    });
+    marker.setMap(map);
+    marker2.setMap(map);
+    marker3.setMap(map);
 
 }
 

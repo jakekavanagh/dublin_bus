@@ -118,12 +118,20 @@ def find(request):
     locations = nearest(lat, lng, karl_dict)
     print(locations)
     context = {
-        'nearest_stop': locations[0][0],
-        'nearest_lat': locations[0][1],
-        'nearest_long': locations[0][2],
+        'stop_1': locations[0][0],
+        'lat_1': locations[0][1],
+        'long_1': locations[0][2],
+        'stop_2': locations[1][0],
+        'lat_2': locations[1][1],
+        'long_2': locations[1][2],
+        'stop_3': locations[2][0],
+        'lat_3': locations[2][1],
+        'long_3': locations[2][2],
         'temp': temp,
         'wspd': wspd,
         'url': url,
+        'my_lat': lat,
+        'my_long': lng,
     }
     return render(request, "index/find.html", context)
 
