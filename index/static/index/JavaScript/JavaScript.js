@@ -1,7 +1,7 @@
 // Global Variables
 var destination;
 var origin;
-var map, heatmap;
+var map, heatmap, map2;
 
 // This function executes if the index HTML page is loaded
 $(function() {
@@ -93,22 +93,17 @@ function initializeMapDetail() {
 }
 
 function initializeMapFind() {
-    var directionsDisplayTransit = new google.maps.DirectionsRenderer();
-//    user = new google.maps.LatLng(my_lat, my_long);
 
-//    origin = new google.maps.LatLng(origin_lat, origin_lon);
-//    destination = new google.maps.LatLng(destination_lat, destination_lon);
     var properties = {
        center: {lat: my_lat, lng: my_long},
        zoom: 16,
     };
-    map = new google.maps.Map(document.getElementById("map"), properties);
-    directionsDisplayTransit.setMap(map);
+    map2 = new google.maps.Map(document.getElementById("map"), properties);
 
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(lat_1, long_1),
         animation: google.maps.Animation.BOUNCE,
-        map: map,
+        map: map2,
         title: stop_1,
         icon: {
             url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
@@ -120,7 +115,7 @@ function initializeMapFind() {
      var marker2 = new google.maps.Marker({
         position: new google.maps.LatLng(lat_2, long_2),
         animation: google.maps.Animation.BOUNCE,
-        map: map,
+        map: map2,
         title: stop_2,
         icon: {
             url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
@@ -132,7 +127,7 @@ function initializeMapFind() {
      var marker3 = new google.maps.Marker({
         position: new google.maps.LatLng(lat_3, long_3),
         animation: google.maps.Animation.BOUNCE,
-        map: map,
+        map: map2,
         title: stop_3,
         icon: {
             url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
@@ -141,9 +136,48 @@ function initializeMapFind() {
             anchor: new google.maps.Point(20, 50)
             }
     });
-    marker.setMap(map);
-    marker2.setMap(map);
-    marker3.setMap(map);
+    var marker4 = new google.maps.Marker({
+        position: new google.maps.LatLng(lat_4, long_4),
+        animation: google.maps.Animation.BOUNCE,
+        map: map2,
+        title: stop_4,
+        icon: {
+            url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
+            scaledSize: new google.maps.Size(40, 50),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(20, 50)
+            }
+    });
+    var marker5 = new google.maps.Marker({
+        position: new google.maps.LatLng(lat_5, long_5),
+        animation: google.maps.Animation.BOUNCE,
+        map: map2,
+        title: stop_5,
+        icon: {
+            url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
+            scaledSize: new google.maps.Size(40, 50),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(20, 50)
+            }
+    });
+
+var user = new google.maps.Marker({
+        position: new google.maps.LatLng(my_lat, my_long),
+        animation: google.maps.Animation.BOUNCE,
+        map: map2,
+        icon: {
+            url: '../static/images/location_icon.png',
+            scaledSize: new google.maps.Size(40, 50),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(20, 50)
+            }
+    });
+    marker.setMap(map2);
+    marker2.setMap(map2);
+    marker3.setMap(map2);
+    marker4.setMap(map2);
+    marker5.setMap(map2);
+    user.setMap(map2);
 
 }
 
@@ -221,151 +255,4 @@ function addTwitterAlert(){
    }
 }
 
-
-// function generateEventLayer(){
-//     console.log("Clicked")
-//     heatmap = new google.maps.visualization.HeatmapLayer({
-//       data: eventLocations(),
-//       map: map
-//     });
-//     // eventLocations();
-//     // console.log("show me", events)
-// }
-
-// function eventLocations(){
-//     console.log("data for events", events[0])
-// }
-
-// __________________________________ Code Back-up ( Code currently not in use) ________________________________
-// Expand for the function
-
-
-// function used for cookies
-    /*
-     var user_name;
-     var expires = new Date();
-     var length = document.cookie.length -1;
-     var message = document.cookie.substring(5, length)
-     document.write("<h5><center> Welcome Back, " + message + "!</center></h5>")
-     function cookierun(){
-     user_name = document.getElementById("name").value;
-     expires.setFullYear(expires.getFullYear()+1);
-     document.cookie = escape("name") + "=" + escape(user_name) + "; expires = " + expires.toUTCString();
-     window.alert(document.cookie);
-     }
-     */
-
-// function for google map api distance matrix
-    /*
-    function distanceMatrix(){
-
-        var DistanceMatrix = new google.maps.DistanceMatrixService();
-        var origin = new google.maps.LatLng(Lat, Lon);
-        destination = new google.maps.LatLng(origin_lat, origin_lon);
-
-        DistanceMatrix.getDistanceMatrix(
-          {
-            origins: [origin],
-            destinations: [destination],
-            travelMode: 'WALKING',
-            unitSystem: google.maps.UnitSystem.METRIC
-
-          }, function WalkingRoute_response(response, status){
-              console.log("In a function for walking baby")
-                if (status !== 'OK') {
-                    alert('Error! ', status);
-                } else {
-                    var walking_distance = response['rows'][0]['elements'][0]['distance']['text'];
-                    var walking_duration = response['rows'][0]['elements'][0]['duration']['text'];
-                }
-            }
-        )
-
-    }
-    */
-
-// Function to resize the Page
-    /*
-    $(document).ready(function(){
-        if($(window).width() <= 1200) {
-            window.location = "/indexmobile.html";
-        }
-    });
-    $(window).resize(function(){location.reload();});
-    */
-
-// Function that executes function on load and function to generate today's day>
-    /*
-    google.maps.event.addDomListener(window, 'load', initialize);
-    var td = new Date().getDay();
-    td = (td == 0) ? 7 : td;
-    $('select[id=day]').find('option').eq( td ).prop('selected', true)
-        .end().change();
-    });
-    */
-
-// Function to Generate bus stop markers
-    /*
-   $(function() {
-       var xmlhttp = new XMLHttpRequest();
-       var url = 'karl.json';
-       var karldata;
-       var map;
-       xmlhttp.onreadystatechange = function() {
-           if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-               karldata = JSON.parse(xmlhttp.responseText);
-               addGPSmarker();
-           }
-       };
-       xmlhttp.open("GET", url, true);
-       xmlhttp.send();
-       map = new google.maps.Map(document.getElementById('map'), {
-           center: {lat: 53.3498, lng: -6.2603},
-           zoom: 8
-       });
-       function addGPSmarker() {
-           for(var i in karldata){
-               var marker = new google.maps.Marker({
-                   position: {lat: karldata[i]['Lat'], lng: karldata[i]['Lon']},
-                   map: map,
-                   label: i
-               });
-           }
-       };
-       */
-
-// Function to check to geolocation availability
-    /*
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-       infoWindow.setPosition(pos);
-       infoWindow.setContent(browserHasGeolocation ?
-           'Error: The Geolocation service failed.' :
-           'Error: Your browser doesn\'t support geolocation.');
-       infoWindow.open(map);
-    }
-    */
-
-// Function to find geolocation generates a info window to say you are here
-    /*
-      function geolocation {
-          // Try HTML5 geolocation.
-          if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(function (position) {
-                  var pos = {
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude
-                  };
-                  infoWindow.setPosition(pos);
-                  infoWindow.setContent('You are here');
-                  infoWindow.open(map);
-                  map.setCenter(pos);
-              }, function () {
-                  handleLocationError(true, infoWindow, map.getCenter());
-              });
-          } else {
-              // Browser doesn't support Geolocation
-              handleLocationError(false, infoWindow, map.getCenter());
-          }
-      }
-    */
 
