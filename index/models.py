@@ -27,10 +27,19 @@ class EventApi(models.Model):
 
 
 class Averages(models.Model):
-    route = models.IntegerField()
+    route = models.CharField(max_length=200)
     direction = models.IntegerField()
     stop = models.IntegerField()
     day = models.IntegerField()
     hour = models.IntegerField()
     average = models.FloatField()
     at_stop = models.FloatField()
+
+
+class Timetable(models.Model):
+    route = models.CharField(max_length=200)
+    direction = models.IntegerField()
+    day = models.CharField(max_length=100)
+    time = models.CharField(max_length=100)
+    destination = models.CharField(max_length=300)
+    start_stop = models.IntegerField()

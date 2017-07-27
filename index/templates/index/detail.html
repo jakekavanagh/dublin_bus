@@ -47,8 +47,8 @@
             <div id="busestimates">
                 <h3 id="headingcolours">Bus {{ route }} at Stop {{ origin }}:</h3>
                 <div id="estimatezone">
-                    <h5>It's {{day }} at {{ time }}:00</h5>
-                    <h4>Expect your bus in <h3 id="arrivalcolour"> {{ arrival }}</h3> minutes </h4>
+                    <h5>{{day }} at {{ time }}:{{ mins }}</h5>
+                    <h4>Expect your bus at <h3 id="arrivalcolour"> {{ time_arrival }}</h3> </h4>
                     <h4>Your journey to stop {{ destination }} will take <h3 id="arrivalcolour"> {{ pred }} </h3> minutes</h4>
                     <h4 id="walking_journey"></h4>
                 </div>

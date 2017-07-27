@@ -6,6 +6,7 @@ from .calculations.summary import summary_weather, raining
 from .calculations.weather import weather
 from .calculations.direct import direct, routey
 from .calculations.location import nearest
+from .calculations.real_time import timetable
 from .calculations.AARoadWatch_Alert import connection_twitter
 import time
 from .models import Averages
@@ -16,13 +17,20 @@ def index(request):
     dicty = IndexConfig.dicty
     routes = []
     for i in dicty:
-        routes += [i]
+        routes += [routey(i)]
     hours = []
     for i in range(6, 23):
         hours += [str(i)]
+    mins = []
+    for i in range(0,65,5):
+        i = str(i)
+        if len(i) == 1:
+            i = '0'+i
+        mins += [i]
     context = {
-        'routes': routes,
+        'routes': sorted(routes),
         'hours': hours,
+        'mins': mins,
         'stops': sorted(dicty['001']['0']+dicty['001']['1']),
         'stop_0': dicty['001']['0'],
         'stop_1': dicty['001']['1'],
@@ -36,9 +44,11 @@ def detail(request):
     dicty = IndexConfig.dicty
 
     """parse the post data to get the variables entered by the user"""
-    origin, destination, route, time, day = int(float(request.POST["orig"])), int(float(request.POST['dest'])),\
-        int(float(request.POST['route'])), int(float(request.POST['time'])), request.POST['day']
-
+    origin, destination, route, full_time, day = int(float(request.POST["orig"])), int(float(request.POST['dest'])),\
+        int(float(request.POST['route'])), request.POST['time'], request.POST['day']
+    full_time = full_time.strip('()')
+    time, mins = full_time.split('.')
+    time = int(time)
     """now we establish the direction the user is going in"""
     route_stripped = routey(route)
     direction = direct(origin, destination, dicty, route_stripped)
@@ -63,22 +73,23 @@ def detail(request):
 
     """we create a dataframe for all the stops between the origin and destination, and a seperate dataframe for
     all the stops between the start of the route and the origin stop to train the model on"""
-    columns = ['Avg', 'Temp', 'StopID', 'AtStop', 'Day']
+    columns = ['Avg', 'Temp', 'StopID', 'AtStop', 'Day', 'HourMin']
+    hour_min = float(str(time)+'.'+str(mins))
     df = pd.DataFrame(columns=columns)
     for i in range(len(stops)):
-        asking = Averages.objects.get(route=str(route), direction=direction, stop=origin, day=day_num, hour=time)
-        df.loc[i] = [asking.average, temp, stops[i], asking.at_stop, day_num]
+        asking = Averages.objects.get(route=str(route), direction=direction, stop=stops[i], day=day_num, hour=time)
+        df.loc[i] = [asking.average, temp, stops[i], asking.at_stop, day_num, hour_min]
     complete = IndexConfig.complete_model
     val = complete.predict(df)
     total = sum(val)/60
 
     df2 = pd.DataFrame(columns=columns)
-    if origin == dicty[route_stripped][str(direction)][0]:
+    if str(origin) == dicty[route_stripped][str(direction)][0]:
         arrival_total = 0
     else:
         for i in range(len(arrival)):
-            asking = Averages.objects.get(route=str(route), direction=direction, stop=origin, day=day_num, hour=time)
-            df2.loc[i] = [asking.average, temp, stops[i], asking.at_stop, day_num]
+            asking = Averages.objects.get(route=str(route), direction=direction, stop=arrival[i], day=day_num, hour=time)
+            df2.loc[i] = [asking.average, temp, arrival[i], asking.at_stop, day_num, hour_min]
         val2 = complete.predict(df2)
         arrival_total = sum(val2)/60
 
@@ -92,11 +103,11 @@ def detail(request):
 
     # event_results = event_parser(day)
     # event_json_data_string = json.dumps(event_results)
-
+    times = str(timetable(route, direction, arrival_total, time, day_word, mins))
     context = {
         'origin': origin, 'destination': destination,
-        'route': route, 'time': time, 'day': day_word,
-        'pred': total, 'arrival': arrival_total,
+        'route': route, 'time': time, 'day': day_word, 'mins': mins,
+        'pred': ("%.2f" % total), 'arrival': arrival_total, 'time_arrival': times,
         'origin_lat': origin_lat, 'origin_lon': origin_lon,
         'destination_lat': destination_lat, 'destination_lon': destination_lon,
         'temp': temp, 'wspd': wspd, 'url': url,
@@ -109,11 +120,9 @@ def detail(request):
 def find(request):
     all_stops = IndexConfig.locations
     current = request.POST["current"]
-    print(current)
     temp, wspd, url, pop, condition = weather(time.strftime("%A"), time.strftime("%H"))
     lat, lng = current.split(',')
     locations = nearest(lat, lng, all_stops)
-    print(locations)
     context = {
         'stop_1': locations[0][0], 'lat_1': locations[0][1], 'long_1': locations[0][2],
         'stop_2': locations[1][0], 'lat_2': locations[1][1], 'long_2': locations[1][2],

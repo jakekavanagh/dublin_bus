@@ -4,7 +4,7 @@ import json
 
 
 def model():
-    model = joblib.load('./index/All routes 20per.pkl')
+    model = joblib.load('./index/twentyextra time feature.pkl')
     return model
 
 

@@ -1,5 +1,4 @@
 def summary_weather(condition):
-    print(condition)
     """convert the summary data code to its corresponding numeric representation"""
     if condition == "Clear":
         return 1
