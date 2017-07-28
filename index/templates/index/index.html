@@ -56,7 +56,6 @@
             $("#RouteNumbers").append($("<option/>").attr("value", option.LineID).text(option.Route_number));
         });
     });
-
 function populate(route, dict) {
      route = route;
      var zero = [dict[route]['0']];
@@ -66,7 +65,9 @@ function populate(route, dict) {
      var array = JSON.parse("["+all_stops+"]");
      <!--array.sort(function(a, b){return a-b});-->
      var dropdown = document.getElementById("origin");
-     dropdown.remove(dropdown.selectedIndex);
+     while (dropdown.options.length > 0) {
+        dropdown.remove(0);
+    }
      var option = document.createElement("option");
      option.text = "Select an Origin Stop";
      dropdown.add(option);
@@ -77,11 +78,13 @@ function populate(route, dict) {
           dropdown.add(option);
      }
 
-     var dropdown = document.getElementById("destination");
-     dropdown.remove(dropdown.selectedIndex);
+     var desti = document.getElementById("destination");
+     while (desti.options.length > 0) {
+        desti.remove(0);
+     }
      var option = document.createElement("option");
      option.text = "Select Origin Stop First";
-     dropdown.add(option);
+     desti.add(option);
 
 }
 
@@ -90,18 +93,26 @@ function populateDestination(start, dict) {
     var subset;
     if ($.inArray(start, dict[route]['0']) != -1){
         subset = dict[route]['0'].slice($.inArray(start, dict[route]['0'])+1, );
-        alert(subset);
     }
     if ($.inArray(start, dict[route]['1']) != -1){
-        subset = dict[route]['1'].slice($.inArray(start, dict[route]['1'])+1, );
-        alert(subset);
+        var temp = dict[route]['1'].slice($.inArray(start, dict[route]['1'])+1, );
+        if(typeof str1 == 'undefined'){
+            subset = temp;
+        }
+        else {
+            subset = subset.concat(temp);
+        }
     }
-    <!--subset.sort(function(a, b){return a-b});-->
+
      var dropdown = document.getElementById("destination");
-     dropdown.remove(dropdown.selectedIndex);
+     while (dropdown.options.length > 0) {
+        dropdown.remove(0);
+     }
+
      var option = document.createElement("option");
      option.text = "Select a Destination Stop";
      dropdown.add(option);
+     destination.options[destination.options.selectedIndex].setAttribute("selected", "selected");
 
      for (var i = 0; i < subset.length; ++i) {
           var option = document.createElement("option");

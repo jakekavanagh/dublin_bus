@@ -36,6 +36,14 @@ class Averages(models.Model):
     at_stop = models.FloatField()
 
 
+class RoughAverages(models.Model):
+    route = models.CharField(max_length=200)
+    direction = models.IntegerField()
+    stop = models.IntegerField()
+    average = models.FloatField()
+    at_stop = models.FloatField()
+
+
 class Timetable(models.Model):
     route = models.CharField(max_length=200)
     direction = models.IntegerField()

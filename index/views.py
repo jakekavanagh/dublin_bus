@@ -9,7 +9,8 @@ from .calculations.location import nearest
 from .calculations.real_time import timetable
 from .calculations.AARoadWatch_Alert import connection_twitter
 import time
-from .models import Averages
+from .models import Averages, RoughAverages
+from django.core.exceptions import ObjectDoesNotExist
 # from .calculations.events import event_parser
 
 
@@ -74,7 +75,10 @@ def detail(request):
     hour_min = float(str(time)+'.'+str(mins))
     df = pd.DataFrame(columns=columns)
     for i in range(len(stops)):
-        asking = Averages.objects.get(route=str(route), direction=direction, stop=stops[i], day=day_num, hour=time)
+        try:
+            asking = Averages.objects.get(route=str(route), direction=direction, stop=stops[i], day=day_num, hour=time)
+        except ObjectDoesNotExist:
+            asking = RoughAverages.objects.get(route=str(route), direction=direction, stop=stops[i])
         df.loc[i] = [asking.average, temp, stops[i], asking.at_stop, day_num, hour_min]
     complete = IndexConfig.complete_model
     val = complete.predict(df)
@@ -85,10 +89,15 @@ def detail(request):
         arrival_total = 0
     else:
         for i in range(len(arrival)):
-            asking = Averages.objects.get(route=str(route), direction=direction, stop=arrival[i], day=day_num, hour=time)
+            try:
+                asking = Averages.objects.get(route=str(route), direction=direction, stop=arrival[i], day=day_num, hour=time)
+            except ObjectDoesNotExist:
+                asking = Averages.objects.get(route=str(route), direction=direction, stop=arrival[i])
+            print(asking)
             df2.loc[i] = [asking.average, temp, arrival[i], asking.at_stop, day_num, hour_min]
         val2 = complete.predict(df2)
         arrival_total = sum(val2)/60
+        print(arrival_total)
 
     """we now can get the latitude and longitude from a seperate json file for the stops entered to mark on the map"""
     all_stops = IndexConfig.locations
