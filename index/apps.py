@@ -13,10 +13,12 @@ def route1():
         dicty = json.load(data_file)
     return dicty
 
+
 def dicty():
     with open('./index/static/index/stops in order.json') as data_file:
         dicty = json.load(data_file)
     return dicty
+
 
 def locations():
     with open('./index/static/index/BusStop_Locations.json') as data_file:

@@ -163,7 +163,7 @@ function initializeMapFind() {
 
 var user = new google.maps.Marker({
         position: new google.maps.LatLng(my_lat, my_long),
-        animation: google.maps.Animation.BOUNCE,
+        animation: google.maps.Animation.DROP,
         map: map2,
         icon: {
             url: '../static/images/location_icon.png',
@@ -171,14 +171,24 @@ var user = new google.maps.Marker({
             origin: new google.maps.Point(0, 0),
             anchor: new google.maps.Point(20, 50)
             }
-    });
-    marker.setMap(map2);
-    marker2.setMap(map2);
-    marker3.setMap(map2);
-    marker4.setMap(map2);
-    marker5.setMap(map2);
-    user.setMap(map2);
 
+    });
+
+//    marker.setMap(map2);
+//    marker2.setMap(map2);
+//    marker3.setMap(map2);
+//    marker4.setMap(map2);
+//    marker5.setMap(map2);
+//    user.setMap(map2);
+    user.addListener('mouseover', toggleBounce);
+
+function toggleBounce() {
+        if (user.getAnimation() !== null) {
+          user.setAnimation(null);
+        } else {
+          user.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
 }
 
 
@@ -254,5 +264,4 @@ function addTwitterAlert(){
        })(marker, i));
    }
 }
-
 

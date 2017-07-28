@@ -22,7 +22,7 @@ def index(request):
     for i in range(6, 23):
         hours += [str(i)]
     mins = []
-    for i in range(0,65,5):
+    for i in range(0,60,5):
         i = str(i)
         if len(i) == 1:
             i = '0'+i
@@ -31,10 +31,7 @@ def index(request):
         'routes': sorted(routes),
         'hours': hours,
         'mins': mins,
-        'stops': sorted(dicty['001']['0']+dicty['001']['1']),
-        'stop_0': dicty['001']['0'],
-        'stop_1': dicty['001']['1'],
-
+        'dicty': json.dumps(dicty),
     }
     return render(request, 'index/index.html', context)
 

@@ -8,11 +8,11 @@
 
 {% block main %}
 <script>
-    $(document).ready(function(){
-        if($(window).width() <= 1200) {
-            window.location = "/indexmobile/";
-        }
-    });
+    <!--$(document).ready(function(){-->
+        <!--if($(window).width() <= 1200) {-->
+            <!--window.location = "/indexmobile/";-->
+        <!--}-->
+    <!--});-->
     $(window).resize(function(){location.reload();});
     /*
      var user_name;
@@ -29,11 +29,11 @@
      */
     $(function() {
           navigator.geolocation.getCurrentPosition(function(position) {
-                document.getElementById('setvalue').value = [position.coords.latitude, position.coords.longitude];
+                document.getElementById("setvalue").value = [position.coords.latitude, position.coords.longitude];
                                 });
         var td = new Date().getDay();
         td = (td == 0) ? 7 : td;
-        $('select[id=day]').find('option').eq(td).prop('selected', true).end().change();
+        $("select[id=day]").find("option").eq(td).prop("selected", true).end().change();
         var data = [{
             "Timestamp": "2012-11-07 09:26:50",
             "LineID": "145",
@@ -53,14 +53,70 @@
             "Route_number": "145"
         }];
         $.each(data, function(i, option) {
-            $('#RouteNumbers').append($('<option/>').attr("value", option.LineID).text(option.Route_number));
+            $("#RouteNumbers").append($("<option/>").attr("value", option.LineID).text(option.Route_number));
         });
     });
+
+function populate(route, dict) {
+     route = route;
+     var zero = [dict[route]['0']];
+     var one = [dict[route]['1']];
+     var all_stops = zero.concat(one);
+
+     var array = JSON.parse("["+all_stops+"]");
+     <!--array.sort(function(a, b){return a-b});-->
+     var dropdown = document.getElementById("origin");
+     dropdown.remove(dropdown.selectedIndex);
+     var option = document.createElement("option");
+     option.text = "Select an Origin Stop";
+     dropdown.add(option);
+
+     for (var i = 0; i < array.length; ++i) {
+          var option = document.createElement("option");
+          option.text = array[i];
+          dropdown.add(option);
+     }
+
+     var dropdown = document.getElementById("destination");
+     dropdown.remove(dropdown.selectedIndex);
+     var option = document.createElement("option");
+     option.text = "Select Origin Stop First";
+     dropdown.add(option);
+
+}
+
+function populateDestination(start, dict) {
+    var route = document.getElementById("RouteNumbers").value;
+    var subset;
+    if ($.inArray(start, dict[route]['0']) != -1){
+        subset = dict[route]['0'].slice($.inArray(start, dict[route]['0'])+1, );
+        alert(subset);
+    }
+    if ($.inArray(start, dict[route]['1']) != -1){
+        subset = dict[route]['1'].slice($.inArray(start, dict[route]['1'])+1, );
+        alert(subset);
+    }
+    <!--subset.sort(function(a, b){return a-b});-->
+     var dropdown = document.getElementById("destination");
+     dropdown.remove(dropdown.selectedIndex);
+     var option = document.createElement("option");
+     option.text = "Select a Destination Stop";
+     dropdown.add(option);
+
+     for (var i = 0; i < subset.length; ++i) {
+          var option = document.createElement("option");
+          option.text = subset[i];
+          dropdown.add(option);
+     }
+
+}
+
+
      </script>
 
 <div id="homepage">
      <div id="main">
-          <h1>Dublin Bus Dynamic Travel</h1>
+          <h1 id = 'heading'>Dublin Bus Dynamic Travel</h1>
      </div>
      <!--<div id="welcome_message">
          <p>Welcome to the Dublin Bus Dynamic Travel App {{ x }}</p>
@@ -73,39 +129,31 @@
           <form action='detail/' method="post">
                {% csrf_token %}
                <div class="form-group">
-                    <label for ="RouteNumbers">Route Number</label> <select name="route" class="form-control" id="RouteNumbers">
+                    <label for ="RouteNumbers">Route Number</label>
+                    <select onchange="populate(value, {{ dicty }})" name="route" class="form-control" id="RouteNumbers">
                     <option selected value="0">
                          Select Route
                     </option>
                     {% for i in routes %}
-                    <option value={{ i }}>
+                    <option value={{ i }} >
                          {{ i }}
                     </option>
                     {% endfor %}
                </select>
                </div>
                <div class="form-group">
-                    <label for="origin">Origin Stop</label> <select name = "orig" class="form-control" id="origin">
+                    <label for="origin">Origin Stop</label>
+                    <select onchange="populateDestination(value, {{ dicty }})" name = "orig" class="form-control" id="origin">
                     <option selected value="0">
-                         Where are you leaving from?
+                         Select Route First
                     </option>
-                    {% for i in stops %}
-                    <option value={{ i }}>
-                         {{ i }}
-                    </option>
-                    {% endfor %}
                </select>
                </div>
                <div class="form-group">
                     <label for ="destination">Destination Stop</label> <select name="dest" class="form-control" id="destination">
                     <option selected value="0">
-                         Where are you going?
+                         Select Route First
                     </option>
-                    {% for i in stops %}
-                    <option value={{ i }}>
-                         {{ i }}
-                    </option>
-                    {% endfor %}
                </select>
                </div>
 
