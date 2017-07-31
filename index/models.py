@@ -3,8 +3,8 @@ from django.core.urlresolvers import reverse
 import datetime
 
 #
-# class EventApi(models.Model):
-#     pass
+class EventApi(models.Model):
+    pass
 #
 #
 # class Event(models.Model):
