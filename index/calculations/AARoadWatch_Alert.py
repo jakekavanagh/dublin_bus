@@ -3,7 +3,7 @@ from requests_oauthlib import OAuth1
 import re
 from datetime import datetime, timedelta
 import psycopg2
-from .models import Twitter
+from index.models import Twitter
 
 
 def connection_twitter():

@@ -18,10 +18,10 @@
     var origin_lat ={{ origin_lat }}, origin_lon = {{ origin_lon }}, destination_lat = {{destination_lat }},
        destination_lon = {{destination_lon }}, tweet = "{{ tweet| safe | escapejs }}",
         events = "{{ events| safe | escapejs }}";
+{% load staticfiles %}
 
 </script>
-
-<script src="../static/index/JavaScript/JavaScript.js"></script>
+<script src="{% static 'index/JavaScript/JavaScript.js' %}"></script>
 
 <body class="detail">
     <div id="resultspage">
