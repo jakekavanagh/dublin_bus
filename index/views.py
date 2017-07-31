@@ -22,7 +22,7 @@ def index(request):
     for i in dicty:
         routes += [routey(i)]
     hours = []
-    for i in range(6, 23):
+    for i in range(6, 24):
         hours += [str(i)]
     mins = []
     for i in range(0,60,5):
@@ -45,8 +45,10 @@ def detail(request):
     begin_total = t.clock()
     dicty = IndexConfig.dicty
 
+    now = (12.00)
     """parse the post data to get the variables entered by the user"""
-    origin, destination, route, full_time, day = int(float(request.POST.get("orig", 0))), int(float(request.POST['dest'])), request.POST['route'], request.POST['time'], request.POST['day']
+    origin, destination, route, full_time, day = int(float(request.POST.get("orig", 0))), int(float(request.POST['dest'])),\
+        request.POST['route'], request.POST.get('time', now), request.POST['day']
     full_time = full_time.strip('()')
     time, mins = full_time.split('.')
     time = int(time)
