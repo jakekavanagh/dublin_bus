@@ -13,7 +13,7 @@ from .calculations.direct import direct, routey, bare
 from .calculations.location import nearest
 from .calculations.real_time import timetable
 from .models import Averages, RoughAverages
-from .models import EventApi
+from .models import Event_Api
 from .models import Twitter
 
 def index(request):
@@ -144,7 +144,7 @@ def detail(request):
         # Query for Event API table to retrieve event list for today
     today_name = str(calendar.day_name[(datetime.date.today()).weekday()])
     try:
-        events = serializers.serialize("json", EventApi.objects.filter(weekday=today_name))
+        events = serializers.serialize("json", Event_Api.objects.filter(weekday=today_name))
     except ObjectDoesNotExist:
         print("Object does not exist.")
         end = t.clock()
