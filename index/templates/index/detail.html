@@ -1,9 +1,9 @@
 {% extends 'index/base.html' %}
 
-{% load staticfiles %}
+<!--{% load staticfiles %}-->
 
 {% block styles %}
-<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<!--<link rel="stylesheet" href="{% static 'index/main.css' %}">-->
 {% endblock %}
 
 {% block title %}
@@ -30,13 +30,13 @@
                 <div id="Origin">
                     <h3 id="headingcolours">Origin Stop</h3>
                     <div id="selected_origin">
-                        <h4>{{ origin }}</h4>
+                        <h4>{{ origin }} - {{ origin_word }}</h4>
                     </div>
                 </div>
                 <div id="Destination">
                     <h3 id="headingcolours">Destination Stop</h3>
                     <div id="selected_destination">
-                        <h4>{{ destination }}</h4>
+                        <h4>{{ destination }} - {{ destination_word }}</h4>
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .apps import IndexConfig
 from .calculations.summary import summary_weather, raining
 from .calculations.weather import weather
-from .calculations.direct import direct, routey
+from .calculations.direct import direct, routey, bare
 from .calculations.location import nearest
 from .calculations.real_time import timetable
 from .calculations.AARoadWatch_Alert import connection_twitter
@@ -12,7 +12,7 @@ import time
 from .models import Averages, RoughAverages
 from django.core.exceptions import ObjectDoesNotExist
 # from .calculations.events import event_parser
-
+import time as t
 
 def index(request):
     dicty = IndexConfig.dicty
@@ -39,21 +39,24 @@ def index(request):
 
 def detail(request):
     """import the json for the route as a dict"""
+    print('\n\n')
+    begin_total = t.clock()
     dicty = IndexConfig.dicty
 
     """parse the post data to get the variables entered by the user"""
-    origin, destination, route, full_time, day = int(float(request.POST["orig"])), int(float(request.POST['dest'])),\
-        int(float(request.POST['route'])), request.POST['time'], request.POST['day']
+    origin, destination, route, full_time, day = int(float(request.POST.get("orig", 0))), int(float(request.POST['dest'])), request.POST['route'], request.POST['time'], request.POST['day']
     full_time = full_time.strip('()')
     time, mins = full_time.split('.')
     time = int(time)
+    print('\t\t', origin)
     """now we establish the direction the user is going in"""
     route_stripped = routey(route)
     direction = direct(origin, destination, dicty, route_stripped)
-
+    bare_route = bare(route)
     """split the day into the word and number"""
     day_word = day[:-1]
     day_num = int(day[-1])
+
     """get the range of stops between the origin and destination stop"""
     start = dicty[route_stripped][str(direction)].index(str(origin))
     stop = dicty[route_stripped][str(direction)].index(str(destination))
@@ -61,7 +64,11 @@ def detail(request):
     arrival = dicty[route_stripped][str(direction)][:start]
 
     """calling this function for the day entered by the user will return all the appropriate weather data"""
+    begin = t.clock()
     temp, wspd, url, pop, condition = weather(day_word, time)
+    end = t.clock()
+    print("weather:", end-begin)
+
 
     """now we convert the summary data from string to a represented number"""
     summary = summary_weather(condition)
@@ -74,12 +81,21 @@ def detail(request):
     columns = ['Avg', 'Temp', 'StopID', 'AtStop', 'Day', 'HourMin']
     hour_min = float(str(time)+'.'+str(mins))
     df = pd.DataFrame(columns=columns)
+
+    begin = t.clock()
+    asking = Averages.objects.filter(route=bare_route, direction=direction, stop__in=stops, day=day_num, hour=time)
+    error_asking = RoughAverages.objects.filter(route=bare_route, direction=direction, stop__in=stops)
     for i in range(len(stops)):
+        current_asking = asking.filter(stop=stops[i])
         try:
-            asking = Averages.objects.get(route=str(route), direction=direction, stop=stops[i], day=day_num, hour=time)
-        except ObjectDoesNotExist:
-            asking = RoughAverages.objects.get(route=str(route), direction=direction, stop=stops[i])
-        df.loc[i] = [asking.average, temp, stops[i], asking.at_stop, day_num, hour_min]
+            current_asking = current_asking[0]
+        except IndexError:
+            current_asking = error_asking.filter(stop=stops[i])
+            current_asking = current_asking[0]
+            print("model 1 entered error handling")
+        df.loc[i] = [current_asking.average, temp, stops[i], current_asking.at_stop, day_num, hour_min]
+    end = t.clock()
+    print("time to create df1 with length", df.shape[0], ":", end-begin)
     complete = IndexConfig.complete_model
     val = complete.predict(df)
     total = sum(val)/60
@@ -88,30 +104,40 @@ def detail(request):
     if str(origin) == dicty[route_stripped][str(direction)][0]:
         arrival_total = 0
     else:
+        begin = t.clock()
+        asking = Averages.objects.filter(route=bare_route, direction=direction, stop__in=arrival, day=day_num, hour=time)
+        error_asking = RoughAverages.objects.filter(route=bare_route, direction=direction, stop__in=arrival)
         for i in range(len(arrival)):
+            current_asking = asking.filter(stop=arrival[i])
             try:
-                asking = Averages.objects.get(route=str(route), direction=direction, stop=arrival[i], day=day_num, hour=time)
-            except ObjectDoesNotExist:
-                asking = Averages.objects.get(route=str(route), direction=direction, stop=arrival[i])
-            print(asking)
-            df2.loc[i] = [asking.average, temp, arrival[i], asking.at_stop, day_num, hour_min]
+                current_asking = current_asking[0]
+            except:
+                current_asking = error_asking.filter(stop=arrival[i])
+                current_asking = current_asking[0]
+                print("model 2 entered error handling")
+            df2.loc[i] = [current_asking.average, temp, arrival[i], current_asking.at_stop, day_num, hour_min]
+        end = t.clock()
+        print("time to create df2 with length", df2.shape[0], ":", end-begin)
         val2 = complete.predict(df2)
         arrival_total = sum(val2)/60
-        print(arrival_total)
 
     """we now can get the latitude and longitude from a seperate json file for the stops entered to mark on the map"""
     all_stops = IndexConfig.locations
     origin_lat, origin_lon = all_stops[str(origin)]["Lat"], all_stops[str(origin)]["Lon"]
     destination_lat, destination_lon = all_stops[str(destination)]["Lat"], all_stops[str(destination)]["Lon"]
 
+    begin = t.clock()
     twitter_results = connection_twitter()
     twitter_json_data_string = json.dumps(twitter_results)
+    end = t.clock()
+    print("twitter:", end-begin)
 
     # event_results = event_parser(day)
     # event_json_data_string = json.dumps(event_results)
-    times = str(timetable(route, direction, arrival_total, time, day_word, mins))
+    times = str(timetable(bare_route, direction, arrival_total, time, day_word, mins))
+    origin_word, destination_word = all_stops[str(origin)]['name'], all_stops[str(destination)]['name']
     context = {
-        'origin': origin, 'destination': destination,
+        'origin': origin, 'origin_word': origin_word, 'destination': destination, 'destination_word': destination_word,
         'route': route, 'time': time, 'day': day_word, 'mins': mins,
         'pred': ("%.2f" % total), 'arrival': arrival_total, 'time_arrival': times,
         'origin_lat': origin_lat, 'origin_lon': origin_lon,
@@ -120,6 +146,8 @@ def detail(request):
         # 'events': event_json_data_string,
         'tweet': twitter_json_data_string,
     }
+    end_total = t.clock()
+    print('total:', end_total-begin_total, '\n\n')
     return render(request, "index/detail.html", context)
 
 

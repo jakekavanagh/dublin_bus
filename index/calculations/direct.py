@@ -18,3 +18,9 @@ def routey(route):
     elif len(route) == 1:
         key = '00'+route
     return key
+
+
+def bare(x):
+    while x[0] == '0':
+        x = x[1:]
+    return x
