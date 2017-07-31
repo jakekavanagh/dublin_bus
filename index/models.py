@@ -48,12 +48,12 @@ class Timetable(models.Model):
     start_stop = models.IntegerField()
 
 
-class Twitter(models.Model):
-    tweet = models.CharField(max_length=200)
-    tweet_date = models.CharField(max_length=200)
-    tweet_time = models.CharField(max_length=200)
-    longitude = models.FloatField()
-    latitude = models.FloatField()
-
-    class Meta:
-        unique_together = ('tweet', 'tweet_date', 'tweet_time')
+# class Twitter(models.Model):
+#     tweet = models.CharField(max_length=200)
+#     tweet_date = models.CharField(max_length=200)
+#     tweet_time = models.CharField(max_length=200)
+#     longitude = models.FloatField()
+#     latitude = models.FloatField()
+#
+#     class Meta:
+#         unique_together = ('tweet', 'tweet_date', 'tweet_time')
