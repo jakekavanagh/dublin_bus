@@ -2,6 +2,8 @@ import requests
 from requests_oauthlib import OAuth1
 import re
 from datetime import datetime, timedelta
+import psycopg2
+from .models import Twitter
 
 
 def connection_twitter():
@@ -27,7 +29,7 @@ def twitter_parser(results):
     coordinates"""
     returned = []
     # Calculate the time of 2 hours before the current time
-    time_range = datetime.now() - timedelta(minutes=180)
+    time_range = datetime.now() - timedelta(minutes=400)
     # print("Time check", time_range)
     for i in results:
         # Manipulating the tweet into individual words while striping non useful information
@@ -99,4 +101,26 @@ def google_locator(add):
     except:
         return False
 
-# print(connection_twitter())
+
+# try:
+#     conn = psycopg2.connect(host="127.0.0.1", port="5432", user="postgres", password="git-rekt", dbname="dublin_bus_db")
+# except:
+#     print("FAILURE")
+#
+#
+# cur = conn.cursor()
+#
+# try:
+#     results = connection_twitter()
+#     for tweet in results:
+#         twee = (re.sub(r"http\S+", "", tweet[0]))
+#         print("::", twee)
+#         date_time2 = tweet[1]
+#         lat = tweet[2].split(",")[0]
+#         lon = tweet[2].split(",")[1]
+#         cur.execute(
+#             "INSERT INTO index_twitter(tweet, datetime, longitude, latitude)"
+#             "VALUES (%s, %s, %s, %s)", (twee, date_time2, lat, lon,))
+#
+# except psycopg2.IntegrityError:
+#     print("already in DB!")

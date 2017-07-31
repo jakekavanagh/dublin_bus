@@ -1,7 +1,6 @@
 // Global Variables
-var destination;
-var origin;
-var map, heatmap, map2;
+var destination, origin, map, heatMap, directionsDisplayWalking, eventMarkers;
+
 
 // This function executes if the index HTML page is loaded
 $(function() {
@@ -10,29 +9,27 @@ $(function() {
     }
 });
 
+
 // This function executes if the detail HTML page is loaded
 $(function() {
     if($('body').is('.detail')){
         initializeMapDetail();
         addTwitterAlert();
     }
-    if($('body').is('.find')){
-        initializeMapFind();
-        }
 });
+
 
 // ___________________________________________ Functions _________________________________________________
 // Add functions below here and call above in separate functions if needed in any of the HTML page
+
 
 // Stores User's location to solve ASYNC problem
 function useCurrentPosition(){
     this.lat = null;
     this.lon = null;
-
-    // this.function1 = function() {
-    //     console.log('useCoords:  '+ this.lat+' and '+ this.lon +' =) ');
-    // }
 }
+
+
 // Create new object for User's GeoLocation
 var useCurrentPosition = new useCurrentPosition();
 
@@ -90,105 +87,89 @@ function initializeMapDetail() {
          Route(directionsServiceTransit, directionsDisplayTransit, origin, destination,
              document.getElementById('mode_select').value);
     });
+    generateEventLayer()
 }
 
-function initializeMapFind() {
 
-    var properties = {
-       center: {lat: my_lat, lng: my_long},
-       zoom: 16,
-    };
-    map2 = new google.maps.Map(document.getElementById("map"), properties);
+function toggleEventLayer(){
 
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(lat_1, long_1),
-        animation: google.maps.Animation.BOUNCE,
-        map: map2,
-        title: stop_1,
-        icon: {
-            url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
-            scaledSize: new google.maps.Size(40, 50),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(20, 50)
-            }
-      });
-     var marker2 = new google.maps.Marker({
-        position: new google.maps.LatLng(lat_2, long_2),
-        animation: google.maps.Animation.BOUNCE,
-        map: map2,
-        title: stop_2,
-        icon: {
-            url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
-            scaledSize: new google.maps.Size(40, 50),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(20, 50)
-            }
-     });
-     var marker3 = new google.maps.Marker({
-        position: new google.maps.LatLng(lat_3, long_3),
-        animation: google.maps.Animation.BOUNCE,
-        map: map2,
-        title: stop_3,
-        icon: {
-            url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
-            scaledSize: new google.maps.Size(40, 50),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(20, 50)
-            }
-    });
-    var marker4 = new google.maps.Marker({
-        position: new google.maps.LatLng(lat_4, long_4),
-        animation: google.maps.Animation.BOUNCE,
-        map: map2,
-        title: stop_4,
-        icon: {
-            url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
-            scaledSize: new google.maps.Size(40, 50),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(20, 50)
-            }
-    });
-    var marker5 = new google.maps.Marker({
-        position: new google.maps.LatLng(lat_5, long_5),
-        animation: google.maps.Animation.BOUNCE,
-        map: map2,
-        title: stop_5,
-        icon: {
-            url: 'https://cdn4.iconfinder.com/data/icons/maps-and-navigation-solid-icons-vol-1/72/44-512.png',
-            scaledSize: new google.maps.Size(40, 50),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(20, 50)
-            }
-    });
-
-var user = new google.maps.Marker({
-        position: new google.maps.LatLng(my_lat, my_long),
-        animation: google.maps.Animation.DROP,
-        map: map2,
-        icon: {
-            url: '../static/images/location_icon.png',
-            scaledSize: new google.maps.Size(40, 50),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(20, 50)
-            }
-
-    });
-
-//    marker.setMap(map2);
-//    marker2.setMap(map2);
-//    marker3.setMap(map2);
-//    marker4.setMap(map2);
-//    marker5.setMap(map2);
-//    user.setMap(map2);
-    user.addListener('mouseover', toggleBounce);
-
-function toggleBounce() {
-        if (user.getAnimation() !== null) {
-          user.setAnimation(null);
-        } else {
-          user.setAnimation(google.maps.Animation.BOUNCE);
+     if (heatMap.getMap() != null) {
+        heatMap.setMap(null);
+        for (var i = 0; i < eventMarkers.length; i++) {
+            eventMarkers[i].setVisible(false);
         }
-      }
+    } else {
+        heatMap.setMap(map);
+        for (var i = 0; i < eventMarkers.length; i++) {
+            eventMarkers[i].setVisible(true);
+        }
+    }
+}
+
+
+function generateEventLayer(){
+
+    heatMap = new google.maps.visualization.HeatmapLayer({
+        dissipating: true,
+        data: generateEventPoints(),
+        map: map,
+        radius: 35,
+    });
+}
+
+
+function generateEventPoints(){
+
+    var events_json = JSON.parse(events);
+
+    var points = []
+    eventMarkers = []
+    for(var e in events_json){
+        var infoWindow = new google.maps.InfoWindow({
+            content: '<div id="iw-container">' +
+                        '<div class="iw-title"><h4>'+ events_json[e]["fields"]["venue_name"] +'</h4> </div>' +
+                            '<div class="iw-content"><h5>'+ events_json[e]["fields"]["title"] +'</h5></div>' +
+                                '<p><h6>Address:'+ events_json[e]["fields"]["venue_address"] +'</h6></p>'+
+                        '<div class="iw-bottom-gradient"></div>' +
+                    '</div>',
+            maxWidth: 350
+        });
+
+        var event_lat = events_json[e]['fields']['latitude'];
+        var event_lon = events_json[e]['fields']['longitude'];
+        var geoPoint = new google.maps.LatLng(event_lat, event_lon);
+        points.push(geoPoint);
+
+        // var icon_hover = "../static/images/search.png";
+        var invis_icon = "../static/images/invisible_marker.png";
+
+        var eMarker = new google.maps.Marker({
+            position: new google.maps.LatLng(event_lat, event_lon),
+            animation: google.maps.Animation.DROP,
+            info: infoWindow,
+            icon: invis_icon
+            // icon: "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png"
+        });
+
+        // show on click
+        google.maps.event.addListener(eMarker, 'click', function () {
+            this.info.open(map, this);
+        });
+
+        // // show on hover
+        // google.maps.event.addListener(eMarker, 'mouseover', function () {
+        //     this.icon.setIcon(icon_hover, this);
+        // //     this.info.open(map, this);
+        // });
+        // google.maps.event.addListener(eMarker, 'mouseout', function () {
+        //     this.icon.setIcon(invis_icon);
+        //     // this.info.close();
+        // });
+
+        eventMarkers.push(eMarker);
+        eMarker.setMap(map);
+    }
+    return points
 }
 
 
@@ -209,8 +190,11 @@ function Route(directionsService, directionsDisplay, start, end, mode) {
             var duration = response.routes[0].legs[0].duration.text;
             var distance = response.routes[0].legs[0].distance.text;
 
+
             if (response.request.travelMode == "WALKING") {
-                return {duration: duration, distance: distance};
+                // return {duration: duration, distance: distance};
+            document.getElementById("walking_duration").innerHTML = duration;
+            document.getElementById("walking_distance").innerHTML = distance;
 
             }
         } else {
@@ -219,7 +203,20 @@ function Route(directionsService, directionsDisplay, start, end, mode) {
     });
 }
 
+function toggleWalkingLayer(){
+   var walkingDivValue = document.getElementById("walkingLayer");
+    if (document.getElementById("walkingLayer").value == "0") {
+       walkingRoute();
+       walkingDivValue.value = "1";
+    } else if (document.getElementById("walkingLayer").value == "1"){
+    directionsDisplayWalking.setMap(null);
+    walkingDivValue.value = "0";
+    document.getElementById("walking_duration").innerHTML = "";
+    document.getElementById("walking_distance").innerHTML = "";
 
+    }
+
+}
 
 // Generates the Walking route on map, using User's GeoLocation to the origin stop
 function walkingRoute() {
@@ -231,16 +228,14 @@ function walkingRoute() {
         }
     }
     var directionsServiceWalking = new google.maps.DirectionsService();
-    var directionsDisplayWalking = new google.maps.DirectionsRenderer(custom);
+    directionsDisplayWalking = new google.maps.DirectionsRenderer(custom);
     var userPosition = new google.maps.LatLng(useCurrentPosition.lat, useCurrentPosition.lon);
 
 
     // Generate and displays the walking route to the origin stop
-    // console.log("Running route in walkingRoute")
     Route(directionsServiceWalking, directionsDisplayWalking, userPosition, origin, "WALKING");
 
     directionsDisplayWalking.setMap(map);
-    // generateEventLayer();
 
 }
 
@@ -248,20 +243,45 @@ function walkingRoute() {
 // Generate alert icons on the map to show road incidents within 2 hours
 function addTwitterAlert(){
    var tweety = JSON.parse(tweet);
-   var delayImage = "../static/images/delay_icon.png";
-   var infoWindow = new google.maps.InfoWindow();
-   for(var i in tweety){
+   // console.log(tweety)
+    var delayImage = "../static/images/delay_icon.png";
+    var infoWindow = new google.maps.InfoWindow();
+
+    for(var t in tweety){
+       console.log(tweety[t])
        var marker = new google.maps.Marker({
-           position: {lat: tweety[i][2][0], lng: tweety[i][2][1]},
+           position: {lat: tweety[t]['fields']['latitude'],
+                      lng: tweety[t]['fields']['longitude']},
            map: map,
            icon: delayImage
        });
        google.maps.event.addListener(marker, 'click', (function (marker, i) {
            return function () {
-           infoWindow.setContent(tweety[i][0]);
+           infoWindow.setContent(tweety[t]['fields']['tweet']);
            infoWindow.open(map, marker);
            }
-       })(marker, i));
+       })(marker, t));
    }
 }
 
+
+
+// function eventMarkersToggle
+
+// function generateEventMarker(){
+
+    // var event_marker = new google.maps.Marker({
+    //     position: new google.maps.LatLng(event_lat, event_lon),
+    //     info: infowindow
+    // });
+    // event_marker.setMap(heatMap);
+//
+//         event_marker.addListener('mouseover', function() {
+//         infowindow.open(map, this);
+//     });
+//
+//     // assuming you also want to hide the infowindow when user mouses-out
+//     event_marker.addListener('mouseout', function() {
+//         infowindow.close();
+//     });
+// }
