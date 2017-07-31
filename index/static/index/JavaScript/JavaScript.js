@@ -71,7 +71,7 @@ function initializeMapDetail() {
     var directionsServiceTransit = new google.maps.DirectionsService();
     var directionsDisplayTransit = new google.maps.DirectionsRenderer();
 
-    var ModeSelection = document.getElementById('mode_select').value;
+    // var ModeSelection = document.getElementById('mode_select').value;
     origin = new google.maps.LatLng(origin_lat, origin_lon);
     destination = new google.maps.LatLng(destination_lat, destination_lon);
 
@@ -80,16 +80,41 @@ function initializeMapDetail() {
        zoom: 12,
     };
 
-    map = new google.maps.Map(document.getElementById("map"), properties);
-    directionsDisplayTransit.setMap(map);
 
-    Route(directionsServiceTransit, directionsDisplayTransit, origin, destination, ModeSelection);
+    map = new google.maps.Map(document.getElementById("map"), properties);
+
+     var marker_origin = new google.maps.Marker({
+        position: origin,
+        animation: google.maps.Animation.DROP,
+        icon: "../static/images/location_marker_L.png"
+    });
+
+    marker_origin.setMap(map);
+
+    var marker_dest = new google.maps.Marker({
+        position: destination,
+        animation: google.maps.Animation.DROP,
+        icon: "../static/images/location_marker_L.png"
+    });
+
+    marker_dest.setMap(map);
+
+
+
+
+    // directionsDisplayTransit.setMap(map);
+
+    // Route(directionsServiceTransit, directionsDisplayTransit, origin, destination, ModeSelection);
 
     // Event listener for change of transport mode
     document.getElementById('mode_select').addEventListener('change', function() {
-         Route(directionsServiceTransit, directionsDisplayTransit, origin, destination,
-             document.getElementById('mode_select').value);
+        if (document.getElementById('mode_select').value){
+            Route(directionsServiceTransit, directionsDisplayTransit, origin, destination,
+                document.getElementById('mode_select').value);
+            directionsDisplayTransit.setMap(map);
+        }
     });
+
     generateEventLayer()
 }
 
@@ -224,6 +249,7 @@ function generateEventLayer(){
 function generateEventPoints(){
 
     var events_json = JSON.parse(events);
+    console.log("stuff",events_json);
 
     var points = []
     eventMarkers = []
@@ -296,8 +322,8 @@ function Route(directionsService, directionsDisplay, start, end, mode) {
 
             if (response.request.travelMode == "WALKING") {
                 // return {duration: duration, distance: distance};
-            document.getElementById("walking_duration").innerHTML = duration;
-            document.getElementById("walking_distance").innerHTML = distance;
+                document.getElementById("walking_duration").innerHTML = "Walking Time: " + duration;
+                document.getElementById("walking_distance").innerHTML = "Walking distance: " + distance;
 
             }
         } else {
@@ -367,24 +393,3 @@ function addTwitterAlert(){
    }
 }
 
-
-
-// function eventMarkersToggle
-
-// function generateEventMarker(){
-
-    // var event_marker = new google.maps.Marker({
-    //     position: new google.maps.LatLng(event_lat, event_lon),
-    //     info: infowindow
-    // });
-    // event_marker.setMap(heatMap);
-//
-//         event_marker.addListener('mouseover', function() {
-//         infowindow.open(map, this);
-//     });
-//
-//     // assuming you also want to hide the infowindow when user mouses-out
-//     event_marker.addListener('mouseout', function() {
-//         infowindow.close();
-//     });
-// }

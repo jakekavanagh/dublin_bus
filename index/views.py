@@ -142,13 +142,17 @@ def detail(request):
         print("Object does not exist.")
 
         # Query for Event API table to retrieve event list for today
-    today_name = str(calendar.day_name[(datetime.date.today()).weekday()])
+
+
+    # today_name = str(calendar.day_name[(datetime.date.today()).weekday()])
+
     try:
-        events = serializers.serialize("json", Event.objects.filter(weekday=today_name))
+        events = serializers.serialize("json", Event.objects.filter(weekday=day_word))
     except ObjectDoesNotExist:
         print("Object does not exist.")
         end = t.clock()
         print("twitter:", end-begin)
+
 
     # event_results = event_parser(day)
     # event_json_data_string = json.dumps(event_results)

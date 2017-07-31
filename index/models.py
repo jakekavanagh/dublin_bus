@@ -2,8 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 import datetime
 
-#
-#
+
 class Event(models.Model):
     event_date = models.CharField(max_length=200)
     weekday = models.CharField(max_length=200)

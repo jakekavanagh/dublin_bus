@@ -42,7 +42,9 @@
             </div>
             <div>
                 <button onclick="toggleEventLayer()" >display event heat map</button>
-                <button id="walking_route" onclick="walkingRoute()" >Click to display walking route</button>
+                <button onclick="toggleWalkingLayer()" value="0" id="walkingLayer">Walking route</button>
+
+                <!--<button id="walking_route" onclick="walkingRoute()" >Click to display walking route</button>-->
             </div>
             <div id="busestimates">
                 <h3 id="headingcolours">Bus {{ route }} at Stop {{ origin }}:</h3>
@@ -51,6 +53,9 @@
                     <h4>Expect your bus at <h3 id="arrivalcolour"> {{ time_arrival }}</h3> </h4>
                     <h4>Your journey to stop {{ destination }} will take <h3 id="arrivalcolour"> {{ pred }} </h3> minutes</h4>
                     <h4 id="walking_journey"></h4>
+                    <!--<h3 id="walking_info"><b>Walking Time & Distance</b></h3>-->
+                    <h4 id="walking_duration"></h4>
+                    <h4 id="walking_distance"></h4>
                 </div>
             </div>
             <div id="weather">
@@ -75,7 +80,7 @@
                 <h3 id="headingcolours">Your Alerts</h3><br>
                 <h5>(No Alerts to Show!)</h5>
                 <select id="mode_select">
-                    <option value="TRANSIT">Transit</option>
+                    <option value="Null">Pick a mode</option>
                     <option value="DRIVING">Driving</option>
                     <option value="WALKING">Walking</option>
                     <option value="BICYCLING">Bicycling</option>
