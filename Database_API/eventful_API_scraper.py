@@ -15,7 +15,7 @@ def weekdays():
 
 
 def flush():
-    cur.execute("DELETE FROM index_eventapi;")
+    cur.execute("DELETE FROM index_event;")
     # print("Clearing")
     conn.commit()
 
