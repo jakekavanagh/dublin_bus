@@ -2,23 +2,23 @@ from django.db import models
 from django.core.urlresolvers import reverse
 import datetime
 
-
-class EventApi(models.Model):
-    pass
-
-
-class Event(models.Model):
-    event_date = models.CharField(max_length=200)
-    weekday = models.CharField(max_length=200)
-    event_time = models.CharField(max_length=200)
-    title = models.CharField(max_length=200)
-    venue_name = models.CharField(max_length=200)
-    venue_address = models.CharField(max_length=200)
-    longitude = models.FloatField()
-    latitude = models.FloatField()
-
-    class Meta:
-        unique_together = ('event_date', 'title', 'venue_name', 'event_time')
+#
+# class EventApi(models.Model):
+#     pass
+#
+#
+# class Event(models.Model):
+#     event_date = models.CharField(max_length=200)
+#     weekday = models.CharField(max_length=200)
+#     event_time = models.CharField(max_length=200)
+#     title = models.CharField(max_length=200)
+#     venue_name = models.CharField(max_length=200)
+#     venue_address = models.CharField(max_length=200)
+#     longitude = models.FloatField()
+#     latitude = models.FloatField()
+#
+#     class Meta:
+#         unique_together = ('event_date', 'title', 'venue_name', 'event_time')
 # make a table that stores all the timetable info
 
 # make a table that stores all the average info
