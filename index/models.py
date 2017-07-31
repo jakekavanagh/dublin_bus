@@ -4,23 +4,17 @@ import datetime
 
 
 class EventApi(models.Model):
+    event_date = models.CharField(max_length=200)
+    weekday = models.CharField(max_length=200)
+    event_time = models.CharField(max_length=200)
     title = models.CharField(max_length=200)
-    created = models.BigIntegerField(unique=True)
-    start_time = models.BigIntegerField()
-    venue_display = models.IntegerField()
     venue_name = models.CharField(max_length=200)
     venue_address = models.CharField(max_length=200)
     longitude = models.FloatField()
     latitude = models.FloatField()
-    region_name = models.CharField(max_length=200)
-    city_name = models.CharField(max_length=200)
-    country_name = models.CharField(max_length=200)
-    all_day = models.IntegerField()
 
-    def __str__(self):
-        return self.title
-
-
+    class Meta:
+        unique_together = ('event_date', 'title', 'venue_name', 'event_time')
 # make a table that stores all the timetable info
 
 # make a table that stores all the average info
@@ -51,3 +45,14 @@ class Timetable(models.Model):
     time = models.CharField(max_length=100)
     destination = models.CharField(max_length=300)
     start_stop = models.IntegerField()
+
+
+class Twitter(models.Model):
+    tweet = models.CharField(max_length=200)
+    tweet_date = models.CharField(max_length=200)
+    tweet_time = models.CharField(max_length=200)
+    longitude = models.FloatField()
+    latitude = models.FloatField()
+
+    class Meta:
+        unique_together = ('tweet', 'tweet_date', 'tweet_time')

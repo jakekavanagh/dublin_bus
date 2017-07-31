@@ -8,10 +8,13 @@ from .calculations.direct import direct, routey, bare
 from .calculations.location import nearest
 from .calculations.real_time import timetable
 from .calculations.AARoadWatch_Alert import connection_twitter
-import time
+import datetime
 from .models import Averages, RoughAverages
+from .models import EventApi
+from .models import Twitter
 from django.core.exceptions import ObjectDoesNotExist
-# from .calculations.events import event_parser
+import calendar
+from django.core import serializers
 import time as t
 
 def index(request):
@@ -126,10 +129,27 @@ def detail(request):
     destination_lat, destination_lon = all_stops[str(destination)]["Lat"], all_stops[str(destination)]["Lon"]
 
     begin = t.clock()
-    twitter_results = connection_twitter()
-    twitter_json_data_string = json.dumps(twitter_results)
-    end = t.clock()
-    print("twitter:", end-begin)
+    # Use for checking when there's no tweets for the day, checks the day before
+    # today_date = datetime.date.today() - datetime.timedelta(days=1)
+
+    # Query Twitter table for any road disruption updates. Time-range set to 3 hours from current time
+    today_date = datetime.date.today()
+    tweet_timerange = (datetime.datetime.now() - datetime.timedelta(hours=3)).time()
+
+    try:
+        twitter_results = serializers.serialize("json", Twitter.objects.filter(
+            tweet_date=today_date, tweet_time__gte=tweet_timerange))
+    except ObjectDoesNotExist:
+        print("Object does not exist.")
+
+        # Query for Event API table to retrieve event list for today
+    today_name = str(calendar.day_name[(datetime.date.today()).weekday()])
+    try:
+        events = serializers.serialize("json", EventApi.objects.filter(weekday=today_name))
+    except ObjectDoesNotExist:
+        print("Object does not exist.")
+        end = t.clock()
+        print("twitter:", end-begin)
 
     # event_results = event_parser(day)
     # event_json_data_string = json.dumps(event_results)
@@ -141,9 +161,7 @@ def detail(request):
         'pred': ("%.2f" % total), 'arrival': arrival_total, 'time_arrival': times,
         'origin_lat': origin_lat, 'origin_lon': origin_lon,
         'destination_lat': destination_lat, 'destination_lon': destination_lon,
-        'temp': temp, 'wspd': wspd, 'url': url,
-        # 'events': event_json_data_string,
-        'tweet': twitter_json_data_string,
+        'temp': temp, 'wspd': wspd, 'url': url, 'events': events, 'tweet': twitter_results,
     }
     end_total = t.clock()
     print('total:', end_total-begin_total, '\n\n')
@@ -153,7 +171,7 @@ def detail(request):
 def find(request):
     all_stops = IndexConfig.locations
     current = request.POST["current"]
-    temp, wspd, url, pop, condition = weather(time.strftime("%A"), time.strftime("%H"))
+    temp, wspd, url, pop, condition = weather(t.strftime("%A"), t.strftime("%H"))
     lat, lng = current.split(',')
     locations = nearest(lat, lng, all_stops)
     context = {
