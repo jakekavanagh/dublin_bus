@@ -1,49 +1,73 @@
 import psycopg2
-import eventful
-import sys
 import time
 import datetime
+import requests
+import calendar
 
-"""this file scrapes from the eventful API once a day"""
+
+def weekdays():
+    today_name = calendar.day_name[(datetime.date.today()).weekday()]
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    i = days.index(today_name)
+    d1 = days[i:]
+    d1.extend(days[:i])
+    return d1
 
 
-api = eventful.API('8JMkqSc6pBNpTgR3')
-events = api.call('events/search', l='Dublin')
+def flush():
+    cur.execute("DELETE FROM index_eventapi;")
+    # print("Clearing")
+    conn.commit()
+
+
+date = datetime.date.today() - datetime.timedelta(days=1)
+# print("yesterday", date)
 
 while True:
     try:
         conn = psycopg2.connect(host="127.0.0.1", port="5432", user="postgres", password="git-rekt", dbname="dublin_bus_db")
     except:
         print("FAILURE")
+
     cur = conn.cursor()
+    flush()
+    for day in weekdays():
+        date = date + datetime.timedelta(days=1)
+        # print(day, ":", date)
 
-    """ The below query has been removed as the creation of the database should be done through models when using Django"""
-    # cur.execute("""CREATE TABLE IF NOT EXISTS event_api(title VARCHAR(500) NOT NULL, created BIGINT NOT NULL, start_time BIGINT,
-    #         venue_display INT, venue_name varchar(500), venue_address VARCHAR(500), longitude FLOAT,
-    #         latitude FLOAT, region_name VARCHAR(500), city_name VARCHAR(500), country_name VARCHAR(500), all_day INT,
-    #         PRIMARY KEY (created, title));""")
-    # conn.commit()
+        # print("The weekday is: : : : :  :", day)
+        base_url = 'http://api.eventful.com/json/events/search?...&sort_order=popularity&location=Dublin' \
+                   '&page_size=250&app_key=8JMkqSc6pBNpTgR3&date=This+' + day
 
-    for key in events['events']['event']:
-        print(key['created'])
-        try:
-            cur.execute("INSERT INTO index_eventapi (title, created, start_time, venue_display, venue_address,"
-                        " venue_name, longitude, latitude, region_name, city_name, country_name, all_day) "
-                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                        (key['title'], time.mktime(datetime.datetime.strptime(key['created'], "%Y-%m-%d %H:%M:%S").timetuple()),
-                         time.mktime(datetime.datetime.strptime(key['start_time'], "%Y-%m-%d %H:%M:%S").timetuple()),
-                         key['venue_display'], key['venue_address'],  key['venue_name'],  key['longitude'], key['latitude'],
-                         key['region_name'], key['city_name'],  key['country_name'], key['all_day'],))
-        except psycopg2.IntegrityError:
-            print("already in DB!")
-        # except:
-        #     print("Unexpected error:", sys.exc_info()[0])
+        page_count = int(requests.get(base_url).json()['page_count'])
 
-        conn.commit()
+        for page_number in range(1, page_count+1):
+            # print("\n\nNEW PAGE")
+            # print("\nOn page number: ", page_number)
+            url = base_url + "&page_number=" + str(page_number)
+            events = (requests.get(url).json())
+
+            for key in events['events']['event']:
+                event_time = str(key['start_time'].split(" ")[1])[:-3]
+                event_date = date
+
+                # print(event_date, day, key['title'], event_time, key['venue_name'], key['venue_address'],
+                #       key['latitude'], key['latitude'])
+                try:
+                    cur.execute(
+                        "INSERT INTO index_eventapi(event_date, weekday, title, event_time, venue_name,"
+                        " venue_address, longitude, latitude)"
+                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                        (event_date, day, key['title'], event_time, key['venue_name'], key['venue_address'],
+                         key['longitude'], key['latitude'],))
+
+                except psycopg2.IntegrityError:
+                    print("already in DB!")
+                # except:
+                #     print("Unexpected error:", sys.exc_info()[0])
+
+                conn.commit()
 
     cur.close()
     conn.close()
     time.sleep(60*60*24)
-
-"""excluded stop time as there are a lot of none values"""
-# time.mktime(datetime.datetime.strptime(key['stop_time'], "%Y-%m-%d %H:%M:%S").timetuple()),
