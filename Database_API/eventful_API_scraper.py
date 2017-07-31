@@ -55,7 +55,7 @@ while True:
                 #       key['latitude'], key['latitude'])
                 try:
                     cur.execute(
-                        "INSERT INTO index_eventapi(event_date, weekday, title, event_time, venue_name,"
+                        "INSERT INTO index_event(event_date, weekday, title, event_time, venue_name,"
                         " venue_address, longitude, latitude)"
                         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                         (event_date, day, key['title'], event_time, key['venue_name'], key['venue_address'],
