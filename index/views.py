@@ -48,7 +48,6 @@ def detail(request):
     full_time = full_time.strip('()')
     time, mins = full_time.split('.')
     time = int(time)
-    print('\t\t', origin)
     """now we establish the direction the user is going in"""
     route_stripped = routey(route)
     direction = direct(origin, destination, dicty, route_stripped)
