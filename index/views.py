@@ -1,21 +1,20 @@
 import json
 import pandas as pd
+import time as t
+import datetime
+import calendar
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
+from django.core import serializers
 from .apps import IndexConfig
 from .calculations.summary import summary_weather, raining
 from .calculations.weather import weather
 from .calculations.direct import direct, routey, bare
 from .calculations.location import nearest
 from .calculations.real_time import timetable
-from .calculations.AARoadWatch_Alert import connection_twitter
-import datetime
 from .models import Averages, RoughAverages
 from .models import EventApi
 from .models import Twitter
-from django.core.exceptions import ObjectDoesNotExist
-import calendar
-from django.core import serializers
-import time as t
 
 def index(request):
     dicty = IndexConfig.dicty
