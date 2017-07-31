@@ -3,7 +3,11 @@ from django.core.urlresolvers import reverse
 import datetime
 
 
-class Event_Api(models.Model):
+class EventApi(models.Model):
+    pass
+
+
+class Event(models.Model):
     event_date = models.CharField(max_length=200)
     weekday = models.CharField(max_length=200)
     event_time = models.CharField(max_length=200)
