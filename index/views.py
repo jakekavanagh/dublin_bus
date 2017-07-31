@@ -13,7 +13,7 @@ from .calculations.direct import direct, routey, bare
 from .calculations.location import nearest
 from .calculations.real_time import timetable
 from .models import Averages, RoughAverages
-# from .models import Event
+from .models import Event
 from .models import Twitter
 
 def index(request):
@@ -143,12 +143,12 @@ def detail(request):
 
         # Query for Event API table to retrieve event list for today
     today_name = str(calendar.day_name[(datetime.date.today()).weekday()])
-    # try:
-    #     events = serializers.serialize("json", Event.objects.filter(weekday=today_name))
-    # except ObjectDoesNotExist:
-    #     print("Object does not exist.")
-    #     end = t.clock()
-    #     print("twitter:", end-begin)
+    try:
+        events = serializers.serialize("json", Event.objects.filter(weekday=today_name))
+    except ObjectDoesNotExist:
+        print("Object does not exist.")
+        end = t.clock()
+        print("twitter:", end-begin)
 
     # event_results = event_parser(day)
     # event_json_data_string = json.dumps(event_results)
@@ -160,7 +160,7 @@ def detail(request):
         'pred': ("%.2f" % total), 'arrival': arrival_total, 'time_arrival': times,
         'origin_lat': origin_lat, 'origin_lon': origin_lon,
         'destination_lat': destination_lat, 'destination_lon': destination_lon,
-        'temp': temp, 'wspd': wspd, 'url': url, 'events': "hello", 'tweet': twitter_results,
+        'temp': temp, 'wspd': wspd, 'url': url, 'events': events, 'tweet': twitter_results,
     }
     end_total = t.clock()
     print('total:', end_total-begin_total, '\n\n')
