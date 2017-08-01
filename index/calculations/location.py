@@ -61,5 +61,4 @@ def path(stops, dict):
     for stop in stops:
         arr += [[dict[stop]['Lat'], dict[stop]['Lon']]]
         names += [str(dict[stop]['name'])]
-    print(names)
     return arr, names

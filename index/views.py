@@ -18,6 +18,7 @@ from .models import Twitter
 
 def index(request):
     dicty = IndexConfig.dicty
+    locations = IndexConfig.locations
     routes = []
     for i in dicty:
         routes += [routey(i)]
@@ -35,6 +36,7 @@ def index(request):
         'hours': hours,
         'mins': mins,
         'dicty': json.dumps(dicty),
+        'locations': json.dumps(locations),
     }
     return render(request, 'index/index.html', context)
 
@@ -104,6 +106,7 @@ def detail(request):
     total = sum(val)/60
 
     df2 = pd.DataFrame(columns=columns)
+    print(origin, dicty[route_stripped][str(direction)][0])
     if str(origin) == dicty[route_stripped][str(direction)][0]:
         arrival_total = 0
     else:
@@ -158,6 +161,7 @@ def detail(request):
 
     # event_results = event_parser(day)
     # event_json_data_string = json.dumps(event_results)
+    print("arrival prediction", arrival_total)
     times = str(timetable(bare_route, direction, arrival_total, time, day_word, mins))
     origin_word, destination_word = all_stops[str(origin)]['name'], all_stops[str(destination)]['name']
     context = {
@@ -182,10 +186,15 @@ def find(request):
     locations = nearest(lat, lng, all_stops)
     context = {
         'stop_1': locations[0][0], 'lat_1': locations[0][1], 'long_1': locations[0][2],
+        'routes_1': [locations[0][0]]+[all_stops[locations[0][0]]['routes']], 'name_1': all_stops[locations[0][0]]['name'],
         'stop_2': locations[1][0], 'lat_2': locations[1][1], 'long_2': locations[1][2],
+        'routes_2': [locations[1][0]]+[all_stops[locations[1][0]]['routes']], 'name_2': all_stops[locations[1][0]]['name'],
         'stop_3': locations[2][0], 'lat_3': locations[2][1], 'long_3': locations[2][2],
+        'routes_3': [locations[2][0]]+[all_stops[locations[2][0]]['routes']], 'name_3': all_stops[locations[2][0]]['name'],
         'stop_4': locations[3][0], 'lat_4': locations[3][1], 'long_4': locations[3][2],
+        'routes_4': [locations[3][0]]+[all_stops[locations[3][0]]['routes']], 'name_4': all_stops[locations[3][0]]['name'],
         'stop_5': locations[4][0], 'lat_5': locations[4][1], 'long_5': locations[4][2],
+        'routes_5': [locations[4][0]]+[all_stops[locations[4][0]]['routes']], 'name_5': all_stops[locations[4][0]]['name'],
         'temp': temp, 'wspd': wspd, 'url': url,
         'my_lat': lat, 'my_long': lng,
     }

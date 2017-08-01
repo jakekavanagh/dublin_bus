@@ -1,5 +1,14 @@
 function initializeMapFind() {
 
+    var routes = [routes_1, routes_2, routes_3, routes_4, routes_5]
+    for (var i = 0; i < routes.length; i++) {
+        routes[i] = routes[i].replace(/&#39;/g, "");
+        routes[i] = routes[i].replace(/[\[\]']+/g,'');
+        var x = routes[i].split(", ");
+        x = x.slice(1,)
+        document.getElementById(String(x[0])+"p").innerHTML = x.slice(1,);
+    }
+
     var properties = {
        center: {lat: my_lat, lng: my_long},
        zoom: 16,
@@ -93,7 +102,72 @@ function initializeMapFind() {
 //    marker4.setMap(map2);
 //    marker5.setMap(map2);
 //    user.setMap(map2);
+
     user.addListener('mouseover', toggleBounce);
+
+    markers = markers.slice(0,-1)
+
+//    for (i = 0; i< markers.length; i++) {
+//        alert(markers[i].title);
+//        markers[i].addListener('click', function() {
+//            document.getElementById(markers[i].title).innerHTML = "HELLO";
+//        });
+//    }
+
+    marker.addListener('click', function() {
+        for (i = 0; i< markers.length; i++) {
+            if (markers[i] == marker){
+                document.getElementById(markers[i].title).style.background = "blue";
+            }
+            else {
+                document.getElementById(markers[i].title).style.background = "none";
+            }
+        }
+    });
+
+    marker2.addListener('click', function() {
+        for (i = 0; i< markers.length; i++) {
+            if (markers[i] == marker2){
+                document.getElementById(markers[i].title).style.background = "blue";
+            }
+            else {
+                document.getElementById(markers[i].title).style.background = "none";
+            }
+        }
+    });
+
+    marker3.addListener('click', function() {
+        for (i = 0; i< markers.length; i++) {
+            if (markers[i] == marker3){
+                document.getElementById(markers[i].title).style.background = "silver";
+            }
+            else {
+                document.getElementById(markers[i].title).style.background = "none";
+            }
+        }
+    });
+
+    marker4.addListener('click', function() {
+        for (i = 0; i< markers.length; i++) {
+            if (markers[i] == marker4){
+                document.getElementById(markers[i].title).style.background = "silver";
+            }
+            else {
+                document.getElementById(markers[i].title).style.background = "none";
+            }
+        }
+    });
+
+    marker5.addListener('click', function() {
+        for (i = 0; i< markers.length; i++) {
+            if (markers[i] == marker5){
+                document.getElementById(markers[i].title).style.background = "silver";
+            }
+            else {
+                document.getElementById(markers[i].title).style.background = "silver";
+            }
+        }
+    });
 
     function toggleBounce() {
         if (user.getAnimation() !== null) {
@@ -113,4 +187,11 @@ function initializeMapFind() {
         {"featureType": "water", "elementType": "labels", "stylers": [{"visibility": "on"}, {"saturation": 100}]},
     ];
     map2.set('styles', styles);
+
+//    new google.maps2.event.trigger( marker, 'click' );
+
+//document.getElementById()
+
+
 }
+

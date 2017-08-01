@@ -6,8 +6,11 @@ def timetable(route, direction, minutes, hour, day, mins):
     if day != 'Sunday' and day != 'Saturday':
         day = 'Weekday'
     results = []
-    minutes, seconds = str(minutes).split('.')
-    minutes, seconds = int(minutes), int(seconds[:2])
+    if minutes != 0.0:
+        minutes, seconds = str(minutes).split('.')
+        minutes, seconds = int(minutes), int(seconds[:2])
+    else:
+        minutes, seconds = 0, 0
     hour = str(hour)
     if len(hour) == 1:
         hour = '0' + hour
