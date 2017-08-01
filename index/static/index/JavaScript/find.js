@@ -116,7 +116,7 @@ function initializeMapFind() {
     marker.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
             if (markers[i] == marker){
-                document.getElementById(markers[i].title).style.background = "blue";
+                document.getElementById(markers[i].title).style.background = "silver";
             }
             else {
                 document.getElementById(markers[i].title).style.background = "none";
@@ -127,7 +127,7 @@ function initializeMapFind() {
     marker2.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
             if (markers[i] == marker2){
-                document.getElementById(markers[i].title).style.background = "blue";
+                document.getElementById(markers[i].title).style.background = "silver";
             }
             else {
                 document.getElementById(markers[i].title).style.background = "none";
@@ -163,7 +163,7 @@ function initializeMapFind() {
                 document.getElementById(markers[i].title).style.background = "silver";
             }
             else {
-                document.getElementById(markers[i].title).style.background = "silver";
+                document.getElementById(markers[i].title).style.background = "none";
             }
         }
     });
