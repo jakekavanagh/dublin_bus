@@ -15,9 +15,9 @@
 <script>
     // Declaring Django variables from view as Global Variables so can be used in the external Javascript file.
     // note: Must be declared before the external javascript file is loaded
-    var origin_lat ={{ origin_lat }}, origin_lon = {{ origin_lon }}, destination_lat = {{destination_lat }},
-       destination_lon = {{destination_lon }}, tweet = "{{ tweet| safe | escapejs }}",
-        events = "{{ events| safe | escapejs }}";
+    var origin_lat ={{ origin_lat }}, origin_lon = {{ origin_lon }}, origin_word = "{{ origin_word }}",
+        destination_lat = {{destination_lat }}, destination_lon = {{destination_lon }}, destination_word = "{{ destination_word }}",
+        tweet = "{{ tweet| safe | escapejs }}", events = "{{ events| safe | escapejs }}", stops = {{ stops }}, names = "{{ names }}";
 {% load staticfiles %}
 
 </script>

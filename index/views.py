@@ -10,7 +10,7 @@ from .apps import IndexConfig
 from .calculations.summary import summary_weather, raining
 from .calculations.weather import weather
 from .calculations.direct import direct, routey, bare
-from .calculations.location import nearest
+from .calculations.location import nearest, path
 from .calculations.real_time import timetable
 from .models import Averages, RoughAverages
 from .models import Event
@@ -128,7 +128,7 @@ def detail(request):
     all_stops = IndexConfig.locations
     origin_lat, origin_lon = all_stops[str(origin)]["Lat"], all_stops[str(origin)]["Lon"]
     destination_lat, destination_lon = all_stops[str(destination)]["Lat"], all_stops[str(destination)]["Lon"]
-
+    full_route, stop_names = path(stops, all_stops)
     begin = t.clock()
     # Use for checking when there's no tweets for the day, checks the day before
     # today_date = datetime.date.today() - datetime.timedelta(days=1)
@@ -166,7 +166,8 @@ def detail(request):
         'pred': ("%.2f" % total), 'arrival': arrival_total, 'time_arrival': times,
         'origin_lat': origin_lat, 'origin_lon': origin_lon,
         'destination_lat': destination_lat, 'destination_lon': destination_lon,
-        'temp': temp, 'wspd': wspd, 'url': url, 'events': events, 'tweet': twitter_results,
+        'temp': temp, 'wspd': wspd, 'url': url, 'events': events, 'tweet': twitter_results, 'stops': full_route[1:],
+        'names': stop_names,
     }
     end_total = t.clock()
     print('total:', end_total-begin_total, '\n\n')

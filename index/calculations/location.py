@@ -54,3 +54,12 @@ def nearest(lat, long, dicty):
             [closest4, dicty[closest4]['Lat'], dicty[closest4]['Lon']],
             [closest5, dicty[closest5]['Lat'], dicty[closest5]['Lon']]]
 
+
+def path(stops, dict):
+    arr = []
+    names = []
+    for stop in stops:
+        arr += [[dict[stop]['Lat'], dict[stop]['Lon']]]
+        names += [str(dict[stop]['name'])]
+    print(names)
+    return arr, names

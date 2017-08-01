@@ -18,10 +18,10 @@
         stop_3 = "{{ stop_3 }}", lat_3 = {{ lat_3 }}, long_3 = {{ long_3 }},
         stop_4 = "{{ stop_4 }}", lat_4 = {{ lat_4 }}, long_4 = {{ long_4 }},
         stop_5 = "{{ stop_5 }}", lat_5 = {{ lat_5 }}, long_5 = {{ long_5 }};
-
+{% load staticfiles %}
 </script>
 
-<script src="../static/index/JavaScript/JavaScript.js"></script>
+<script src="{% static 'index/JavaScript/JavaScript.js' %}"></script>
 
 <body class="find">
 <div id="resultspage">
