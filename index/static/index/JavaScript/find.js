@@ -5,7 +5,6 @@ function initializeMapFind() {
         routes[i] = routes[i].replace(/&#39;/g, "");
         routes[i] = routes[i].replace(/[\[\]']+/g,'');
         var x = routes[i].split(", ");
-        x = x.slice(1,)
         document.getElementById(String(x[0])+"p").innerHTML = x.slice(1,);
     }
 
