@@ -1,5 +1,5 @@
 // Global Variables
-var destination, origin, map, heatMap, directionsDisplayWalking, eventMarkers, map2;
+var destination, origin, map, heatMap, directionsDisplayWalking, eventMarkers, map2, userPosition;
 
 
 // This function executes if the index HTML page is loaded
@@ -47,7 +47,7 @@ if (navigator.geolocation) {
 // Updates the object to the User's GeoLocation
 function storeCurrentPosition(position){
 
-    var location_image = "../static/images/location_icon.png";
+    var location_image = location_icon;
     var Lat = position.coords.latitude;
     var Lon = position.coords.longitude;
 
@@ -61,6 +61,7 @@ function storeCurrentPosition(position){
     });
     // map.setCenter(pos); // Centers the map to this point
     currentPositionMarker.setMap(map);
+//    currentPositionMarker.setMap(map2);
 
 }
 
@@ -181,10 +182,16 @@ function Route(directionsService, directionsDisplay, start, end, mode) {
     });
 }
 
-function toggleWalkingLayer(){
+function toggleWalkingLayer(ma){
+    if (ma == 'detail') {
+        m = map;
+    }
+    else if (ma = 'find') {
+        m = map2;
+    }
    var walkingDivValue = document.getElementById("walkingLayer");
     if (document.getElementById("walkingLayer").value == "0") {
-       walkingRoute();
+       walkingRoute(m);
        walkingDivValue.value = "1";
     } else if (document.getElementById("walkingLayer").value == "1"){
     directionsDisplayWalking.setMap(null);
@@ -197,7 +204,7 @@ function toggleWalkingLayer(){
 }
 
 // Generates the Walking route on map, using User's GeoLocation to the origin stop
-function walkingRoute() {
+function walkingRoute(m) {
     // Customize the route display
     var custom = {
         suppressMarkers: true,
@@ -207,13 +214,13 @@ function walkingRoute() {
     }
     var directionsServiceWalking = new google.maps.DirectionsService();
     directionsDisplayWalking = new google.maps.DirectionsRenderer(custom);
-    var userPosition = new google.maps.LatLng(useCurrentPosition.lat, useCurrentPosition.lon);
+//    var userPosition = new google.maps.LatLng(useCurrentPosition.lat, useCurrentPosition.lon);
 
 
     // Generate and displays the walking route to the origin stop
     Route(directionsServiceWalking, directionsDisplayWalking, userPosition, origin, "WALKING");
 
-    directionsDisplayWalking.setMap(map);
+    directionsDisplayWalking.setMap(m);
 
 }
 

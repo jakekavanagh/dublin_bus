@@ -32,7 +32,7 @@ function populate(route, dict, locations) {
 }
 
 
-function populateDestination(start, dict) {
+function populateDestination(start, dict, locations) {
     var route = document.getElementById("RouteNumbers").value;
     var subset;
     if ($.inArray(start, dict[route]['0']) != -1){
@@ -53,14 +53,18 @@ function populateDestination(start, dict) {
         dropdown.remove(0);
      }
 
+    var originValue = document.getElementById("origin").value;
      var option = document.createElement("option");
      option.text = "Select a Destination Stop";
+     option.value = originValue;
      dropdown.add(option);
+
      destination.options[destination.options.selectedIndex].setAttribute("selected", "selected");
 
      for (var i = 0; i < subset.length; ++i) {
           var option = document.createElement("option");
-          option.text = subset[i];
+          option.text = locations[subset[i]]['name'] + ' - '+ subset[i];
+          option.value = subset[i];
           dropdown.add(option);
      }
 

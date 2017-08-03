@@ -11,6 +11,8 @@ urlpatterns = [
 
     url(r'^find/$', views.find, name='find'),
 
+    url(r'^find/detail/$', views.detail, name='find_detail'),
+
     url(r'^indexmobile/$', views.indexmobile, name='indexmobile'),
 
 

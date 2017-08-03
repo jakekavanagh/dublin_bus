@@ -1,11 +1,23 @@
 function initializeMapFind() {
 
+    userPosition = new google.maps.LatLng(my_lat, my_long);
+    origin = new google.maps.LatLng(lat_1, long_1);
+
+
     var routes = [routes_1, routes_2, routes_3, routes_4, routes_5]
     for (var i = 0; i < routes.length; i++) {
         routes[i] = routes[i].replace(/&#39;/g, "");
         routes[i] = routes[i].replace(/[\[\]']+/g,'');
         var x = routes[i].split(", ");
-        document.getElementById(String(x[0])+"p").innerHTML = x.slice(1,);
+        var forButtons = x.slice(1,);
+        var results = '<form action="detail/" method="post" autocomplete="off">'+ csrf;
+        results += '<input name = "orig" type ="hidden" value="'+String(x[0])+'" />'
+        results += '<input name = "current" type ="hidden" value="'+[my_lat, my_long]+'" />'
+        for (var j = 0; j < forButtons.length; j++) {
+            results += '<input name = "route" type="submit" value="'+forButtons[j]+'" />'
+        }
+        results += '</form>'
+        document.getElementById(String(x[0])+"p").innerHTML = results;
     }
 
     var properties = {
@@ -115,6 +127,8 @@ function initializeMapFind() {
 
     marker.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
+            origin = new google.maps.LatLng(lat_1, long_1);
+            toggleWalkingLayer();
             if (markers[i] == marker){
                 document.getElementById(markers[i].title).style.background = "silver";
             }
@@ -126,6 +140,8 @@ function initializeMapFind() {
 
     marker2.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
+            origin = new google.maps.LatLng(lat_2, long_2);
+            toggleWalkingLayer();
             if (markers[i] == marker2){
                 document.getElementById(markers[i].title).style.background = "silver";
             }
@@ -137,6 +153,8 @@ function initializeMapFind() {
 
     marker3.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
+            origin = new google.maps.LatLng(lat_3, long_3);
+            toggleWalkingLayer();
             if (markers[i] == marker3){
                 document.getElementById(markers[i].title).style.background = "silver";
             }
@@ -148,6 +166,8 @@ function initializeMapFind() {
 
     marker4.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
+            origin = new google.maps.LatLng(lat_4, long_4);
+            toggleWalkingLayer();
             if (markers[i] == marker4){
                 document.getElementById(markers[i].title).style.background = "silver";
             }
@@ -159,6 +179,8 @@ function initializeMapFind() {
 
     marker5.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
+            origin = new google.maps.LatLng(lat_5, long_5);
+            toggleWalkingLayer();
             if (markers[i] == marker5){
                 document.getElementById(markers[i].title).style.background = "silver";
             }
@@ -191,6 +213,9 @@ function initializeMapFind() {
 
 //document.getElementById()
 
+}
 
+function submit(x) {
+    alert(x);
 }
 
