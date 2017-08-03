@@ -13,12 +13,17 @@
 {% block main %}
 
 <script>
+{% load staticfiles %}
+
     // Declaring Django variables from view as Global Variables so can be used in the external Javascript file.
     // note: Must be declared before the external javascript file is loaded
-    var origin_lat ={{ origin_lat }}, origin_lon = {{ origin_lon }}, origin_word = "{{ origin_word }}",
-        destination_lat = {{destination_lat }}, destination_lon = {{destination_lon }}, destination_word = "{{ destination_word }}",
-        tweet = "{{ tweet| safe | escapejs }}", events = "{{ events| safe | escapejs }}", stops = {{ stops }}, names = "{{ names }}";
-{% load staticfiles %}
+
+    var my_lat ={{ my_lat }}, my_long = {{ my_long }}, origin_lat ={{ origin_lat }}, origin_lon = {{ origin_lon }},
+        origin_word = "{{ origin_word }}", destination_lat = {{destination_lat }}, destination_lon = {{destination_lon }},
+        destination_word = "{{ destination_word }}", tweet = "{{ tweet| safe | escapejs }}",
+        events = "{{ events| safe | escapejs }}", stops = {{ stops }}, names = "{{ names }}", bus_image = "{% static 'images/bus_2.png' %}",
+        location_icon = "{% static 'images/location_icon.png' %}";
+
 
 </script>
 <script src="{% static 'index/JavaScript/JavaScript.js' %}"></script>
@@ -77,7 +82,8 @@
             </div>
             <div id="Alerts">
                 <button onclick="toggleEventLayer()" >display event heat map</button>
-                <button onclick="toggleWalkingLayer()" value="0" id="walkingLayer">Walking route</button>                <select id="mode_select">
+                <button onclick="toggleWalkingLayer('detail')" value="0" id="walkingLayer">Walking route</button>
+                <select id="mode_select">
                     <option value="Null">Pick a mode</option>
                     <option value="DRIVING">Driving</option>
                     <option value="WALKING">Walking</option>
