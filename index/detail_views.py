@@ -132,7 +132,6 @@ def detail(request):
 
         # Query for Event API table to retrieve event list for today
 
-
     # today_name = str(calendar.day_name[(datetime.date.today()).weekday()])
 
     try:
@@ -149,6 +148,7 @@ def detail(request):
     print("arrival prediction", arrival_total)
     times = str(timetable(bare_route, direction, arrival_total, time, day_word, mins))
     origin_word, destination_word = all_stops[str(origin)]['name'], all_stops[str(destination)]['name']
+    full_route = [[float(y) for y in x] for x in full_route]
     context = {
         'origin': origin, 'origin_word': origin_word, 'destination': destination, 'destination_word': destination_word,
         'route': route, 'time': time, 'day': day_word, 'mins': mins,

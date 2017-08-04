@@ -12,14 +12,15 @@
 
 {% block main %}
 <script>
+{% load staticfiles %}
+
     var my_lat ={{ my_lat }}, my_long = {{ my_long }},
         stop_1 = "{{ stop_1 }}", lat_1 = {{ lat_1 }}, long_1 = {{ long_1 }}, routes_1 = "{{ routes_1 }}",
         stop_2 = "{{ stop_2 }}", lat_2 = {{ lat_2 }}, long_2 = {{ long_2 }}, routes_2 = "{{ routes_2 }}",
         stop_3 = "{{ stop_3 }}", lat_3 = {{ lat_3 }}, long_3 = {{ long_3 }}, routes_3 = "{{ routes_3 }}",
         stop_4 = "{{ stop_4 }}", lat_4 = {{ lat_4 }}, long_4 = {{ long_4 }}, routes_4 = "{{ routes_4 }}",
         stop_5 = "{{ stop_5 }}", lat_5 = {{ lat_5 }}, long_5 = {{ long_5 }}, routes_5 = "{{ routes_5 }}",
-        csrf = "{% csrf_token %}";
-{% load staticfiles %}
+        csrf = "{% csrf_token %}", location_icon = "{% static 'images/location_icon.png' %}";
 </script>
 
 <script src="{% static 'index/JavaScript/JavaScript.js' %}"></script>
@@ -64,9 +65,9 @@
             </div>
         </div>
 
-        <button onclick="toggleWalkingLayer()" value="0" id="walkingLayer">Walking route</button>
-        <div id="walking_duration"></div>
-        <div id="walking_distance"></div>
+        <button onclick="toggleWalkingLayer('find')" value="0" id="walkingLayer" hidden>Walking route</button>
+        <div id="walking_duration" hidden></div>
+        <div id="walking_distance" hidden></div>
 
         <div id="weather">
             <div class="left">

@@ -1,3 +1,6 @@
+var my_lat;
+var my_long;
+
 function initializeMapFind() {
 
     userPosition = new google.maps.LatLng(my_lat, my_long);
@@ -128,7 +131,7 @@ function initializeMapFind() {
     marker.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
             origin = new google.maps.LatLng(lat_1, long_1);
-            toggleWalkingLayer();
+            toggleWalkingLayer('find');
             if (markers[i] == marker){
                 document.getElementById(markers[i].title).style.background = "silver";
             }
@@ -141,7 +144,7 @@ function initializeMapFind() {
     marker2.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
             origin = new google.maps.LatLng(lat_2, long_2);
-            toggleWalkingLayer();
+            toggleWalkingLayer('find');
             if (markers[i] == marker2){
                 document.getElementById(markers[i].title).style.background = "silver";
             }
@@ -154,7 +157,7 @@ function initializeMapFind() {
     marker3.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
             origin = new google.maps.LatLng(lat_3, long_3);
-            toggleWalkingLayer();
+            toggleWalkingLayer('find');
             if (markers[i] == marker3){
                 document.getElementById(markers[i].title).style.background = "silver";
             }
@@ -167,7 +170,7 @@ function initializeMapFind() {
     marker4.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
             origin = new google.maps.LatLng(lat_4, long_4);
-            toggleWalkingLayer();
+            toggleWalkingLayer('find');
             if (markers[i] == marker4){
                 document.getElementById(markers[i].title).style.background = "silver";
             }
@@ -180,7 +183,7 @@ function initializeMapFind() {
     marker5.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
             origin = new google.maps.LatLng(lat_5, long_5);
-            toggleWalkingLayer();
+            toggleWalkingLayer('find');
             if (markers[i] == marker5){
                 document.getElementById(markers[i].title).style.background = "silver";
             }

@@ -1,5 +1,7 @@
 // Global Variables
-var destination, origin, map, heatMap, directionsDisplayWalking, eventMarkers, map2, userPosition;
+var destination, origin, map, heatMap, directionsDisplayWalking, eventMarkers, map2, userPosition,
+    location_icon, origin_lat, origin_lon, destination_lat, destination_lon, bus_image, origin_word, destination_word,
+    infoExist = false, infowindow;
 
 
 // This function executes if the index HTML page is loaded
@@ -154,7 +156,7 @@ function generateEventPoints(){
 
 // generates a route on map, input variables include: origin, destination and travel mode.
 // available modes: "DRIVING", "WALKING", "BICYCLING","TRANSIT"
-function Route(directionsService, directionsDisplay, start, end, mode) {
+function Route(directionsService, directionsDisplay, start, end, mode, m) {
 
     var requests = {
         origin: start,
@@ -179,38 +181,65 @@ function Route(directionsService, directionsDisplay, start, end, mode) {
         } else {
         window.alert("Couldn't get directions:" + status);
         }
+        if (m == map2){
+            if (infoExist == true){
+               infowindow.setMap(null);
+            }
+            infowindow = new google.maps.InfoWindow();
+            infowindow.setContent(response.routes[0].legs[0].steps[0].distance.text + "<br>" + response.routes[0].legs[0].steps[0].duration.text + " ");
+            infowindow.setPosition(response.routes[0].legs[0].steps[0].end_location);
+            infowindow.open(map2);
+            infoExist = true;
+             }
     });
 }
-
+var m;
 function toggleWalkingLayer(ma){
     if (ma == 'detail') {
         m = map;
     }
-    else if (ma = 'find') {
+    else if (ma == 'find') {
         m = map2;
     }
    var walkingDivValue = document.getElementById("walkingLayer");
     if (document.getElementById("walkingLayer").value == "0") {
        walkingRoute(m);
        walkingDivValue.value = "1";
-    } else if (document.getElementById("walkingLayer").value == "1"){
-    directionsDisplayWalking.setMap(null);
-    walkingDivValue.value = "0";
-    document.getElementById("walking_duration").innerHTML = "";
-    document.getElementById("walking_distance").innerHTML = "";
-
     }
-
+    else if (document.getElementById("walkingLayer").value == "1" & m == map2){
+        directionsDisplayWalking.setMap(null);
+        walkingDivValue.value = "0";
+        walkingRoute(m);
+        walkingDivValue.value = "1";
+    }
+    else if (document.getElementById("walkingLayer").value == "1"){
+        directionsDisplayWalking.setMap(null);
+        walkingDivValue.value = "0";
+        document.getElementById("walking_duration").innerHTML = "";
+        document.getElementById("walking_distance").innerHTML = "";
+    }
 }
+
 
 // Generates the Walking route on map, using User's GeoLocation to the origin stop
 function walkingRoute(m) {
     // Customize the route display
-    var custom = {
-        suppressMarkers: true,
-        polylineOptions: {
-            strokeColor: "green"
+    if (m == map2) {
+        var custom = {
+            preserveViewport: true,
+            suppressMarkers: true,
+            polylineOptions: {
+                strokeColor: "green"
+            }
         }
+    }
+    else {
+        var custom = {
+                suppressMarkers: true,
+                polylineOptions: {
+                    strokeColor: "green"
+                }
+            }
     }
     var directionsServiceWalking = new google.maps.DirectionsService();
     directionsDisplayWalking = new google.maps.DirectionsRenderer(custom);
@@ -218,7 +247,7 @@ function walkingRoute(m) {
 
 
     // Generate and displays the walking route to the origin stop
-    Route(directionsServiceWalking, directionsDisplayWalking, userPosition, origin, "WALKING");
+    Route(directionsServiceWalking, directionsDisplayWalking, userPosition, origin, "WALKING", m);
 
     directionsDisplayWalking.setMap(m);
 

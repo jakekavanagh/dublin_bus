@@ -1,4 +1,6 @@
 // This function initializes the Map with a route according to the origin stop and destination stop input by the user
+var my_lat;
+var my_long;
 function initializeMapDetail() {
 
     userPosition = new google.maps.LatLng(my_lat, my_long);
