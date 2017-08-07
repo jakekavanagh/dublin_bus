@@ -27,6 +27,7 @@ def detail(request):
     origin, destination, route, full_time, day = int(float(request.POST.get("orig", 0))),\
         int(float(request.POST.get('dest', request.POST.get("orig", 0)))), request.POST['route'], request.POST.get('time', '100'), request.POST.get('day', today)
     current = request.POST["current"]
+    print("Current is", current)
 
     if full_time != '100':
         full_time = full_time.strip('()')
@@ -141,6 +142,9 @@ def detail(request):
         end = t.clock()
         print("twitter:", end-begin)
 
+    # Used for testing local host on mobile! Remember to remove
+    # current = "6.2603, 53.3498"
+
     lat, lng = current.split(',')
 
     # event_results = event_parser(day)
@@ -155,7 +159,7 @@ def detail(request):
         'pred': ("%.2f" % total), 'arrival': arrival_total, 'time_arrival': times,
         'origin_lat': origin_lat, 'origin_lon': origin_lon,
         'destination_lat': destination_lat, 'destination_lon': destination_lon,
-        'temp': temp, 'wspd': wspd, 'url': url, 'events': events, 'tweet': twitter_results, 'stops': full_route[1:],
+        'temp': temp, 'wspd': wspd, 'pop': pop, 'condition': condition, 'url': url, 'events': events, 'tweet': twitter_results, 'stops': full_route[1:],
         'names': stop_names, 'my_lat': lat, 'my_long': lng,
     }
     end_total = t.clock()

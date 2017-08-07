@@ -10,7 +10,12 @@ def find(request):
     all_stops = IndexConfig.locations
     current = request.POST["current"]
     temp, wspd, url, pop, condition = weather(t.strftime("%A"), t.strftime("%H"))
+
+    # Used for testing remmeber to remove
+    # current = "6.2603, 53.3498"
+
     lat, lng = current.split(',')
+
     locations = nearest(lat, lng, all_stops)
     context = {
         'stop_1': locations[0][0], 'lat_1': locations[0][1], 'long_1': locations[0][2],

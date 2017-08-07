@@ -17,7 +17,7 @@ function initializeMapFind() {
         results += '<input name = "orig" type ="hidden" value="'+String(x[0])+'" />'
         results += '<input name = "current" type ="hidden" value="'+[my_lat, my_long]+'" />'
         for (var j = 0; j < forButtons.length; j++) {
-            results += '<input name = "route" type="submit" value="'+forButtons[j]+'" />'
+            results += '<input name = "route" type="submit"  class="btn btn-info" value="'+forButtons[j]+'" />'
         }
         results += '</form>'
         document.getElementById(String(x[0])+"p").innerHTML = results;
@@ -130,9 +130,11 @@ function initializeMapFind() {
 
     marker.addListener('click', function() {
         for (i = 0; i< markers.length; i++) {
+            console.log("find", markers[i].title)
             origin = new google.maps.LatLng(lat_1, long_1);
             toggleWalkingLayer('find');
             if (markers[i] == marker){
+
                 document.getElementById(markers[i].title).style.background = "silver";
             }
             else {

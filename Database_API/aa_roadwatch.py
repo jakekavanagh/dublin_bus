@@ -42,8 +42,8 @@ def twitter_parser(results):
         time_time = timestamp.time()
 
         if timestamp > time_range and 'DUBLIN' in i['text']:
-            # print("_________________________________________")
-            # print(tweety)
+            print("_________________________________________")
+            print(tweety)
             query = ' '.join(locator(tweety))
             # print(query)
             if query is not False:
@@ -66,7 +66,7 @@ def locator(tweet):
     count = 0
     # using regex to match any words starting with m j or n and followed by digits, enumerating them into a list
     regex_search = list(set([l for l in tweet for m in (re.compile('([mjn]\d+)').search(l),) if m]))
-    # print("regex search", regex_search)
+    print("regex search", regex_search)
     if "m50" in regex_search and len(regex_search) != 1:
         regex_search.remove('m50')
         if tweet.index(regex_search[0]) != len(tweet) - 1:
@@ -75,17 +75,17 @@ def locator(tweet):
             else:
                 add.append(str("m50" + " " + regex_search[0]) + " " + tweet[tweet.index(regex_search[0]) + 1])
         return add
-    elif "m1" in regex_search and "m50" not in regex_search:
+    elif "m1" in regex_search and "m50" not in regex_search and len(regex_search) != 1:
         regex_search.remove('m1')
         if tweet.index(regex_search[0]) != len(tweet) - 1:
             add.append(str("m1" + " " + regex_search[0]) + " " + tweet[tweet.index(regex_search[0]) + 1])
         return add
     else:
-        # print("keywords", keywords)
+        print("keywords", keywords)
         for match in keywords:
             # Finding all matches in tweet that match any street suffixes
             index = [i for i, x in enumerate(tweet) if x == match]
-            # print("match points", index)
+            print("match points", index)
             for a in index:
                 if count < 2:
                     prefix, street_name, suffix = tweet[a - 2], tweet[a - 1], tweet[a]
@@ -120,7 +120,7 @@ def google_locator(add):
         r = requests.get(goog_url, params=params)
         results_goog = r.json()['results']
         location = results_goog[0]['geometry']['location']
-        # print("geo", location['lat'], location['lng'])
+        print("geo", location['lat'], location['lng'])
         return location['lat'], location['lng']
     except:
         return False

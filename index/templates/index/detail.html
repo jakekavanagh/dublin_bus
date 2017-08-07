@@ -13,8 +13,6 @@
 {% block main %}
 
 <script>
-{% load staticfiles %}
-
     // Declaring Django variables from view as Global Variables so can be used in the external Javascript file.
     // note: Must be declared before the external javascript file is loaded
 
@@ -26,76 +24,133 @@
 
 
 </script>
+
+{% load staticfiles %}
 <script src="{% static 'index/JavaScript/JavaScript.js' %}"></script>
+<link rel="stylesheet" href="{% static 'index/CSS/stylesheet.css' %}">
+
 
 <body class="detail">
-    <div id="resultspage">
-        <div class="sidebar">
-            <div id="stopselected">
-                <div id="Origin">
-                    <h3 id="headingcolours">Origin Stop</h3>
-                    <div id="selected_origin">
-                        <h4>{{ origin }} - {{ origin_word }}</h4>
-                    </div>
-                </div>
-                <div id="Destination">
-                    <h3 id="headingcolours">Destination Stop</h3>
-                    <div id="selected_destination">
-                        <h4>{{ destination }} - {{ destination_word }}</h4>
-                    </div>
-                </div>
-            </div>
-            <div>
 
+    <!-- Nav Bar -------------------------------------->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a href="/" class="navbar-brand">Dublin Bus Dynamic Travel</a></li>
+            </ul>
+        </div>
+    </nav>
 
-                <!--<button id="walking_route" onclick="walkingRoute()" >Click to display walking route</button>-->
-            </div>
-            <div id="busestimates">
-                <h3 id="headingcolours">Bus {{ route }} at Stop {{ origin }}:</h3>
-                <div id="estimatezone">
-                    <h5>{{day }} at {{ time }}:{{ mins }}</h5>
-                    <h4>Expect your bus at <h3 id="arrivalcolour"> {{ time_arrival }}</h3> </h4>
-                    <h4>Your journey to stop {{ destination }} will take <h3 id="arrivalcolour"> {{ pred }} </h3> minutes</h4>
-                    <h4 id="walking_journey"></h4>
-                    <!--<h3 id="walking_info"><b>Walking Time & Distance</b></h3>-->
-                    <h4 id="walking_duration"></h4>
-                    <h4 id="walking_distance"></h4>
+    <!-- Main Body ------------------------------------>
+    <div class="container-fluid text-center" style="height: calc(100vh - 50px); margin-top:50px;">
+        <div class="row" style="height: 100%;">
+
+            <!-- Map -------------------------->
+            <div id="map" class="col-xs-12 col-sm-9 col-sm-push-3 col-md-9 col-md-push-3"></div>
+
+            <!-- Left Control panel ----------->
+            <div id="control_panel" class="col-xs-12 col-sm-3 col-sm-pull-9 col-md-3 col-md-pull-9">
+
+                <div class="well well-sm" id=""><strong>
+                    <i class="fa fa-bus" aria-hidden="true"></i>
+                    {{ origin }} - {{origin_word}}
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    <i class="fa fa-bus" aria-hidden="true"></i>
+                    {{ destination }} - {{destination_word}}
+                    <p>{{day }} at {{ time }}:{{ mins }}</p></strong>
                 </div>
-            </div>
-            <div id="weather">
-                <div class="left">
-                    <div class="dublin">
-                        <h3 id="headingcolours">Dublin</h3>
+
+                <!-- TimeLine for Bus Arrival Times ---------->
+                <div class="well well-sm">
+
+                    <div id="bus_info_title">
+                        <p><strong>Expect your bus at:</strong></p>
                     </div>
-                    <div class="temperature">
-                        <h4>{{ temp }} &deg;C</h4>
+
+                    <ul id="timeline">
+                        <li>
+                            <div>
+                            <h1 class='bus_info'>Bus  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
+                            <h2 class="bus_info_expand">Hello</h2>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                            <h1 class='bus_info'>Bus  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
+                            <h2 class="bus_info_expand">Hello</h2>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                            <h1 class='bus_info' style="color:deepskyblue;">{{ time_arrival }}
+                                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                            </h1>
+                            <h2 class="bus_info_expand">
+                                Your journey will take approximately: {{ pred }} mins.
+                            </h2>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                            <h1 class='bus_info'>Bus  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
+                            <h2 class="bus_info_expand">Hello</h2>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h1 class='bus_info'>Bus  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
+                                <h2 class="bus_info_expand">Hello</h2>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Toggle Buttons -------------------->
+                <div class="well well-sm">
+                    <button type="button" class="btn btn-default btn-sm btn-block" onclick="toggleWalkingLayer('detail')"
+                    value="0" id="walkingLayer">Display Walking Route</button>
+                    <h6 id="walking_duration"></h6>
+                    <h6 id="walking_distance"></h6>
+                    <button type="button" class="btn btn-default btn-sm btn-block" onclick="toggleEventLayer()">
+                            Toggle Events</button>
+                </div>
+
+                <!-- Weather ---------------------------->
+                <div class="well well-sm" id="weather_div">
+                    <h6><strong>Weather Forecast: {{ day }}</strong></h6>
+                    <!--<div><img id="icon" src="{{ url }}" width="75px"></div>-->
+                    <div class="row">
+                        <div class="col-md-7"><img id="icon" src="{{ url }}" ></div>
+                        <div class="col-md-5 temp">{{ temp }}&deg;C</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">Windspeed: <b>{{ wspd }}km/hr</b></div>
+                        <div class="col-md-4">Condition: <b>{{ condition }}</b></div>
+                        <div class="col-md-4">Chance of Rain: <b>{{ pop }}%</b></div>
                     </div>
                 </div>
-                <div class="right">
-                    <div class="top"><img id="icon" src="{{ url }}" width="75px"></div>
-                    <div class="bottom">
-                        <div class="wind">
-                            <h4>Wind speed is {{ wspd }} kph</h4>
-                        </div>
+
+                <!-- Transit mode options ---------------->
+                <div class="well well-sm">
+                    <div class="form-group">
+                        <label for="mode_select">Other Transit Options</label>
+                        <select class="form-control" id="mode_select">
+                            <option value="Null">Pick a mode</option>-->
+                            <option value="DRIVING">Driving</option>
+                            <option value="WALKING">Walking</option>
+                            <option value="BICYCLING">Bicycling</option>
+                        </select>
                     </div>
+                    <p id="Journey_duration"></p>
+                    <p id="Journey_distance"></p>
                 </div>
-            </div>
-            <div id="Alerts">
-                <button onclick="toggleEventLayer()" >display event heat map</button>
-                <button onclick="toggleWalkingLayer('detail')" value="0" id="walkingLayer">Walking route</button>
-                <select id="mode_select">
-                    <option value="Null">Pick a mode</option>
-                    <option value="DRIVING">Driving</option>
-                    <option value="WALKING">Walking</option>
-                    <option value="BICYCLING">Bicycling</option>
-                </select>
 
             </div>
         </div>
-        <div id="map">
-        </div>
     </div>
 
-    </div>
+    <!-- Footer -------------------------------------------------------->
+    <footer class="footer text-center">&copy; Team Git Rekt 2017</footer>
+
 </body>
 {% endblock %}

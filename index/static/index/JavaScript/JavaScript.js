@@ -17,6 +17,8 @@ $(function() {
     if($('body').is('.detail')){
         initializeMapDetail();
         addTwitterAlert();
+
+
     }
     if($('body').is('.find')){
         initializeMapFind();
@@ -278,3 +280,9 @@ function addTwitterAlert(){
    }
 }
 
+$(document).ready(function() {
+    $('.bus_info').click(function (e) {
+        $(this).next().slideToggle();
+        $(this).next().next().next().slideToggle();
+    });
+});

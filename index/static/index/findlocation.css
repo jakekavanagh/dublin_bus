@@ -92,7 +92,7 @@ b, strong {
     font-size: 20px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     position:fixed;
-    width:60%; 
+    width:60%;
     padding-top: 4%;
     padding-left: 4%;
     padding-right: 4%;
@@ -388,7 +388,7 @@ b, strong {
 }
 
 #estimatezone2{
-        
+
         background-color: #83a3ed;
         margin-bottom: 10%;
         margin-left: 8%;
@@ -401,7 +401,7 @@ b, strong {
 }
 
 #close1 {
-        
+
         background-color: #e2e2e2;
         margin-bottom: 10%;
         margin-left: -15%;
@@ -426,7 +426,3 @@ b, strong {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
 }
-
-
-
-

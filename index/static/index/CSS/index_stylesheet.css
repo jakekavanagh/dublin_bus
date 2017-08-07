@@ -1,0 +1,47 @@
+/* CSS stylesheet go index.html Page */
+
+html{
+    min-height: 100%;
+    position: relative;
+    /*background-size: cover;*/
+    /*background-image: url("https://preview.ibb.co/k5iFXk/149799775014462.jpg");*/
+    /*background-blend-mode: darken;*/
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: transparent;
+    margin: 0;
+    min-height: 100%;
+    max-width: 100%;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+#index_center{
+    padding: 10% 10% 0% 10%;
+}
+
+/* _______________________ */
+#background-carousel{
+	position:fixed;
+	width:100%;
+	height:100%;
+	z-index:-1;
+}
+.carousel,
+.carousel-inner {
+	width:100%;
+	height:100%;
+	z-index:0;
+	overflow:hidden;
+}
+.item {
+	width:100%;
+	height:100%;
+	background-position:center center;
+	background-size:cover;
+	z-index:0;
+}

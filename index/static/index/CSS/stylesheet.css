@@ -1,0 +1,111 @@
+/* -------------------------- HTML & Body --------------------*/
+html, body{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    height: 100%;
+}
+
+/* --------------------------- Map ----------------------------*/
+#map{
+    height: 100%;
+}
+
+/* ------------------- Left control panel ---------------------*/
+#control_panel{
+    max-height: 580px;
+    margin: 7px 0px 0px 0px;
+    overflow: auto;
+}
+
+/* Containers for each info box on the left panel */
+.well {
+    background-color: rgba(245, 245, 245, 0.4);
+}
+
+/* bootstrap well containing weather info */
+#weather_div img{
+    width: 60px;
+    margin-right: -50px;
+}
+
+#weather_div .temp{
+    font-size: 1.7em;
+    margin: 15px auto auto -30px;
+}
+
+/* ---------------------------- TimeLine ----------------------- */
+#timeline {
+    text-align: left;
+    border-left: 0.25em solid #4298c3;
+    padding-left: 3em;
+    list-style: none;
+    margin-left: 3em;  }
+
+/* Each item on the timeline */
+#timeline li {
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/*The main heading */
+#timeline h1 {
+    color: dimgrey;
+    margin: 0;
+    font-size: 1.3em;
+}
+
+/*After the main heading is clicked */
+#timeline h2 {
+    color: #999;
+    font-weight: 100;
+    font-size: 0.9em;  }
+
+#timeline li:before, #timeline li:after {
+    position: absolute;
+    top: 1em;
+}
+
+#timeline li:after {
+    box-shadow: 0 0 0 0.2em #4298c3;
+    left: -3.5em;
+    background: #ffffff;
+    border-radius: 50%;
+    height: 0.75em;
+    width: 0.75em;
+    content: "";  }
+
+#timeline li div{
+    padding: 8px;
+}
+
+#timeline .bus_info_expand{
+    display:none;
+}
+
+#bus_info_title{
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* ----------------------------Find Page ---------------------- */
+.panel-border{
+    border: 5px solid transparent;
+}
+#accordion a{
+    text-decoration: none;
+}
+#walking-info{
+    padding: 5px 0px 0px 0px;
+    margin-bottom: 0px;
+}
+/* --------------------------- Footer --------------------------*/
+.footer{
+    width:100%;
+    float:left;
+    background:#333;
+    height:50px;
+    font-size: 1.5em;
+    color: white;
+    padding: 10px;
+}
+
