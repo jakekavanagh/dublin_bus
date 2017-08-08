@@ -160,7 +160,7 @@ def detail(request):
         'origin_lat': origin_lat, 'origin_lon': origin_lon,
         'destination_lat': destination_lat, 'destination_lon': destination_lon,
         'temp': temp, 'wspd': wspd, 'pop': pop, 'condition': condition, 'url': url, 'events': events, 'tweet': twitter_results, 'stops': full_route[1:],
-        'names': stop_names, 'my_lat': lat, 'my_long': lng,
+        'names': stop_names, 'my_lat': lat, 'my_long': lng, 'rn': dt.datetime.now().time(),
     }
     end_total = t.clock()
     print('total:', end_total-begin_total, '\n\n')
