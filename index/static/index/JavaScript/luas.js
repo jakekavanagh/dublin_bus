@@ -1,5 +1,5 @@
 
-
+var map3;
 function initializeMapLuas() {
     console.log("In map")
     var properties = {
@@ -7,7 +7,7 @@ function initializeMapLuas() {
         zoom: 12,
     };
 
-    map = new google.maps.Map(document.getElementById("map"), properties);
+    map3 = new google.maps.Map(document.getElementById("map"), properties);
 
     var styles = [{"featureType": "landscape", "stylers": [{"saturation": -0}, {"lightness": 10}, {"visibility": "on"}]},
     {"featureType": "poi", "stylers": [{"visibility": "off"}]},
@@ -19,7 +19,7 @@ function initializeMapLuas() {
     {"featureType": "water", "elementType": "geometry", "stylers": [ {"lightness": -25}, , {"saturation": -40}]},
     {"featureType": "water", "elementType": "labels", "stylers": [{"visibility": "on"}, {"saturation": 100}]},
     ];
-    map.set('styles', styles);
+    map3.set('styles', styles);
 
     luas_markers();
     luasRealTime();
@@ -45,7 +45,7 @@ function luas_markers(){
             position: new google.maps.LatLng(lat, lon),
             // animation: google.maps.Animation.DROP,
             info: infoWindow,
-            icon: "../static/images/green_marker.png",
+            icon: green_marker,
             });
         }
 
@@ -54,7 +54,7 @@ function luas_markers(){
             position: new google.maps.LatLng(lat, lon),
             // animation: google.maps.Animation.DROP,
             info: infoWindow,
-            icon: "../static/images/red_marker.png",
+            icon: green_marker,
             });
         }
 
@@ -62,7 +62,7 @@ function luas_markers(){
         google.maps.event.addListener(stopMarker, 'click', function () {
             this.info.open(map, this);
         });
-        stopMarker.setMap(map);
+        stopMarker.setMap(map3);
     }
 
 }
