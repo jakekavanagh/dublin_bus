@@ -33,7 +33,7 @@ html, body{
 }
 
 /* ---------------------------- TimeLine ----------------------- */
-#timeline {
+#timeline, #timeline2 {
     text-align: left;
     border-left: 0.25em solid #4298c3;
     padding-left: 3em;
@@ -41,31 +41,31 @@ html, body{
     margin-left: 3em;  }
 
 /* Each item on the timeline */
-#timeline li {
+#timeline li, #timeline2 li {
     width: 100%;
     box-sizing: border-box;
     position: relative;
 }
 
 /*The main heading */
-#timeline h1 {
+#timeline h1, #timeline2 h1 {
     color: dimgrey;
     margin: 0;
     font-size: 1.3em;
 }
 
 /*After the main heading is clicked */
-#timeline h2 {
+#timeline h2, #timeline2 h2 {
     color: #999;
     font-weight: 100;
     font-size: 0.9em;  }
 
-#timeline li:before, #timeline li:after {
+#timeline li:before, #timeline li:after, #timeline2 li:before, #timeline2 li:after {
     position: absolute;
     top: 1em;
 }
 
-#timeline li:after {
+#timeline li:after, #timeline2 li:after {
     box-shadow: 0 0 0 0.2em #4298c3;
     left: -3.5em;
     background: #ffffff;
@@ -74,15 +74,15 @@ html, body{
     width: 0.75em;
     content: "";  }
 
-#timeline li div{
+#timeline li div, #timeline2 li div{
     padding: 8px;
 }
 
-#timeline .bus_info_expand{
+#timeline .bus_info_expand, #timeline2 .bus_info_expand{
     display:none;
 }
 
-#bus_info_title{
+#bus_info_title, #bus_info_title2{
     margin-bottom: 5px;
     text-align: left;
 }
@@ -95,7 +95,7 @@ html, body{
     text-decoration: none;
 }
 #walking-info{
-    padding: 5px 0px 0px 0px;
+    padding: 5px;
     margin-bottom: 0px;
 }
 /* --------------------------- Footer --------------------------*/

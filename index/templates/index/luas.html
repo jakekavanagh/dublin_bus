@@ -1,0 +1,134 @@
+{% extends 'index/base.html' %}
+
+{% block title %}
+<title>Stops Near You</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block main %}
+<script>
+{% load staticfiles %}
+
+    var luas_stops = "{{ luas_stops | safe | escapejs }}";
+    var luas_realtime = "{{ luas_realtime | safe | escapejs }}";
+
+</script>
+
+<script src="{% static 'index/JavaScript/luas.js' %}"></script>
+<link rel="stylesheet" href="{% static 'index/CSS/stylesheet.css' %}">
+
+<body onload="initializeMapLuas()" class="luas">
+
+    <!-- NavBar----------------------------------------->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a href="/" class="navbar-brand">Dublin Bus Dynamic Travel</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Body ----------------------------------------------------------------------------->
+    <div class="container-fluid text-center" style="height: calc(100vh - 50px); margin-top:50px;">
+        <div class="row" style="height: 100%;">
+
+            <!-- Map ----------------------------------->
+            <div id="map" class="col-xs-12 col-sm-9 col-sm-push-3 col-md-9 col-md-push-3"></div>
+
+            <!-- Left Control Panel -------------------->
+            <div id="control_panel" class="col-xs-12 col-sm-3 col-sm-pull-9 col-md-3 col-md-pull-9">
+                <div class="panel-group" id="accordion">
+                    <div id = "{{ stop_1 }}" class="panel-border">
+                        <div class="panel panel-default">
+                            <div  class="panel-heading">
+                                <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                                    Green Line
+                                    <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                </a>
+                                </h4>
+                            </div>
+
+                            <div id="collapse1" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="well well-sm">
+
+                                        <div id="bus_info_title">
+                                            <p><strong>Real Time arrivals Green line:</strong></p>
+                                        </div>
+
+                                        <ul id="timeline" style="border-left: 0.25em solid forestgreen;">
+                                            <li>
+                                                <div>
+                                                <h1 class='bus_info'>Bus  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
+                                                <h2 class="bus_info_expand">Hello</h2>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                <h1 class='bus_info'>Bus  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
+                                                <h2 class="bus_info_expand">Hello</h2>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div id = "{{ stop_2 }}" class="panel-border">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                                    Red line
+                                    <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                </a>
+                                </h4>
+                            </div>
+
+                            <div id="collapse2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="well well-sm">
+                                        <div id="bus_info_title2">
+                                            <p><strong>Real Time arrivals Red line:</strong></p>
+                                        </div>
+
+                                        <ul id="timeline2" style="border-left: 0.25em solid red;">
+                                            <li>
+                                                <div>
+                                                <h1 class='bus_info'>Bus  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
+                                                <h2 class="bus_info_expand">Hello</h2>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                <h1 class='bus_info'>Bus  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
+                                                <h2 class="bus_info_expand">Hello</h2>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hidden Divs -------------------------------------->
+
+    <footer class="footer text-center">&copy; Team Git Rekt 2017</footer>
+</body>
+
+{% endblock %}
+
+
+

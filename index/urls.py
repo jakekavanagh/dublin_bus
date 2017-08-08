@@ -17,6 +17,8 @@ urlpatterns = [
     url(r'^indexmobile/$', views.indexmobile, name='index_mobile'),
 
 
+
+
     # redirect to results
     # url(r'^(?P<title>.*)/$', views.detail, name='detail'),
 
