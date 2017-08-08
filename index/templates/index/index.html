@@ -143,23 +143,25 @@ $(function() {
                 <button class="btn btn-info" type="submit" value="Search">
                     Search  <i class="fa fa-search" aria-hidden="true"></i></button>
 
-                <div id="MyPreference" style="display:none">
-                    <h5>You've been here before!
-                        Would you like to search route <span id="myroute"></span>,
-                        going from <span id="myorigin"></span>
-                        to <span id="mydest"></span>
-                        at <span id="mytime"></span>
-                        on <span id="myday"></span>
-                        again? </h5>
-                    <button onclick="Yes_Search()" class="btn btn-info">Yes, search!</button>
-                    <button onclick="No_Hide()" class="btn btn-danger">No thanks</button>
 
-
-                </div>
 
                 <input name = "current" id = "setval" type ="hidden" value="">
 
             </form>
+
+            <div id="MyPreference" style="display:none" class="well well-lg">
+
+                <h5>You've been here before!
+                    Would you like to search route <span id="myroute"></span>,
+                    going from <span id="myorigin"></span>
+                    to <span id="mydest"></span>
+                    again? </h5>
+                <button onclick="Yes_Search()" class="btn btn-info">Yes, search!</button>
+                <button onclick="No_Hide()" class="btn btn-danger">No thanks</button>
+
+
+            </div>
+
 
             <form action ="find/"  method ="post">
                 {% csrf_token %}
@@ -172,9 +174,6 @@ $(function() {
                 <button class="btn btn-info" id = "luas_button" name = "Luas" value = "" type="submit" style="font-size: 1.2em;">
                     Live Luas Information</button>
             </form>
-
-
-
 
         </div>
 
