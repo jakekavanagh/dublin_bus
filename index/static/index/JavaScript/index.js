@@ -1,9 +1,16 @@
 function populate(route, dict, locations) {
      route = route;
      var zero = [dict[route]['0']];
-     var one = [dict[route]['1']];
-     var all_stops = zero.concat(one);
-
+var one = [dict[route]['1']];
+     if (zero == ''){
+        alert("no zero");
+        all_stops = one;
+     } else if (one == ''){
+        alert("no one");
+        all_stops = zero;
+     } else {
+        all_stops = zero.concat(one);
+     }
      var array = JSON.parse("["+all_stops+"]");
      <!--array.sort(function(a, b){return a-b});-->
      var dropdown = document.getElementById("origin");

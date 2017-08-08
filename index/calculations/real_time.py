@@ -23,21 +23,16 @@ def timetable(route, direction, minutes, hour, day, mins):
                 actual_time = datetime.strptime(i.time, '%H:%M')
             arrival = actual_time + timedelta(minutes=minutes, seconds=seconds)
             arrival = arrival.replace(microsecond=0)
-            results += [arrival]
+            if int(arrival.strftime('%H')) == int(hour) and int(arrival.strftime('%M')) < int(mins):
+                pass
+            else:
+                results += [arrival]
         if len(results) > 0:
             break
 
-    usable_results = []
-    old = []
+    min, res = abs(int(results[0].strftime('%M')) - int(mins)), results[0].time()
+
     for i in results:
-        if int(i.strftime('%H')) == int(hour) and int(i.strftime('%M')) < int(mins):
-            old += [i]
-        else:
-            usable_results += [i]
-
-    min, res = abs(int(usable_results[0].strftime('%M')) - int(mins)), usable_results[0].time()
-
-    for i in usable_results:
         if abs(int(i.strftime('%M')) - int(mins)) < min:
             min = abs(int(i.strftime('%M')) - int(mins))
             res = i.time()

@@ -1,12 +1,17 @@
 def direct(ori, des, dic, route):
     route, ori, des = str(route), str(ori), str(des)
-    dir_0, dir_1 = dic[route]['0'], dic[route]['1']
-    if ori in dir_0 and des in dir_0:
-        return 0
-    elif ori in dir_1 and des in dir_1:
+    if '0' not in dic[route]:
         return 1
+    elif '1' not in dic[route]:
+        return 0
     else:
-        return -1
+        dir_0, dir_1 = dic[route]['0'], dic[route]['1']
+        if ori in dir_0 and des in dir_0[dir_0.index(ori):]:
+            return 0
+        elif ori in dir_1 and des in dir_1[dir_1.index(ori):]:
+            return 1
+        else:
+            return -1
 
 
 def routey(route):
