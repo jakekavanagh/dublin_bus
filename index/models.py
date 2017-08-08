@@ -56,3 +56,21 @@ class Twitter(models.Model):
 
     class Meta:
         unique_together = ('tweet', 'tweet_date', 'tweet_time')
+
+
+class Luas(models.Model):
+    line = models.CharField(max_length=200)
+    stop_name = models.CharField(max_length=200)
+    stop_id = models.CharField(max_length=200)
+    stop_lat = models.FloatField()
+    stop_lon = models.FloatField()
+
+
+class RealTime_Luas(models.Model):
+    stop_id = models.CharField(max_length=200)
+    luas_date = models.CharField(max_length=200)
+    luas_time = models.CharField(max_length=200)
+    line = models.CharField(max_length=200)
+    duetime = models.CharField(max_length=200)
+    direction = models.CharField(max_length=200)
+

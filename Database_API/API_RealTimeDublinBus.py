@@ -1,5 +1,5 @@
 import requests
-
+from pprint import pprint
 # ____________________________ Real Time Bus Information __________________________ #
 # See Document section 3.4.1
 
@@ -68,8 +68,8 @@ result = response.json()
 # See Document section 3.4.5
 
 # required parameters
-route_id = str(17)
-operator_id = "bac"
+route_id = "Green"
+operator_id = "LUAS"
 
 url = 'https://data.dublinked.ie/cgi-bin/rtpi/routeinformation?routeid=' + route_id \
       + '&operator=' + operator_id
@@ -77,9 +77,9 @@ url = 'https://data.dublinked.ie/cgi-bin/rtpi/routeinformation?routeid=' + route
 response = requests.get(url)
 result = response.json()
 
-# print(result)
-# for i in result['results']:
-    # print(i)
+# pprint(result)
+for i in result['results']:
+    pprint(i)
 
 # __________________________ Operator Information ______________________________ #
 # See Document section 3.4.6
@@ -87,10 +87,10 @@ result = response.json()
 url = 'https://data.dublinked.ie/cgi-bin/rtpi/operatorinformation?'
 response = requests.get(url)
 result = response.json()
-
+#
 # print(result, '\n')
 # for i in result['results']:
-    # print(i)
+#     print(i)
 
 # __________________________ Route List Information ____________________________ #
 # See Document section 3.4.7
@@ -99,4 +99,4 @@ url = 'https://data.dublinked.ie/cgi-bin/rtpi/routelistinformation?'
 response = requests.get(url)
 result = response.json()
 
-print(result)
+# print(result)

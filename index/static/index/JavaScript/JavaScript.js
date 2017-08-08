@@ -3,15 +3,6 @@ var destination, origin, map, heatMap, directionsDisplayWalking, eventMarkers, m
     location_icon, origin_lat, origin_lon, destination_lat, destination_lon, bus_image, origin_word, destination_word,
     infoExist = false, infowindow;
 
-
-// This function executes if the index HTML page is loaded
-$(function() {
-    if($('body').is('.index')){
-
-    }
-});
-
-
 // This function executes if the detail HTML page is loaded
 $(function() {
     if($('body').is('.detail')){
