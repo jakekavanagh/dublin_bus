@@ -77,3 +77,57 @@ function populateDestination(start, dict, locations) {
 
 }
 
+function saveValues()
+{
+
+    var routevalue = document.getElementById("RouteNumbers");
+    var originvalue = document.getElementById("origin");
+    var destinationvalue = document.getElementById("destination");
+    var timevalue = document.getElementById("time");
+    var dayvalue = document.getElementById("day");
+
+
+
+    localStorage._route = routevalue.options[routevalue.selectedIndex].text;
+    localStorage._origin = originvalue.options[originvalue.selectedIndex].text;
+    localStorage._destination = destinationvalue.options[destinationvalue.selectedIndex].text;
+    localStorage._time = document.timevalue.options[timevalue.selectedIndex].text;
+    localStorage._day = document.dayvalue.options[dayvalue.selectedIndex].text;
+}
+function loadValues()
+{
+    var route = localStorage._route;
+    var origin = localStorage._origin;
+    var destination = localStorage._destination;
+    var time = localStorage._time;
+    var day = localStorage._day;
+
+    var x = document.getElementById('MyPreference');
+    if(route == null){
+        return;
+    }else{
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+    document.getElementById("myroute").textContent=route;
+    document.getElementById("myorigin").textContent=origin;
+    document.getElementById("mydest").textContent=destination;
+    document.getElementById("mytime").textContent=time;
+    document.getElementById("myday").textContent=day;
+}}
+function Yes_Search()
+{
+    alert("This would then post values into the form :)")
+}
+function No_Hide()
+{
+    var x = document.getElementById('MyPreference');
+    if (x.style.display === 'block') {
+        x.style.display = 'none';
+    } else {
+        x.style.display = 'none';
+    }
+}
+
