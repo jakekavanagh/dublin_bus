@@ -117,12 +117,11 @@ function loadValues()
     document.getElementById("mytime").textContent=time;
     document.getElementById("myday").textContent=day;
 }}
-function Yes_Search()
-{
+
+function Yes_Search() {
     alert("This would then post values into the form :)")
 }
-function No_Hide()
-{
+function No_Hide() {
     var x = document.getElementById('MyPreference');
     if (x.style.display === 'block') {
         x.style.display = 'none';

@@ -147,6 +147,7 @@ var circle ={
 
 
 
-    generateEventLayer()
+    generateEventLayer();
+    addTwitterAlert();
 }
 

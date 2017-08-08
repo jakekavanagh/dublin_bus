@@ -23,7 +23,7 @@
 <script src="{% static 'index/JavaScript/JavaScript.js' %}"></script>
 <link rel="stylesheet" href="{% static 'index/CSS/stylesheet.css' %}">
 
-<body class="find">
+<body class="find" onload="initializeMapFind()">
 
     <!-- NavBar----------------------------------------->
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -186,8 +186,6 @@
 
     <!-- Hidden Divs -------------------------------------->
     <button onclick="toggleWalkingLayer('find')" value="0" id="walkingLayer" hidden>Walking route</button>
-    <!--<div id="walking_duration" hidden></div>-->
-    <!--<div id="walking_distance" hidden></div>-->
 
     <footer class="footer text-center">&copy; Team Git Rekt 2017</footer>
 </body>
