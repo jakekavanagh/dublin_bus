@@ -63,7 +63,7 @@ class Luas(models.Model):
     stop_name = models.CharField(max_length=200)
     stop_id = models.CharField(max_length=200)
     stop_lat = models.FloatField()
-    stop_lon = models.FloatField()
+    stop_lon = models.CharField(max_length=200)
 
 
 class RealTime_Luas(models.Model):
