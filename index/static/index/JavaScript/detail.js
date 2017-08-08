@@ -1,6 +1,7 @@
 // This function initializes the Map with a route according to the origin stop and destination stop input by the user
 var my_lat;
 var my_long;
+var names;
 function initializeMapDetail() {
 
     userPosition = new google.maps.LatLng(my_lat, my_long);
@@ -81,8 +82,10 @@ var circle ={
         strokeWeight: 0
     };
 
-    names = names.replace(/&#39;/g, "");
-    names = names.split(",");
+//    names = names.split(",");
+    for (i=0; i< names.length; i++){
+        names[i] = names[i].replace(/&#39;/g, "");
+        }
     var allMarkers=new Array();
     allMarkers.push(new google.maps.LatLng(origin_lat, origin_lon));
     for (i=0; i< stops.length; i++){

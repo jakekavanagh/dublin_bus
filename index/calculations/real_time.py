@@ -30,11 +30,14 @@ def timetable(route, direction, minutes, hour, day, mins):
         if len(results) > 0:
             break
 
-    min, res = abs(int(results[0].strftime('%M')) - int(mins)), results[0].time()
+    if len(results) > 0:
+        min, res = abs(int(results[0].strftime('%M')) - int(mins)), results[0].time()
 
-    for i in results:
-        if abs(int(i.strftime('%M')) - int(mins)) < min:
-            min = abs(int(i.strftime('%M')) - int(mins))
-            res = i.time()
+        for i in results:
+            if abs(int(i.strftime('%M')) - int(mins)) < min:
+                min = abs(int(i.strftime('%M')) - int(mins))
+                res = i.time()
 
-    return res
+        return res
+    else:
+        return '00.00.00'

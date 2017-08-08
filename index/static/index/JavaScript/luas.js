@@ -54,7 +54,7 @@ function luas_markers(){
             position: new google.maps.LatLng(lat, lon),
             // animation: google.maps.Animation.DROP,
             info: infoWindow,
-            icon: green_marker,
+            icon: red_marker,
             });
         }
 

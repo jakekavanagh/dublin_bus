@@ -1,7 +1,7 @@
 function populate(route, dict, locations) {
      route = route;
      var zero = [dict[route]['0']];
-var one = [dict[route]['1']];
+     var one = [dict[route]['1']];
      if (zero == ''){
         alert("no zero");
         all_stops = one;
@@ -20,7 +20,7 @@ var one = [dict[route]['1']];
      var option = document.createElement("option");
      option.text = "Select an Origin Stop";
      dropdown.add(option);
-
+     alert(array);
      for (var i = 0; i < array.length; ++i) {
           var option = document.createElement("option");
           option.text = locations[array[i]]['name'] +' - '+ array[i];
@@ -87,12 +87,18 @@ function saveValues()
     var dayvalue = document.getElementById("day");
 
 
+    localStorage._route = routevalue.value;
+    localStorage._origin = originvalue.value;
+    localStorage._destination = destinationvalue.value;
+    localStorage._time = timevalue.value;
+    localStorage._day = dayvalue.value;
 
-    localStorage._route = routevalue.options[routevalue.selectedIndex].text;
-    localStorage._origin = originvalue.options[originvalue.selectedIndex].text;
-    localStorage._destination = destinationvalue.options[destinationvalue.selectedIndex].text;
-    localStorage._time = document.timevalue.options[timevalue.selectedIndex].text;
-    localStorage._day = document.dayvalue.options[dayvalue.selectedIndex].text;
+
+//    localStorage._route = routevalue.options[routevalue.selectedIndex].text;
+//    localStorage._origin = originvalue.options[originvalue.selectedIndex].text;
+//    localStorage._destination = destinationvalue.options[destinationvalue.selectedIndex].text;
+//    localStorage._time = document.timevalue.options[timevalue.selectedIndex].text;
+//    localStorage._day = document.dayvalue.options[dayvalue.selectedIndex].text;
 }
 function loadValues()
 {
@@ -111,17 +117,34 @@ function loadValues()
     } else {
         x.style.display = 'none';
     }
-    document.getElementById("myroute").textContent=route;
-    document.getElementById("myorigin").textContent=origin;
-    document.getElementById("mydest").textContent=destination;
-    document.getElementById("mytime").textContent=time;
-    document.getElementById("myday").textContent=day;
-}}
 
-function Yes_Search() {
-    alert("This would then post values into the form :)")
-}
-function No_Hide() {
+//    var desti;
+//    var title_string;
+//    if (destination == origin){
+//        title_string = "";
+//        desti = origin;
+//    }
+//    else {
+        title_string =  ' to ' + destination;
+//        desti = destination;
+//    }
+
+    var title = 'You\'ve been here before! Would you like to search route '+route+' from ' + origin + title_string +' again?';
+
+    var result = '<input name = "orig" type ="hidden" value="'+origin+'"+/>' +
+    '<input name = "dest" type ="hidden" value="'+destination+'"+/>' +
+    '<input name = "route" type="hidden" value="'+route+'" />';
+
+    document.getElementById('title').innerHTML = title;
+    document.getElementById('fillForm').innerHTML = result;
+//    document.getElementById("myroute").textContent=route;
+//    document.getElementById("myorigin").textContent=origin;
+//    document.getElementById("mydest").textContent=destination;
+//    document.getElementById("mytime").textContent=time;
+//    document.getElementById("myday").textContent=day;
+}}
+function No_Hide()
+{
     var x = document.getElementById('MyPreference');
     if (x.style.display === 'block') {
         x.style.display = 'none';
@@ -129,4 +152,4 @@ function No_Hide() {
         x.style.display = 'none';
     }
 }
-
+//
