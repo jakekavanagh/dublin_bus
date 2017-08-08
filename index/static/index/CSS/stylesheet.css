@@ -11,7 +11,7 @@ html, body{
 
 /* ------------------- Left control panel ---------------------*/
 #control_panel{
-    max-height: 580px;
+    max-height: calc(100vh - 50px);
     margin: 7px 0px 0px 0px;
     overflow: auto;
 }
