@@ -78,45 +78,48 @@ function populateDestination(start, dict, locations) {
 
 function saveValues()
 {
-
     var routevalue = document.getElementById("RouteNumbers");
     var originvalue = document.getElementById("origin");
     var destinationvalue = document.getElementById("destination");
-    var timevalue = document.getElementById("time");
-    var dayvalue = document.getElementById("day");
-
-
     localStorage._route = routevalue.value;
     localStorage._origin = originvalue.value;
     localStorage._destination = destinationvalue.value;
-    localStorage._time = timevalue.value;
-    localStorage._day = dayvalue.value;
-
-
 //    localStorage._route = routevalue.options[routevalue.selectedIndex].text;
 //    localStorage._origin = originvalue.options[originvalue.selectedIndex].text;
 //    localStorage._destination = destinationvalue.options[destinationvalue.selectedIndex].text;
 //    localStorage._time = document.timevalue.options[timevalue.selectedIndex].text;
 //    localStorage._day = document.dayvalue.options[dayvalue.selectedIndex].text;
 }
-function loadValues()
-{
+function loadValues() {
+    var items;
+//    $.getJSON( "../../static/index/new lats and longs.json", function( data ) {
+//      items = [];
+//      $.each( data, function( key, val ) {
+//        items.push( "<li id='" + key + "'>" + val + "</li>" );
+//      });
+//
+//      $( "<ul/>", {
+//        "class": "my-new-list",
+//        html: items.join( "" )
+//      }).appendTo( "body" );
+//      return items;
+//    });
+    var locations;
+    $.getJSON("../../static/index/new lats and longs.json", function(json) {
+        locations = json;
+
     var route = localStorage._route;
     var origin = localStorage._origin;
     var destination = localStorage._destination;
-    var time = localStorage._time;
-    var day = localStorage._day;
-
     var x = document.getElementById('MyPreference');
     if(route == null){
         return;
     }else{
-    if (x.style.display === 'none') {
-        x.style.display = 'block';
-    } else {
-        x.style.display = 'none';
-    }
-
+        if (x.style.display === 'none') {
+            x.style.display = 'block';
+        } else {
+            x.style.display = 'none';
+        }
 //    var desti;
 //    var title_string;
 //    if (destination == origin){
@@ -124,24 +127,29 @@ function loadValues()
 //        desti = origin;
 //    }
 //    else {
-        title_string =  ' to ' + destination;
 //        desti = destination;
 //    }
-
-    var title = 'You\'ve been here before! Would you like to search route '+route+' from ' + origin + title_string +' again?';
-
-    var result = '<input name = "orig" type ="hidden" value="'+origin+'"+/>' +
-    '<input name = "dest" type ="hidden" value="'+destination+'"+/>' +
-    '<input name = "route" type="hidden" value="'+route+'" />';
-
-    document.getElementById('title').innerHTML = title;
-    document.getElementById('fillForm').innerHTML = result;
+        var title_string;
+        if (origin == destination) {
+            title_string = '';
+        } else {
+            title_string = ' to ' + locations[destination]['name'];
+        }
+        var title = 'You\'ve been here before! Would you like to search route '+route+' from ' + locations[origin]['name'] + title_string +' again?';
+        var result = '<input name = "orig" type ="hidden" value="'+origin+'"+/>' +
+            '<input name = "dest" type ="hidden" value="'+destination+'"+/>' +
+            '<input name = "route" type="hidden" value="'+route+'" />';
+        document.getElementById('title').innerHTML = title;
+        document.getElementById('fillForm').innerHTML = result;
 //    document.getElementById("myroute").textContent=route;
 //    document.getElementById("myorigin").textContent=origin;
 //    document.getElementById("mydest").textContent=destination;
 //    document.getElementById("mytime").textContent=time;
 //    document.getElementById("myday").textContent=day;
-}}
+
+    }
+    });
+    }
 function No_Hide()
 {
     var x = document.getElementById('MyPreference');
@@ -151,4 +159,3 @@ function No_Hide()
         x.style.display = 'none';
     }
 }
-//
