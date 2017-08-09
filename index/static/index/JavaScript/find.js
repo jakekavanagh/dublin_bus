@@ -136,6 +136,8 @@ function initializeMapFind() {
             if (markers[i] == marker){
 
                 document.getElementById(markers[i].title).style.background = "silver";
+                var collapseID = document.getElementById(markers[i].title).getElementsByTagName("DIV")[2].id
+                $("#"+collapseID).collapse('show');
             }
             else {
                 document.getElementById(markers[i].title).style.background = "none";
@@ -149,6 +151,8 @@ function initializeMapFind() {
             toggleWalkingLayer('find');
             if (markers[i] == marker2){
                 document.getElementById(markers[i].title).style.background = "silver";
+                var collapseID = document.getElementById(markers[i].title).getElementsByTagName("DIV")[2].id
+                $("#"+collapseID).collapse('show');
             }
             else {
                 document.getElementById(markers[i].title).style.background = "none";
@@ -162,6 +166,8 @@ function initializeMapFind() {
             toggleWalkingLayer('find');
             if (markers[i] == marker3){
                 document.getElementById(markers[i].title).style.background = "silver";
+                var collapseID = document.getElementById(markers[i].title).getElementsByTagName("DIV")[2].id
+                $("#"+collapseID).collapse('show');
             }
             else {
                 document.getElementById(markers[i].title).style.background = "none";
@@ -175,6 +181,8 @@ function initializeMapFind() {
             toggleWalkingLayer('find');
             if (markers[i] == marker4){
                 document.getElementById(markers[i].title).style.background = "silver";
+                var collapseID = document.getElementById(markers[i].title).getElementsByTagName("DIV")[2].id
+                $("#"+collapseID).collapse('show');
             }
             else {
                 document.getElementById(markers[i].title).style.background = "none";
@@ -188,6 +196,8 @@ function initializeMapFind() {
             toggleWalkingLayer('find');
             if (markers[i] == marker5){
                 document.getElementById(markers[i].title).style.background = "silver";
+                var collapseID = document.getElementById(markers[i].title).getElementsByTagName("DIV")[2].id
+                $("#"+collapseID).collapse('show');
             }
             else {
                 document.getElementById(markers[i].title).style.background = "none";
