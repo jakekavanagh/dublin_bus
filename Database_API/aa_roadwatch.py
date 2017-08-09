@@ -135,33 +135,33 @@ def google_locator(add):
 #     conn.commit()
 
 
-while True:
-    try:
-        conn = psycopg2.connect(host="127.0.0.1", port="5432", user="postgres", password="git-rekt",
-                                dbname="dublin_bus_db")
-    except:
-        print("FAILURE")
+# while True:
+try:
+    conn = psycopg2.connect(host="127.0.0.1", port="5432", user="postgres", password="git-rekt",
+                            dbname="dublin_bus_db")
+except:
+    print("FAILURE")
 
-    cur = conn.cursor()
+cur = conn.cursor()
 
-    try:
-        results = connection_twitter()
-        for tweet in results:
-            twee = (re.sub(r"http\S+", "", tweet[0]))
-            date2 = tweet[1]
-            time2 = tweet[2]
-            if tweet[3] is not False:
-                lat = tweet[3][0]
-                lon = tweet[3][1]
-            cur.execute(
-                "INSERT INTO index_twitter(tweet, tweet_date, tweet_time, longitude, latitude)"
-                "VALUES (%s, %s, %s, %s, %s)", (twee, date2, time2, lon, lat,)
-            )
-            conn.commit()
+try:
+    results = connection_twitter()
+    for tweet in results:
+        twee = (re.sub(r"http\S+", "", tweet[0]))
+        date2 = tweet[1]
+        time2 = tweet[2]
+        if tweet[3] is not False:
+            lat = tweet[3][0]
+            lon = tweet[3][1]
+        cur.execute(
+            "INSERT INTO index_twitter(tweet, tweet_date, tweet_time, longitude, latitude)"
+            "VALUES (%s, %s, %s, %s, %s)", (twee, date2, time2, lon, lat,)
+        )
+        conn.commit()
 
-    except psycopg2.IntegrityError:
-        print("already in DB!")
+except psycopg2.IntegrityError:
+    print("already in DB!")
 
-    cur.close()
-    conn.close()
+cur.close()
+conn.close()
     # time.sleep(60*15)
