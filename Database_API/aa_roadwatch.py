@@ -164,4 +164,4 @@ while True:
 
     cur.close()
     conn.close()
-    time.sleep(60*15)
+    # time.sleep(60*15)

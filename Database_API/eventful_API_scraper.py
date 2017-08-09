@@ -70,4 +70,4 @@ while True:
 
     cur.close()
     conn.close()
-    time.sleep(60*60*24)
+    # time.sleep(60*60*24)
