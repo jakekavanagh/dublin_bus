@@ -19,8 +19,9 @@ def index(request):
         if len(i) == 1:
             i = '0'+i
         mins += [i]
+    print(sorted(routes))
     context = {
-        'routes': sorted(routes),
+        'routes': sorted(routes)[:-1],
         'hours': hours,
         'mins': mins,
         'dicty': json.dumps(dicty),

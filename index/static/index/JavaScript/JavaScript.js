@@ -5,6 +5,7 @@ var destination, origin, map, heatMap, directionsDisplayWalking, eventMarkers, m
 
 // This function executes if the detail HTML page is loaded
 $(function() {
+   $(window).on('load', function(){
     if($('body').is('.detail')){
         initializeMapDetail();
         addTwitterAlert();
@@ -14,6 +15,7 @@ $(function() {
     if($('body').is('.find')){
         initializeMapFind();
     }
+       });
 });
 
 

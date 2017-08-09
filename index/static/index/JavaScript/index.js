@@ -20,7 +20,6 @@ function populate(route, dict, locations) {
      var option = document.createElement("option");
      option.text = "Select an Origin Stop";
      dropdown.add(option);
-     alert(array);
      for (var i = 0; i < array.length; ++i) {
           var option = document.createElement("option");
           option.text = locations[array[i]]['name'] +' - '+ array[i];

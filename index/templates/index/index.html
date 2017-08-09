@@ -87,7 +87,8 @@ $(function() {
                             class="form-control" id="RouteNumbers" onchange="saveValues()">
                         <option selected value="0">Select Route</option>
                         {% for i in routes %}
-                        <option value={{ i }} >{{ i }}</option>
+                        <script>function alerts(i){alert(i);};</script>
+                        <option onclick="alerts({{ i }})" value={{ i }} >{{ i }}</option>
                         {% endfor %}
                     </select>
                 </div>
