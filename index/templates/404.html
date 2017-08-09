@@ -1,0 +1,118 @@
+{% extends 'index/base.html' %}
+
+
+{% block title %}
+<title>404 Page Not Found!</title>
+{% endblock title %}
+
+{% block main %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>File Not Found</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style type="text/css">
+body {
+  background-image: url(https://wallpaperscraft.com/image/ireland_beach_coast_112870_800x600.jpg);
+    background-size:cover;
+}
+
+
+body, h1, p {
+  font-family: "Helvetica Neue", "Segoe UI", Segoe, Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.container {
+  margin-left:  auto;
+  margin-right:  auto;
+  margin-top: 177px;
+  max-width: 1170px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.row:before, .row:after {
+  display: table;
+  content: " ";
+}
+
+.col-md-6 {
+  width: 50%;
+}
+
+.col-md-push-3 {
+  margin-left: 25%;
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 300;
+  margin: 0 0 20px 0;
+}
+
+.lead {
+  font-size: 21px;
+  font-weight: 200;
+  margin-bottom: 20px;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+a {
+  color: #3282e6;
+  text-decoration: none;
+}
+ button{
+     background-color:#6fba26;
+	padding:10px;
+	position:relative;
+	font-family: 'Open Sans', sans-serif;
+	font-size:12px;
+	text-decoration:none;
+	color:#fff;
+	background-image: linear-gradient(bottom, rgb(100,170,30) 0%, rgb(129,212,51) 100%);
+	box-shadow: inset 0px 1px 0px #b2f17f, 0px 6px 0px #3d6f0d;
+	border-radius: 5px;
+ }
+</style>
+</head>
+
+<body>
+
+<div class="container text-center" id="error">
+  <svg height="100" width="100">
+    <polygon points="50,25 17,80 82,80" stroke-linejoin="round" style="fill:none;stroke:red;stroke-width:8" />
+    <text x="42" y="74" fill="red" font-family="sans-serif" font-weight="900" font-size="42px">!</text>
+  </svg>
+ <div class="row">
+    <div class="col-md-12">
+      <div class="main-icon text-warning"><span class="uxicon uxicon-alert"></span></div>
+        <h1>File not found (404 error)</h1>
+        <br>
+        <br>
+        <h3>Oh! this page is missing !</h3>
+    </div>
+  </div>
+</div>
+<br>
+<button onclick="goBack()">Go Back</button>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+
+
+</body>
+</html>
+
+{% endblock %}
