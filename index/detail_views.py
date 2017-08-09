@@ -19,7 +19,6 @@ import datetime as dt
 
 def detail(request):
     """import the json for the route as a dict"""
-    print('\n\n')
     begin_total = t.clock()
     dicty = IndexConfig.dicty
     today = dayw()
@@ -27,7 +26,6 @@ def detail(request):
     origin, destination, route, full_time, day = int(float(request.POST.get("orig", 0))),\
         int(float(request.POST.get('dest', request.POST.get("orig", 0)))), request.POST['route'], request.POST.get('time', '100'), request.POST.get('day', today)
     current = request.POST["current"]
-    print("Current is", current)
 
     if full_time != '100':
         full_time = full_time.strip('()')
@@ -37,7 +35,6 @@ def detail(request):
         full_time = dt.datetime.now().time()
         time, mins = full_time.strftime("%H"), full_time.strftime("%M")
     """now we establish the direction the user is going in"""
-    print("route is ", route)
     route_stripped = routey(route)
     direction = direct(origin, destination, dicty, route_stripped)
     bare_route = bare(route)
@@ -55,7 +52,6 @@ def detail(request):
     begin = t.clock()
     temp, wspd, url, pop, condition = weather(day_word, time)
     end = t.clock()
-    print("weather:", end-begin)
 
 
     """now we convert the summary data from string to a represented number"""
@@ -91,7 +87,6 @@ def detail(request):
         total = sum(val)/60
 
     df2 = pd.DataFrame(columns=columns)
-    print(origin, dicty[route_stripped][str(direction)][0])
     if str(origin) == dicty[route_stripped][str(direction)][0]:
         arrival_total = 0
     else:
@@ -140,7 +135,6 @@ def detail(request):
     except ObjectDoesNotExist:
         print("Object does not exist.")
         end = t.clock()
-        print("twitter:", end-begin)
 
     # Used for testing local host on mobile! Remember to remove
     # current = "6.2603, 53.3498"
@@ -149,19 +143,17 @@ def detail(request):
 
     # event_results = event_parser(day)
     # event_json_data_string = json.dumps(event_results)
-    print("arrival prediction", arrival_total)
-    next, earlier, later = timetable(bare_route, direction, arrival_total, time, day_word, mins)
+    next, later, earlier = timetable(bare_route, direction, arrival_total, time, day_word, mins)
     origin_word, destination_word = all_stops[str(origin)]['name'], all_stops[str(destination)]['name']
     full_route = [[float(y) for y in x] for x in full_route]
     context = {
         'origin': origin, 'origin_word': origin_word, 'destination': destination, 'destination_word': destination_word,
         'route': route, 'time': time, 'day': day_word, 'mins': mins,
-        'pred': ("%.2f" % total), 'arrival': arrival_total, 'next_bus': next, 'earlier_bus1': 0, 'earlier_bus2': 1,
+        'pred': ("%.2f" % total), 'arrival': arrival_total, 'next_bus': next, 'earlier_bus': earlier,
         'origin_lat': origin_lat, 'origin_lon': origin_lon,
-        'later_bus1': 2, 'later_bus2': 3, 'destination_lat': destination_lat, 'destination_lon': destination_lon,
+        'later_bus': later, 'destination_lat': destination_lat, 'destination_lon': destination_lon,
         'temp': temp, 'wspd': wspd, 'pop': pop, 'condition': condition, 'url': url, 'events': events, 'tweet': twitter_results, 'stops': full_route[1:],
         'names': stop_names, 'my_lat': lat, 'my_long': lng, 'rn': dt.datetime.now().time(),
     }
     end_total = t.clock()
-    print('total:', end_total-begin_total, '\n\n')
     return render(request, "index/detail.html", context)
