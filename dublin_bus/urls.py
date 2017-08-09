@@ -1,7 +1,11 @@
 from django.conf.urls import url
 from index import views
+from django.views.generic.base import RedirectView
+
 
 app_name = 'index'
+favicon_view = RedirectView.as_view(url="{% static 'index/favicon.ico' %}", permanent=True)
+
 
 urlpatterns = [
     # hompage
@@ -16,6 +20,8 @@ urlpatterns = [
     url(r'^indexmobile/$', views.indexmobile, name='indexmobile'),
 
     url(r'^luas/$', views.luas, name='luas'),
+
+    url(r'^favicon\.ico$', favicon_view),
 
 
     # redirect to results

@@ -37,7 +37,7 @@ def timetable(route, direction, minutes, hour, day, mins):
             if abs(int(i.strftime('%M')) - int(mins)) < min:
                 min = abs(int(i.strftime('%M')) - int(mins))
                 res = i.time()
-
-        return res
+        print(res)
+        return str(res), 0, 0
     else:
         return '00.00.00'

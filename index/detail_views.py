@@ -150,15 +150,15 @@ def detail(request):
     # event_results = event_parser(day)
     # event_json_data_string = json.dumps(event_results)
     print("arrival prediction", arrival_total)
-    times = str(timetable(bare_route, direction, arrival_total, time, day_word, mins))
+    next, earlier, later = timetable(bare_route, direction, arrival_total, time, day_word, mins)
     origin_word, destination_word = all_stops[str(origin)]['name'], all_stops[str(destination)]['name']
     full_route = [[float(y) for y in x] for x in full_route]
     context = {
         'origin': origin, 'origin_word': origin_word, 'destination': destination, 'destination_word': destination_word,
         'route': route, 'time': time, 'day': day_word, 'mins': mins,
-        'pred': ("%.2f" % total), 'arrival': arrival_total, 'time_arrival': times,
+        'pred': ("%.2f" % total), 'arrival': arrival_total, 'next_bus': next, 'earlier_bus1': 0, 'earlier_bus2': 1,
         'origin_lat': origin_lat, 'origin_lon': origin_lon,
-        'destination_lat': destination_lat, 'destination_lon': destination_lon,
+        'later_bus1': 2, 'later_bus2': 3, 'destination_lat': destination_lat, 'destination_lon': destination_lon,
         'temp': temp, 'wspd': wspd, 'pop': pop, 'condition': condition, 'url': url, 'events': events, 'tweet': twitter_results, 'stops': full_route[1:],
         'names': stop_names, 'my_lat': lat, 'my_long': lng, 'rn': dt.datetime.now().time(),
     }

@@ -26,7 +26,7 @@ SECRET_KEY = '&_bttgqm_!@cyx67gq6#=i-jf-7#cj5_r(u6ixnsl5!1jari1^'
 DEBUG = True
 
 # dublinbus.fwd.wf was used for opening local host dev on mobile device. can be removed after
-ALLOWED_HOSTS = ['csi6220-3-vm2.ucd.ie', '137.43.49.40', '127.0.0.1', 'dublinbus.fwd.wf']
+ALLOWED_HOSTS = ['csi6220-3-vm2.ucd.ie', '137.43.49.40', '127.0.0.1', 'dublinbus.fwd.wf', 'localhost']
 
 
 # Application definition
