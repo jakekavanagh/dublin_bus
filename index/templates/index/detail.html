@@ -17,8 +17,8 @@
     // note: Must be declared before the external javascript file is loaded
 
     var my_lat ={{ my_lat }}, my_long = {{ my_long }}, origin_lat ={{ origin_lat }}, origin_lon = {{ origin_lon }},
-        origin_word = "{{ origin_word }}", destination_lat = {{destination_lat }}, destination_lon = {{destination_lon }},
-        destination_word = "{{ destination_word }}", tweet = "{{ tweet| safe | escapejs }}",
+        origin_word = "{{ origin_word }}", origin_num = {{ origin }}, destination_lat = {{destination_lat }}, destination_lon = {{destination_lon }},
+        destination_word = "{{ destination_word }}", destination_num = {{ destination }}, tweet = "{{ tweet| safe | escapejs }}",
         events = "{{ events| safe | escapejs }}", names = "{{ names }}", bus_image = "{% static 'images/bus_2.png' %}",
         location_icon = "{% static 'images/location_icon.png' %}", stops = {{ stops }};
 
@@ -27,6 +27,7 @@
 
 {% load staticfiles %}
 <script src="{% static 'index/JavaScript/JavaScript.js' %}" type="text/javascript"></script>
+<script src="{% static 'index/JavaScript/detail.js' %}" type="text/javascript"></script>
 <link rel="stylesheet" href="{% static 'index/CSS/stylesheet.css' %}">
 
 
@@ -58,7 +59,7 @@
                     <i class="fa fa-bus" aria-hidden="true"></i>
                     {{ destination }} - {{destination_word}}
                     <p>{{day }} at {{ time }}:{{ mins }}</p></strong>
-                    <p>{{ rn }}</p>
+                    <p><b>Bus Number {{ route }}</b></p>
                 </div>
 
                 <!-- TimeLine for Bus Arrival Times ---------->
@@ -72,7 +73,7 @@
                         <li>
                             <div>
                             <h1 class='bus_info'>{{ earlier_bus }}  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
-                            <h2 class="bus_info_expand">hello</h2>
+                            <h2 class="bus_info_expand">Your journey will take approximately: {{ pred }} mins.</h2>
                             </div>
                         </li>
                         <li>
@@ -88,7 +89,7 @@
                         <li>
                             <div>
                             <h1 class='bus_info'>{{ later_bus }}  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></h1>
-                            <h2 class="bus_info_expand">hello</h2>
+                            <h2 class="bus_info_expand">Your journey will take approximately: {{ pred }} mins.</h2>
                             </div>
                         </li>
                     </ul>

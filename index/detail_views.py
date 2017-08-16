@@ -82,7 +82,7 @@ def detail(request):
                 print("model 1 entered error handling")
             df.loc[i] = [current_asking.average, temp, stops[i], current_asking.at_stop, day_num, hour_min]
         end = t.clock()
-        print("time to create df1 with length", df.shape[0], ":", end-begin)
+        # print("time to create df1 with length", df.shape[0], ":", end-begin)
         val = complete.predict(df)
         total = sum(val)/60
 
@@ -103,7 +103,7 @@ def detail(request):
                 print("model 2 entered error handling")
             df2.loc[i] = [current_asking.average, temp, arrival[i], current_asking.at_stop, day_num, hour_min]
         end = t.clock()
-        print("time to create df2 with length", df2.shape[0], ":", end-begin)
+        # print("time to create df2 with length", df2.shape[0], ":", end-begin)
         val2 = complete.predict(df2)
         arrival_total = sum(val2)/60
 

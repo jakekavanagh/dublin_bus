@@ -47,7 +47,7 @@ function initializeMapDetail() {
                 });
         infowindow.open(map, marker_origin);
 
-    if (destination_word != origin_word) {
+    if (destination_num != origin_num) {
         var marker_dest = new google.maps.Marker({
                 position: destination,
                 animation: google.maps.Animation.DROP,
@@ -82,7 +82,8 @@ var circle ={
         strokeWeight: 0
     };
 
-//    names = names.split(",");
+    names = names.replace(/[\[\]']+/g,'')
+    names = names.split(",");
     for (i=0; i< names.length; i++){
         names[i] = names[i].replace(/&#39;/g, "");
         }
@@ -93,7 +94,7 @@ var circle ={
         var marker = new google.maps.Marker({
         position: new google.maps.LatLng(parseFloat(stops[i][0]), parseFloat(stops[i][1])),
         map: map,
-        title: names[i] + ' - ' + stops[i][2],
+        title: names[i],
         icon: circle
         });
 

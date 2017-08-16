@@ -112,12 +112,13 @@ function loadValues() {
     var origin = localStorage._origin;
     var destination = localStorage._destination;
     var x = document.getElementById('MyPreference');
-    if(route == null){
+    if(route == null || origin == "Select an Origin Stop"){
         return;
     }else{
         if (x.style.display === 'none') {
             x.style.display = 'block';
         } else {
+            alert(x.style.display);
             x.style.display = 'none';
         }
 //    var desti;

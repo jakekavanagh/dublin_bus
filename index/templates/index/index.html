@@ -13,27 +13,6 @@
         var td = new Date().getDay();
         td = (td == 0) ? 7 : td;
         $("select[id=day]").find("option").eq(td).prop("selected", true).end().change();
-        var data = [{
-            "Timestamp": "2012-11-07 09:26:50",
-            "LineID": "145",
-            "Direction": 0,
-            "JourneyPatternID": "null",
-            "TimeFrame": "2012-11-07",
-            "VehicleJourneyID": 6745,
-            "Operator": "D1",
-            "Congestion": 0,
-            "Lon": -6.292033,
-            "Lat": 53.346668,
-            "Delay": 0,
-            "BlockID": 145107,
-            "VehicleID": 38029,
-            "StopID": "4320",
-            "AtStop": 1,
-            "Route_number": "145"
-        }];
-        $.each(data, function(i, option) {
-            $("#RouteNumbers").append($("<option/>").attr("value", option.LineID).text(option.Route_number));
-        });
     loadValues();
     });
 </script>

@@ -32,8 +32,6 @@ def timetable(route, direction, minutes, hour, day, mins):
             break
     results.append(0)
     results.append(0)
-    for i in results:
-        print(i)
 
     if len(previous) < 1:
         for j in range(int(hour)-1, 6, -1):
@@ -55,8 +53,6 @@ def timetable(route, direction, minutes, hour, day, mins):
             if len(previous) >0:
                 break
 
-    for i in previous:
-        print(i)
     return results[0].time(), results[1].time(), previous[-1].time()
 
     # if len(results) > 1:
