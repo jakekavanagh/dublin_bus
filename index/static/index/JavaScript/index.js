@@ -134,9 +134,10 @@ function loadValues() {
         if (origin == destination) {
             title_string = '';
         } else {
-            title_string = ' to ' + locations[destination]['name'];
+            title_string = ' to ' + '<b>' +locations[destination]['name']+ '</b>';
         }
-        var title = 'You\'ve been here before! Would you like to search route '+route+' from ' + locations[origin]['name'] + title_string +' again?';
+        var title = 'You\'ve been here before! Would you like to search route '+'<b>'+ route+ '</b>'+' from '
+            + '<b>'+ locations[origin]['name'] + '</b>' + title_string +' again?';
         var result = '<input name = "orig" type ="hidden" value="'+origin+'"+/>' +
             '<input name = "dest" type ="hidden" value="'+destination+'"+/>' +
             '<input name = "route" type="hidden" value="'+route+'" />';

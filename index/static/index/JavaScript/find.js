@@ -6,8 +6,8 @@ function initializeMapFind() {
     userPosition = new google.maps.LatLng(my_lat, my_long);
     origin = new google.maps.LatLng(lat_1, long_1);
 
-
     var routes = [routes_1, routes_2, routes_3, routes_4, routes_5]
+
     for (var i = 0; i < routes.length; i++) {
         routes[i] = routes[i].replace(/&#39;/g, "");
         routes[i] = routes[i].replace(/[\[\]']+/g,'');

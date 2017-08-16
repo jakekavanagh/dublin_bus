@@ -32,9 +32,9 @@
 <div id="background-carousel">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="item active" style="background-image:url(https://preview.ibb.co/k5iFXk/149799775014462.jpg)"></div>
-            <div class="item" style="background-image:url(https://wallpaperscraft.com/image/ireland_beach_coast_112870_800x600.jpg)"></div>
-            <div class="item" style="background-image:url(https://wallpaperscraft.com/image/bridge_river_city_dublin_73527_1920x1080.jpg)"></div>
+            <div class="item active" style="background-image:url('{% static "images/bridge_river_city_dublin_73527_1920x1080.jpg"%}')"></div>
+            <div class="item" style="background-image:url('{% static "images/ireland_beach_coast_112870_800x600.jpg"%}')"></div>
+            <div class="item" style="background-image:url('{% static "images/New Fleet 1.jpg"%}')"></div>
         </div>
     </div>
 </div>
@@ -103,15 +103,17 @@
                 Search  <i class="fa fa-search" aria-hidden="true"></i></button>
             <input name = "current" id = "setval" type ="hidden" value="">
         </form>
-        <div id="MyPreference" style="display:none" class="well well-lg">
-            <h3 id = "title"></h3>
-            <form action="detail/" method="post" autocomplete="off">
-                {% csrf_token %}
-                <p id ="fillForm"></p>
-                <input name = "current" id = "setva" type ="hidden" value='' />
-                <button type="submit" class="btn btn-info">Yes, search!</button>
-            </form>
-            <button onclick="No_Hide()" class="btn btn-danger">No thanks</button>
+        <div style="margin: 0px 20% 0px 20%;">
+            <div id="MyPreference" style="display:none" class="well well-sm">
+                <p id = "title"></p>
+                <form action="detail/" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    <p id ="fillForm"></p>
+                    <input name = "current" id = "setva" type ="hidden" value='' />
+                    <button type="submit" class="btn btn-info">Yes, search!</button>
+                    <button type="button" onclick="No_Hide()" class="btn btn-danger">No thanks</button>
+                </form>
+            </div>
         </div>
         <form action ="find/"  method ="post">
             {% csrf_token %}

@@ -1,17 +1,15 @@
-/* CSS stylesheet go index.html Page */
+/* CSS stylesheet for index.html Page */
 
 html{
     min-height: 100%;
     position: relative;
-    /*background-size: cover;*/
-    /*background-image: url("https://preview.ibb.co/k5iFXk/149799775014462.jpg");*/
-    /*background-blend-mode: darken;*/
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 body {
     background: transparent;
-    margin: 0;
+    margin: 0px 0px 15px 0px;
+	/*margin-bottom: 10px;*/
     min-height: 100%;
     max-width: 100%;
 }
@@ -24,6 +22,9 @@ body {
     padding: 10% 10% 0% 10%;
 }
 
+#MyPreference{
+	font-size: 1em;
+}
 /* _______________________ */
 #background-carousel{
 	position:fixed;
