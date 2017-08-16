@@ -3,7 +3,7 @@ function populate(route, dict, locations) {
      var zero = [dict[route]['0']];
      var one = [dict[route]['1']];
      if (zero == ''){
-        alert("no zero");
+        // alert("no zero");
         all_stops = one;
      } else if (one == ''){
         alert("no one");
@@ -136,8 +136,7 @@ function loadValues() {
         } else {
             title_string = ' to ' + '<b>' +locations[destination]['name']+ '</b>';
         }
-        var title = 'You\'ve been here before! Would you like to search route '+'<b>'+ route+ '</b>'+' from '
-            + '<b>'+ locations[origin]['name'] + '</b>' + title_string +' again?';
+        var title = 'You\'ve been here before! Would you like to search route '+'<b>'+ route+ '</b> from <b>'+ locations[origin]['name'] + '</b>' + title_string +' again?';
         var result = '<input name = "orig" type ="hidden" value="'+origin+'"+/>' +
             '<input name = "dest" type ="hidden" value="'+destination+'"+/>' +
             '<input name = "route" type="hidden" value="'+route+'" />';

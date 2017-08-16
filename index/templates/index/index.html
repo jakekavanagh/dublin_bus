@@ -103,18 +103,18 @@
                 Search  <i class="fa fa-search" aria-hidden="true"></i></button>
             <input name = "current" id = "setval" type ="hidden" value="">
         </form>
-        <div style="margin: 0px 20% 0px 20%;">
-            <div id="MyPreference" style="display:none" class="well well-sm">
-                <p id = "title"></p>
-                <form action="detail/" method="post" autocomplete="off">
-                    {% csrf_token %}
-                    <p id ="fillForm"></p>
-                    <input name = "current" id = "setva" type ="hidden" value='' />
-                    <button type="submit" class="btn btn-info">Yes, search!</button>
-                    <button type="button" onclick="No_Hide()" class="btn btn-danger">No thanks</button>
-                </form>
-            </div>
+
+        <div style="margin: 0px 20% 0px 20%;" id="MyPreference" style="display:none" class="well well-sm">
+            <p id = "title"></p>
+            <form action="detail/" method="post" autocomplete="off">
+                {% csrf_token %}
+                <p id ="fillForm"></p>
+                <input name = "current" id = "setva" type ="hidden" value='' />
+                <button type="submit" class="btn btn-info">Yes, search!</button>
+                <button type="button" onclick="No_Hide()" class="btn btn-danger">No thanks</button>
+            </form>
         </div>
+
         <form action ="find/"  method ="post">
             {% csrf_token %}
             <button class="btn btn-info" id = "setvalue" name = "current" value = "" type="submit" style="font-size: 1.2em;">
