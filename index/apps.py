@@ -21,7 +21,7 @@ def dicty():
 
 
 def locations():
-    with open('./index/static/index/new lats and longs.json') as data_file:
+    with open('./index/static/index/new lats and longs2.json') as data_file:
         locations = json.load(data_file)
     return locations
 
