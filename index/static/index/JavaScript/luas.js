@@ -83,8 +83,8 @@ function luasRealTime(){
         var direction = luas_realtime_json[a]['fields']['direction'];
 
         var content = "<li id='"+ stop_id +"'><div>" +
-            "<h1 class='bus_info' id='"+ stop_id +"N'>"+ stop_id +"<i class='fa fa-chevron-circle-down' aria-hidden='true'></i></h1>" +
-            "<h2 class='bus_info_expand' id='"+ stop_id +"I'></h2>" +
+            "<h5 style='font-size: 1.1em;' class='bus_info' id='"+ stop_id +"N'>"+ stop_id +"<i class='fa fa-chevron-circle-down' aria-hidden='true'></i></h5>" +
+            "<h6 class='bus_info_expand' id='"+ stop_id +"I'></h6>" +
             "</div></li>"
 
         if(stops_array_green.includes(stop_id) != true && line == "Green"){

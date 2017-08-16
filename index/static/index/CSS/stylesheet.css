@@ -98,6 +98,12 @@ html, body{
     padding: 5px;
     margin-bottom: 0px;
 }
+/* ---------------------------Luas Page ----------------------- */
+#GreenLine, #RedLine{
+    font-size: 1.2em;
+}
+
+
 /* --------------------------- Footer --------------------------*/
 .footer{
     width:100%;
