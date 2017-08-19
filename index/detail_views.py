@@ -82,7 +82,7 @@ def detail(request):
                 print("model 1 entered error handling")
             df.loc[i] = [current_asking.average, temp, stops[i], current_asking.at_stop, day_num, hour_min]
         end = t.clock()
-        # print("time to create df1 with length", df.shape[0], ":", end-begin)
+        print("time to create df1 with length", df.shape[0], ":", end-begin)
         val = complete.predict(df)
         total = sum(val)/60
 
@@ -103,7 +103,7 @@ def detail(request):
                 print("model 2 entered error handling")
             df2.loc[i] = [current_asking.average, temp, arrival[i], current_asking.at_stop, day_num, hour_min]
         end = t.clock()
-        # print("time to create df2 with length", df2.shape[0], ":", end-begin)
+        print("time to create df2 with length", df2.shape[0], ":", end-begin)
         val2 = complete.predict(df2)
         arrival_total = sum(val2)/60
 
@@ -134,8 +134,9 @@ def detail(request):
         events = serializers.serialize("json", Event.objects.filter(weekday=day_word))
     except ObjectDoesNotExist:
         print("Object does not exist.")
-        end = t.clock()
 
+    end = t.clock()
+    print("twitter", end-begin)
     # Used for testing local host on mobile! Remember to remove
     # current = "6.2603, 53.3498"
 
@@ -156,4 +157,5 @@ def detail(request):
         'names': stop_names, 'my_lat': lat, 'my_long': lng, 'rn': dt.datetime.now().time(),
     }
     end_total = t.clock()
+    print("total page load", end_total-begin_total)
     return render(request, "index/detail.html", context)
