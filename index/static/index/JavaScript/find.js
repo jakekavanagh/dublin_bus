@@ -92,7 +92,7 @@ function initializeMapFind() {
     });
 
     var user = new google.maps.Marker({
-        position: userPosition),
+        position: userPosition,
         animation: google.maps.Animation.DROP,
         map: map2,
         icon: {

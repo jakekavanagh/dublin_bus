@@ -118,7 +118,6 @@ function loadValues() {
         if (x.style.display === 'none') {
             x.style.display = 'block';
         } else {
-            alert(x.style.display);
             x.style.display = 'none';
         }
 //    var desti;
