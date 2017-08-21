@@ -11,6 +11,7 @@ function populate(route, dict, locations) {
      } else {
         all_stops = zero.concat(one);
      }
+     alert(all_stops);
      var array = JSON.parse("["+all_stops+"]");
      <!--array.sort(function(a, b){return a-b});-->
      var dropdown = document.getElementById("origin");
