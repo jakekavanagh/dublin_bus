@@ -17,8 +17,6 @@ urlpatterns = [
 
     url(r'^find/detail/$', views.detail, name='find_detail'),
 
-    url(r'^indexmobile/$', views.indexmobile, name='indexmobile'),
-
     url(r'^luas/$', views.luas, name='luas'),
 
     url(r'^favicon\.ico$', favicon_view),

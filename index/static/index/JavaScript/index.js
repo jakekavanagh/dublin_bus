@@ -105,7 +105,7 @@ function loadValues() {
 //      return items;
 //    });
     var locations;
-    $.getJSON("../../static/index/new lats and longs.json", function(json) {
+    $.getJSON("../../static/index/lats_and_longs.json", function(json) {
         locations = json;
 
     var route = localStorage._route;
@@ -113,13 +113,15 @@ function loadValues() {
     var destination = localStorage._destination;
     var x = document.getElementById('MyPreference');
     if(route == null || origin == "Select an Origin Stop"){
-        return;
+        x.style.display = 'none';
     }else{
         if (x.style.display === 'none') {
             x.style.display = 'block';
-        } else {
-            x.style.display = 'none';
         }
+//        else {
+//
+//                continue
+//        }
 //    var desti;
 //    var title_string;
 //    if (destination == origin){

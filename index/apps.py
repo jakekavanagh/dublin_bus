@@ -4,24 +4,18 @@ import json
 
 
 def model():
-    model = joblib.load('./index/twentyextra time feature.pkl')
+    model = joblib.load('./index/static/index/random_forest_regressor.pkl')
     return model
 
 
-# def route1():
-#     with open('./index/static/index/Bus_1.json') as data_file:
-#         dicty = json.load(data_file)
-#     return dicty
-
-
 def dicty():
-    with open('./index/static/index/stops in order updated.json') as data_file:
+    with open('./index/static/index/stops_in_order.json') as data_file:
         dicty = json.load(data_file)
     return dicty
 
 
 def locations():
-    with open('./index/static/index/new lats and longs2.json') as data_file:
+    with open('./index/static/index/lats_and_longs.json') as data_file:
         locations = json.load(data_file)
     return locations
 
