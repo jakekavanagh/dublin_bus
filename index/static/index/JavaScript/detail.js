@@ -59,7 +59,7 @@ function initializeMapDetail() {
                     }
             });
             marker_dest.setMap(map);
-var contentString2 = '<div class="info-window">' +
+    var contentString2 = '<div class="info-window">' +
                                             '<h4>'+destination_word+'</h4>' +
                                             '<div class="info-content">' +
                                             '<p>Destination Stop</p>'+
@@ -73,7 +73,7 @@ var contentString2 = '<div class="info-window">' +
 
     var markers = [marker_origin, marker_dest];
 
-var circle ={
+    var circle ={
         path: google.maps.SymbolPath.CIRCLE,
         fillColor: 'black',
         fillOpacity: .6,
@@ -117,11 +117,6 @@ var circle ={
 
     }
 
-
-
-
-
-
     var styles = [{"featureType": "landscape", "stylers": [{"saturation": -0}, {"lightness": 10}, {"visibility": "on"}]},
         {"featureType": "poi", "stylers": [{"visibility": "off"}]},
         {"featureType": "transit", "stylers": [{"visibility": "off"}]},
@@ -142,10 +137,18 @@ var circle ={
     map.fitBounds(bounds);
 
     document.getElementById('mode_select').addEventListener('change', function() {
-        if (document.getElementById('mode_select').value){
+        if (document.getElementById('mode_select').value && document.getElementById('mode_select').value != "NULL"){
             Route(directionsServiceTransit, directionsDisplayTransit, origin, destination,
                 document.getElementById('mode_select').value);
             directionsDisplayTransit.setMap(map);
+        }
+        if(document.getElementById('mode_select').value == "NULL"){
+             if (directionsDisplayTransit != null) {
+                 directionsDisplayTransit.setMap(null);
+                 // directionsDisplayTransit = null;
+                 document.getElementById("Journey_duration").innerHTML = "";
+                 document.getElementById("Journey_distance").innerHTML = "";
+             }
         }
     });
 

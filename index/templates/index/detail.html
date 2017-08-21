@@ -103,6 +103,21 @@
                     <h6 id="walking_distance"></h6>
                     <button type="button" class="btn btn-default btn-sm btn-block" onclick="toggleEventLayer()">
                             Toggle Events</button>
+                    <!-- Transit mode options ---------------->
+                    <div class="well well-sm" style="background-color: white; margin: 5% auto auto 0%;">
+                        <div class="form-group">
+                            <label for="mode_select" style="font-weight: normal;">Other Transit Options</label>
+                            <select class="form-control" id="mode_select" style="margin-bottom: 0%;">
+                                <option value="NULL">Pick a mode</option>-->
+                                <option value="DRIVING">Driving</option>
+                                <option value="WALKING2">Walking</option>
+                                <option value="BICYCLING">Bicycling</option>
+                                <option value ="NULL">--Clear Route--</option>
+                            </select>
+                        </div>
+                        <h6 id="Journey_duration"></h6>
+                        <h6 id="Journey_distance"></h6>
+                    </div>
                 </div>
 
                 <!-- Weather ---------------------------->
@@ -118,21 +133,6 @@
                         <div class="col-md-4">Condition: <b>{{ condition }}</b></div>
                         <div class="col-md-4">Chance of Rain: <b>{{ pop }}%</b></div>
                     </div>
-                </div>
-
-                <!-- Transit mode options ---------------->
-                <div class="well well-sm">
-                    <div class="form-group">
-                        <label for="mode_select">Other Transit Options</label>
-                        <select class="form-control" id="mode_select">
-                            <option value="Null">Pick a mode</option>-->
-                            <option value="DRIVING">Driving</option>
-                            <option value="WALKING">Walking</option>
-                            <option value="BICYCLING">Bicycling</option>
-                        </select>
-                    </div>
-                    <p id="Journey_duration"></p>
-                    <p id="Journey_distance"></p>
                 </div>
 
             </div>

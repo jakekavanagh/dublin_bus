@@ -63,9 +63,6 @@ function storeCurrentPosition(position){
 }
 
 
-
-
-
 function toggleEventLayer(){
 
      if (heatMap.getMap() != null) {
@@ -96,7 +93,7 @@ function generateEventLayer(){
 function generateEventPoints(){
 
     var events_json = JSON.parse(events);
-    console.log("stuff",events_json);
+    // console.log("stuff",events_json);
 
     var points = []
     eventMarkers = []
@@ -153,6 +150,13 @@ function generateEventPoints(){
 // available modes: "DRIVING", "WALKING", "BICYCLING","TRANSIT"
 function Route(directionsService, directionsDisplay, start, end, mode, m) {
 
+    var check = false;
+
+    if(mode=="WALKING2"){
+        check = true;
+        mode = "WALKING";
+    };
+
     var requests = {
         origin: start,
         destination: end,
@@ -160,6 +164,7 @@ function Route(directionsService, directionsDisplay, start, end, mode, m) {
     };
 
     directionsService.route(requests, function(response, status) {
+
         if (status == "OK") {
             directionsDisplay.setDirections(response);
 
@@ -167,11 +172,16 @@ function Route(directionsService, directionsDisplay, start, end, mode, m) {
             var distance = response.routes[0].legs[0].distance.text;
 
 
-            if (response.request.travelMode == "WALKING") {
-                // return {duration: duration, distance: distance};
-                document.getElementById("walking_duration").innerHTML = "Walking Time: " + duration;
-                document.getElementById("walking_distance").innerHTML = "Walking distance: " + distance;
+            if (response.request.travelMode != "WALKING" || check) {
+                mode = mode.slice(0, 1) + mode.slice(1, mode.length).toLowerCase();
+                document.getElementById("Journey_duration").innerHTML = mode + " Time: " +"<b>" + duration + "</b>";
+                document.getElementById("Journey_distance").innerHTML = mode + " Distance: " +"<b>" + distance + "</b>";
+            }
 
+            if (response.request.travelMode == "WALKING" && check != true) {
+                // return {duration: duration, distance: distance};
+                document.getElementById("walking_duration").innerHTML = "Walking Time: " +"<b>" + duration + "</b>";
+                document.getElementById("walking_distance").innerHTML = "Walking distance: " +"<b>" + distance + "</b>";
             }
         } else {
         window.alert("Couldn't get directions:" + status);
@@ -189,6 +199,8 @@ function Route(directionsService, directionsDisplay, start, end, mode, m) {
     });
 }
 var m;
+
+
 function toggleWalkingLayer(ma){
     if (ma == 'detail') {
         m = map;
