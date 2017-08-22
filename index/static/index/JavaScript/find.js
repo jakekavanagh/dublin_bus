@@ -1,7 +1,7 @@
 var my_lat;
 var my_long;
 
-//Function to initiaize the map loading
+//Function to initialize the map loading
 function initializeMapFind() {
     userPosition = new google.maps.LatLng(my_lat, my_long);
     origin = new google.maps.LatLng(lat_1, long_1);
