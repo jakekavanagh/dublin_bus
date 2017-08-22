@@ -7,6 +7,7 @@ import math
 
 #test the detail page return status,whether it redirects to the http website
 
+
 class detailTest(TestCase):
     def test_index_view_(self):
         response=self.client.get('/detail')
