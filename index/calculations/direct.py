@@ -1,5 +1,7 @@
 def direct(ori, des, dic, route):
     route, ori, des = str(route), str(ori), str(des)
+    print(str(route), str(ori), str(des))
+    print(dic[route])
     if '0' not in dic[route]:
         return 1
     elif '1' not in dic[route]:
