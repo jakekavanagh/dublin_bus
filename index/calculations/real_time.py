@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 def timetable(route, direction, minutes, hour, day, mins):
     if day != 'Sunday' and day != 'Saturday':
         day = 'Weekday'
+    print("\t\t\t", route, day)
     results = []
     previous = []
     if minutes != 0.0:
@@ -17,6 +18,7 @@ def timetable(route, direction, minutes, hour, day, mins):
         if len(j) == 1:
             j = '0' + j
         times = Timetable.objects.filter(route=route, direction=direction, day=day, time__startswith=j)
+        print(j, times)
         for i in times:
             try:
                 actual_time = datetime.strptime(i.time, '%H:%M:%S')
