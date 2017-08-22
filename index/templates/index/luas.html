@@ -11,8 +11,7 @@
 <script>
 {% load staticfiles %}
 
-    var luas_stops = "{{ luas_stops | safe | escapejs }}";
-    var luas_realtime = "{{ luas_realtime | safe | escapejs }}";
+    var luas_stops = "{{ luas_stops | safe | escapejs }}", luas_realtime = "{{ luas_realtime | safe | escapejs }}";
     var green_marker = "{% static 'images/green_marker.png' %}", red_marker="{% static 'images/red_marker.png' %}";
 
 </script>

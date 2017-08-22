@@ -3,22 +3,22 @@ function populate(route, dict, locations) {
     route = route;
     var zero = [dict[route]['0']];
     var one = [dict[route]['1']];
+
     if (zero == '') {
-        // alert("no zero");
         all_stops = one;
     } else if (one == '') {
-        alert("no one");
         all_stops = zero;
     } else {
         all_stops = zero.concat(one);
     }
-    alert(all_stops);
+
     var array = JSON.parse("[" + all_stops + "]");
-    <!--array.sort(function(a, b){return a-b});-->
     var dropdown = document.getElementById("origin");
+
     while (dropdown.options.length > 0) {
         dropdown.remove(0);
     }
+
     var option = document.createElement("option");
     option.text = "Select an Origin Stop";
     dropdown.add(option);
@@ -28,6 +28,7 @@ function populate(route, dict, locations) {
         option.value = array[i];
         dropdown.add(option);
     }
+
     var desti = document.getElementById("destination");
     while (desti.options.length > 0) {
         desti.remove(0);
@@ -52,6 +53,7 @@ function populateDestination(start, dict, locations) {
             subset = subset.concat(temp);
         }
     }
+
     var dropdown = document.getElementById("destination");
     while (dropdown.options.length > 0) {
         dropdown.remove(0);
@@ -108,6 +110,7 @@ function loadValues() {
         }
     });
 }
+
 //If no route was selected before, hide the suggestion div.
 function No_Hide() {
     var x = document.getElementById('MyPreference');

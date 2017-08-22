@@ -1,3 +1,4 @@
+// Declare Global variables
 var my_lat, my_long, names;
 
 // This function initializes the Map with a route according to the origin stop and destination stop input by the user
