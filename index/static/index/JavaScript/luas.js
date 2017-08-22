@@ -1,7 +1,9 @@
-
+// declare map as global variable
 var map3;
-function initializeMapLuas() {
-    console.log("In map")
+
+// Initializes the map for the luas.html page
+function initializeMapLuas(){
+
     var properties = {
         center: new google.maps.LatLng(53.333834, -6.240236),
         zoom: 12,
@@ -9,6 +11,7 @@ function initializeMapLuas() {
 
     map3 = new google.maps.Map(document.getElementById("map"), properties);
 
+    //Customize the google map object for more simplistic look
     var styles = [{"featureType": "landscape", "stylers": [{"saturation": -0}, {"lightness": 10}, {"visibility": "on"}]},
     {"featureType": "poi", "stylers": [{"visibility": "off"}]},
     {"featureType": "transit", "stylers": [{"visibility": "off"}]},
@@ -19,16 +22,16 @@ function initializeMapLuas() {
     {"featureType": "water", "elementType": "geometry", "stylers": [ {"lightness": -25}, , {"saturation": -40}]},
     {"featureType": "water", "elementType": "labels", "stylers": [{"visibility": "on"}, {"saturation": 100}]},
     ];
-    map3.set('styles', styles);
+    map3.set('styles', styles); //The the style on the map object
 
+    // Calls functions to generate markers on map and another to display arrival times
     luas_markers();
     luasRealTime();
 }
 
-
+// Using parsed in json data, generate through iteration markers for all stops to show on the map object
 function luas_markers(){
     var luas_stops_json = JSON.parse(luas_stops);
-    // console.log("stuff",luas_stops_json);
 
     for(var stop in luas_stops_json){
         var lat = luas_stops_json[stop]['fields']['stop_lat'];
@@ -40,6 +43,7 @@ function luas_markers(){
             maxWidth: 350
         });
 
+        // generates a new marker for GreenLine timetable if the condition is satisfied
         if(luas_stops_json[stop]['fields']['line'] == "Green"){
             var stopMarker = new google.maps.Marker({
             position: new google.maps.LatLng(lat, lon),
@@ -49,6 +53,7 @@ function luas_markers(){
             });
         }
 
+        // generates a new marker for RedLine timetable if the condition is satisfied
         if(luas_stops_json[stop]['fields']['line'] == "Red"){
             var stopMarker = new google.maps.Marker({
             position: new google.maps.LatLng(lat, lon),
@@ -58,7 +63,7 @@ function luas_markers(){
             });
         }
 
-        // show on click
+        // Display info window content on click of marker
         google.maps.event.addListener(stopMarker, 'click', function () {
             this.info.open(map, this);
         });
@@ -67,15 +72,17 @@ function luas_markers(){
 
 }
 
-
+// Using parsed in JSON data to display arrival times
 function luasRealTime(){
     var luas_realtime_json = JSON.parse(luas_realtime);
 
+    // Declare variables
     var html_red = "";
     var html_green ="";
     var stops_array_green = [];
     var stops_array_red = [];
 
+    // Iterator to generate arrival time
     for(var a in luas_realtime_json){
         var line = luas_realtime_json[a]['fields']['line'];
         var stop_id = luas_realtime_json[a]['fields']['stop_id'];
@@ -98,6 +105,7 @@ function luasRealTime(){
 
     }
 
+    // Display the newly generated information
     document.getElementById('timeline').innerHTML = html_green;
     document.getElementById('timeline2').innerHTML = html_red;
 
@@ -120,7 +128,7 @@ function luasRealTime(){
 }
 
 
-
+// function for controlling toggle on the TimeLine
 $(document).on("click", ".bus_info",function() {
     $(this).next().slideToggle();
     $(this).next().next().next().slideToggle();
