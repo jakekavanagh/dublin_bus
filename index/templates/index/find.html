@@ -18,6 +18,7 @@
         stop_4 = "{{ stop_4 }}", lat_4 = {{ lat_4 }}, long_4 = {{ long_4 }}, routes_4 = "{{ routes_4 }}",
         stop_5 = "{{ stop_5 }}", lat_5 = {{ lat_5 }}, long_5 = {{ long_5 }}, routes_5 = "{{ routes_5 }}",
         csrf = "{% csrf_token %}", location_icon = "{% static 'images/location_icon.png' %}";
+    var tweet = "{{ tweet| safe | escapejs }}";
 </script>
 
 <script src="{% static 'index/JavaScript/JavaScript.js' %}"></script>
