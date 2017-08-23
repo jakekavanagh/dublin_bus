@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 def timetable(route, direction, minutes, hour, day, mins):
     if day != 'Sunday' and day != 'Saturday':
         day = 'Weekday'
-    print("\t\t\t", route, day)
     results = []
     previous = []
     if minutes != 0.0:
@@ -18,7 +17,6 @@ def timetable(route, direction, minutes, hour, day, mins):
         if len(j) == 1:
             j = '0' + j
         times = Timetable.objects.filter(route=route, direction=direction, day=day, time__startswith=j)
-        print(j, times)
         for i in times:
             try:
                 actual_time = datetime.strptime(i.time, '%H:%M:%S')
@@ -27,15 +25,16 @@ def timetable(route, direction, minutes, hour, day, mins):
             arrival = actual_time + timedelta(minutes=minutes, seconds=seconds)
             arrival = arrival.replace(microsecond=0)
             if int(arrival.strftime('%H')) == int(hour) and int(arrival.strftime('%M')) < int(mins):
-                previous += [arrival]
+                previous += [arrival.time()]
             else:
-                results += [arrival]
+                results += [arrival.time()]
         if len(results) > 1:
             break
     results.append(0)
     results.append(0)
+    previous.insert(0, 0)
 
-    if len(previous) < 1:
+    if len(previous) < 2:
         for j in range(int(hour)-1, 6, -1):
             j = str(j)
             if len(j) == 1:
@@ -51,11 +50,11 @@ def timetable(route, direction, minutes, hour, day, mins):
                 if int(arrival.strftime('%H')) == int(hour) and int(arrival.strftime('%M')) > int(mins):
                     pass
                 else:
-                    previous += [arrival]
-            if len(previous) >0:
+                    previous += [arrival.time()]
+            if len(previous) > 0:
                 break
 
-    return results[0].time(), results[1].time(), previous[-1].time()
+    return results[0], results[1], previous[-1]
 
     # if len(results) > 1:
     #     min, res = abs(int(results[0].strftime('%M')) - int(mins)), results[0].time()

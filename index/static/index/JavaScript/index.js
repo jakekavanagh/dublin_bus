@@ -33,6 +33,14 @@ function populate(route, dict, locations) {
     while (desti.options.length > 0) {
         desti.remove(0);
     }
+    var routeDefault = document.getElementById("RouteNumbers");
+    alert(routeDefault.options.length);
+    for (var i = 0; i < routeDefault.options.length; i++) {
+        if (routeDefault[i].value == 0) {
+            routeDefault.remove(0);
+        }
+    }
+
     var option = document.createElement("option");
     option.text = "Select Origin Stop First";
     desti.add(option);
