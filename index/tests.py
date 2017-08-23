@@ -5,144 +5,59 @@ from django.urls import reverse
 import json
 import math
 
+#test the detail page return status,whether it redirects to the http website
 
 
-class appsTest(TestCase):
-    def test_dicty(self):
-        with open('./index/static/index/jsontest.json') as data_file:
-            dicty=json.load(data_file)
-        self.assertEqual(dicty, {"1": {"4": {"15": {"371": 51.18181818181818, "278": 185.63636363636363, "224": 38.666666666666664, "388": 25.933333333333334, "399": 87.12, "392": 132.52173913043478, "85": 74.5, "10": 149.56521739130434}}}} )
+class detailTest(TestCase):
+    def test_index_view_(self):
+        response=self.client.get('/detail')
+        self.assertEqual(response.status_code,301)
+
+#test the find page return status,whether it redirects to the http website
+class findTest(TestCase):
+ def test_mobile_view_(self):
+  response = self.client.get('/find')
+  self.assertEqual(response.status_code, 301)
 
 
+#test the luas page return status,whether it redirects to the http website
+class luasTest(TestCase):
+ def test_mobile_view_(self):
+  response = self.client.get('/luas')
+  self.assertEqual(response.status_code, 301)
 
 
+#test the funtion in direct
+class routeTest(TestCase):
 
-class viewindex(TestCase):
-    def test_index_view_connect(self):
-        response=self.client.get(reverse('index:index'))
-        self.assertEqual(response.status_code,200)
+ def routey(self,route):
+  route = str(route)
+  if len(route) == 3:
+   key = route
+  elif len(route) == 2:
+   key = '0' + route
+  elif len(route) == 1:
+   key = '00' + route
+  return key
+ #test whehter the route would return the right route when query
+ def test_routey(self):
+  route=self.routey(1)
+  self.assertEqual(route, '001')
 
-    def test_index_view_context(self):
-        response = self.client.get(reverse('index:index'))
-        self.assertEqual(response.context['stops'],[10,
- 12,
- 14,
- 15,
- 17,
- 18,
- 19,
- 21,
- 44,
- 45,
- 46,
- 47,
- 48,
- 49,
- 50,
- 51,
- 52,
- 85,
- 119,
- 203,
- 204,
- 205,
- 213,
- 214,
- 220,
- 221,
- 222,
- 223,
- 224,
- 225,
- 226,
- 226,
- 227,
- 228,
- 229,
- 230,
- 231,
- 265,
- 271,
- 278,
- 319,
- 340,
- 350,
- 351,
- 352,
- 353,
- 354,
- 355,
- 356,
- 357,
- 371,
- 372,
- 373,
- 374,
- 375,
- 376,
- 377,
- 378,
- 380,
- 381,
- 382,
- 383,
- 384,
- 385,
- 387,
- 388,
- 389,
- 390,
- 391,
- 392,
- 393,
- 395,
- 396,
- 397,
- 398,
- 399,
- 400,
- 1620,
- 1641,
- 1642,
- 2804,
- 4432,
- 4451,
- 7525,
- 7526,
- 7527,
- 7528,
- 7529]
-)
+#test whether the function would work to get the right bus route number
+ def bare(self,x):
+  while x[0] == '0':
+   x = x[1:]
+  return x
 
-    def test_index_view_arr(self):
-        response = self.client.get(reverse('index:index'))
-        self.assertEqual(response.context['arr'],['6',
- '7',
- '8',
- '9',
- '10',
- '11',
- '12',
- '13',
- '14',
- '15',
- '16',
- '17',
- '18',
- '19',
- '20',
- '21',
- '22']
-)
+ def test_bare(self):
+  number=self.bare('011')
+  self.assertEqual(number,'11')
 
-class moblieTest(TestCase):
-    def test_mobile_view_(self):
-        response=self.client.get(reverse('index:indexmobile'))
-        self.assertEqual(response.status_code,200)
-
-
+#test the function in location
 class distanceTest(TestCase):
 
+ #test the function whether it would calculate the distance between the given latitude and longitude
  def get_distance(self,lat, long, lat_2, long_2):
    r = 6378137  # Earth’s mean radius in meter
    at=lat_2 - lat
@@ -154,17 +69,25 @@ class distanceTest(TestCase):
    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
    d = r * c
    return d  # returns the distance in meter
-
+ #give the two latitude and longitude to calculate the distance
  def test_location_distance_(self):
     distance=self.get_distance(53.347012, -6.284541, 53.346756, -6.283194)
     self.assertEqual(distance,93.94074067021972)
 
+
+
+
+
+#test the function rad
 class radTest(TestCase):
  def rad(self,x):
   return x * math.pi / 180
+#change to the rad
  def test_rad(self):
   round=self.rad(500)
   self.assertEqual(round,8.726646259971647)
+
+
 
 
 class summaryTest(TestCase):
@@ -202,6 +125,6 @@ class summaryTest(TestCase):
    return 15
   else:
    return -1
-
+#test the summary data code to its corresponding numeric representation is work
  def test_summary(self):
   self.assertEqual(self.summary_weather("Rain"),12)
