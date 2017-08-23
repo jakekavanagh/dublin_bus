@@ -34,7 +34,6 @@ function populate(route, dict, locations) {
         desti.remove(0);
     }
     var routeDefault = document.getElementById("RouteNumbers");
-    alert(routeDefault.options.length);
     for (var i = 0; i < routeDefault.options.length; i++) {
         if (routeDefault[i].value == 0) {
             routeDefault.remove(0);
