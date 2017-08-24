@@ -43,6 +43,8 @@ function populate(route, dict, locations) {
     var option = document.createElement("option");
     option.text = "Select Origin Stop First";
     desti.add(option);
+    var cantUse = document.getElementById('search');
+    cantUse.disabled = "disabled";
 }
 
 //Function that allow destination stop dropdown to become populated from JSON data
@@ -77,6 +79,9 @@ function populateDestination(start, dict, locations) {
         option.value = subset[i];
         dropdown.add(option);
     }
+    var cantUse = document.getElementById('search');
+    cantUse.removeAttribute("disabled");
+
 }
 
 //Save the user's selected values with localStorage to 'remember' the user's preference
