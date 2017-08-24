@@ -12,7 +12,7 @@ def timetable(route, direction, minutes, hour, day, mins):
         minutes, seconds = int(minutes), int(seconds[:2])
     else:
         minutes, seconds = 0, 0
-    for j in range(int(hour), 24):
+    for j in range(int(hour)-1, 24):
         j = str(j)
         if len(j) == 1:
             j = '0' + j
@@ -26,13 +26,15 @@ def timetable(route, direction, minutes, hour, day, mins):
             arrival = arrival.replace(microsecond=0)
             if int(arrival.strftime('%H')) == int(hour) and int(arrival.strftime('%M')) < int(mins):
                 previous += [arrival.time()]
-            else:
+            elif int(arrival.strftime('%H')) >= int(hour):
                 results += [arrival.time()]
+
+
         if len(results) > 1:
             break
-    results.append(0)
-    results.append(0)
-    previous.insert(0, 0)
+    results.append("No bus available")
+    results.append("No bus available")
+    previous.insert(0, "No bus available")
 
     if len(previous) < 2:
         for j in range(int(hour)-1, 6, -1):
@@ -56,26 +58,3 @@ def timetable(route, direction, minutes, hour, day, mins):
 
     return results[0], results[1], previous[-1]
 
-    # if len(results) > 1:
-    #     min, res = abs(int(results[0].strftime('%M')) - int(mins)), results[0].time()
-    #     min2, res2 = abs(int(results[1].strftime('%M')) - int(mins)), results[1].time()
-    #     for i in results:
-    #         if abs(int(i.strftime('%M')) - int(mins)) < min:
-    #             min2, min = min, abs(int(i.strftime('%M')) - int(mins))
-    #             res2, res = res, i.time()
-    #         elif abs(int(i.strftime('%M')) - int(mins)) < min2:
-    #             min2 = abs(int(i.strftime('%M')) - int(mins))
-    #             res2 = i.time()
-    #     print(res, res2)
-    #     return str(res), str(res2), 0
-    # elif len(results) > 0:
-    #     min, res = abs(int(results[0].strftime('%M')) - int(mins)), results[0].time()
-    #     for i in results:
-    #         if abs(int(i.strftime('%M')) - int(mins)) < min:
-    #             min = abs(int(i.strftime('%M')) - int(mins))
-    #             res = i.time()
-    #
-    #     return res, 0, 0
-    #
-    # else:
-    #     return '00.00.00', 0, 0
